@@ -51,12 +51,14 @@
 }
 
 .buttoncls {
+    margin: 0px ;
     display: flex;
     flex-direction: column;
     gap: 20px;              
     width: 320px;             
     margin: 60px auto;        
-    padding: 0;
+    padding: 15px 500px;
+    width: 100% ;
     background: #faf0ed;
 }
 
