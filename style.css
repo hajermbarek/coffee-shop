@@ -77,3 +77,238 @@
 .buttoncls a:hover {
     background-color: #8b634b; 
 }
+
+/* Bouton dans l'image */
+.headercls .discover-btn {
+    margin-top: 30px;
+    display: inline-block;
+}
+
+
+
+
+.explore-btn {
+    background-color: #6F4E37;
+    color: white;
+    padding: 15px 35px;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: bold;
+    font-size: 1.2em;
+    text-transform: none;
+    letter-spacing: 1.5px;
+    transition: all 0.3s ease;
+    display: inline-block;
+    border: 2px solid #5D4037;
+    box-shadow: 0 5px 15px rgba(111, 78, 55, 0.3);
+    position: relative;
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+.explore-btn:hover {
+    background-color: #8B5A2B;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(111, 78, 55, 0.4);
+    border-color: #6F4E37;
+}
+
+.explore-btn:active {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(111, 78, 55, 0.3);
+}
+
+.explore-btn::before {
+    content: "☕ ";
+    font-size: 1.1em;
+    margin-right: 10px;
+}
+
+@media (max-width: 768px) {
+    .explore-btn {
+        padding: 12px 25px;
+        font-size: 1em;
+        letter-spacing: 1px;
+    }
+}
+
+
+.headercls {
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.htext h1,
+.htext h2,
+.htext p {
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.desccls {
+    line-height: 1.8;
+    margin: 25px 0;
+}
+
+.services-section {
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    max-width: 800px;
+    margin: 50px auto;
+    
+}
+
+.service-btn {
+    background-color: #6F4E37;
+    color: white;
+    padding: 25px;
+    text-decoration: none;
+    border-radius: 10px;
+    font-size: 1.3em;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.service-btn:hover {
+    background-color: #8B5A2B;
+    transform: scale(1.05);
+}
+
+
+/* quiet zone  */
+.zone-card {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin: 0 auto;
+    transition: transform 0.3s ease;
+}
+
+.zone-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.zone-header {
+    border-bottom: 2px solid #6F4E37;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.zone-title {
+    color: #6F4E37;
+    font-size: 2em;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.zone-subtitle {
+    color: #8B5A2B;
+    font-size: 1.1em;
+    font-style: italic;
+}
+
+.zone-content {
+    margin-bottom: 25px;
+}
+
+.zone-description {
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    font-size: 1em;
+}
+
+.zone-features {
+    list-style: none;
+    padding: 0;
+}
+
+.zone-features li {
+    padding: 8px 0;
+    color: #333;
+    border-bottom: 1px dashed #eee;
+    font-size: 0.95em;
+}
+
+.zone-features li:last-child {
+    border-bottom: none;
+}
+
+.zone-btn {
+    display: block;
+    background-color: #6F4E37;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1em;
+    text-transform: none;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    border: 2px solid #5D4037;
+}
+
+.zone-btn:hover {
+    background-color: #8B5A2B;
+    transform: scale(1.02);
+}
+
+/*fun zone */
+.fun-zone .zone-header {
+    border-bottom: 2px solid #D35400;
+}
+
+.fun-zone .zone-title {
+    color: #D35400;
+}
+
+.fun-zone .zone-btn {
+    background-color: #D35400;
+    border-color: #BA4A00;
+    
+}
+
+.fun-zone .zone-btn:hover {
+    background-color: #E67E22;
+}
+
+/*food & drinks */
+.food-zone .zone-header {
+    border-bottom: 2px solid #C0392B;
+    padding 100px;
+}
+
+.food-zone .zone-title {
+    color: #C0392B;
+}
+
+.food-zone .zone-btn {
+    background-color: #C0392B;
+    border-color: #A93226;
+
+    
+    
+}
+
+.food-zone .zone-btn:hover {
+    background-color: #E74C3C;
+}
+
