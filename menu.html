@@ -2,100 +2,159 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="MenuStyle.css">
     <title>Cozy Café</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f5f1ee;
-            color: #3b2f2f;
-        }
 
-        header {
-            background-color: #6f4e37;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-
-        section {
-            padding: 30px;
-            max-width: 900px;
-            margin: auto;
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .menu {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .item {
-            background-color: white;
-            border-radius: 10px;
-            padding: 20px;
-            width: 220px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-
-        .item h3 {
-            margin: 10px 0;
-        }
-
-        .price {
-            font-weight: bold;
-            color: #6f4e37;
-        }
-
-        footer {
-            background-color: #3b2f2f;
-            color: white;
-            text-align: center;
-            padding: 15px;
-            margin-top: 40px;
-        }
-    </style>
 </head>
 <body>
 
     <header>
-        <h1>☕ Cozy Coffee</h1>
+        <h1 style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">☕ Cozy Café</h1>
         <p>Your daily dose of happiness</p>
     </header>
 
     <section>
         <h2>Our Menu</h2>
+        <div class="decor-container">
+            <div class="decor-left"></div>
+            <div class="decor-right"></div>
+            <div class="decor decor-steam1"></div>
+            <div class="decor decor-beans1"></div>
+            <div class="decor decor-steam2"></div>
+            <div class="decor decor-foam"></div>
+            <div class="decor decor-beans2"></div>
+            <div class="decor decor-pour"></div>
+        </div>
+        <strong><h3 style="font-size: x-large; color:3b1f1e">Hot Drinks</h3></strong>
         <div class="menu">
             <div class="item">
+                <img src="https://www.sharmispassions.com/wp-content/uploads/2012/07/espresso-coffee-recipe04-500x500.jpg" 
+                alt="Espresso shot" class="drink-img">
                 <h3>Espresso</h3>
                 <p>Strong & rich coffee shot</p>
-                <p class="price">3.5dt</p>
+                <p class="price">3.5 TND</p>
+                <button class="order-btn" onclick="alert('Ordering Espresso...')">Order Now</button>
             </div>
 
             <div class="item">
+                <img src="https://myeverydaytable.com/wp-content/uploads/AmericanoHotandIced-3.jpg" 
+                alt="Americano" class="drink-img">
+                <h3>Americano</h3>
+                <p>Lighter Espresso (long black) </p>
+                <p class="price">Sm: 4 TND | La: 4.5 TND</p>
+                <button class="order-btn" onclick="alert('Ordering Americano...')">Order Now</button>
+            </div>
+
+            <div class="item">
+                <img src="https://www.livingnorth.com/images/media/articles/food-and-drink/eat-and-drink/coffee.png?fm=webp&w=1000" 
+                alt="Cappuccino" class="drink-img">
                 <h3>Cappuccino</h3>
-                <p>Espresso with milk foam</p>
-                <p class="price">5.5dt</p>
+                <p>Espresso with milk foam and chocolate</p>
+                <p class="price">Sm: 5.5 TND |  La: 7 TND</p>
+                <button class="order-btn" onclick="alert('Ordering Cappuccino...')">Order Now</button>
             </div>
 
             <div class="item">
+                <img src="https://www.brighteyedbaker.com/wp-content/uploads/2024/07/Dulce-de-Leche-Latte-Recipe-500x500.jpg" 
+                alt="Latte" class="drink-img">
                 <h3>Latte</h3>
                 <p>Smooth coffee with milk</p>
-                <p class="price">5dt</p>
+                <p class="price">Sm: 5 TND | La: 6.5 TND</p>
+                <button class="order-btn" onclick="alert('Ordering Latte...')">Order Now</button>
             </div>
 
             <div class="item">
+                <img src="https://images.arla.com/recordid/8763AA65-2EDD-4328-80C50FD4BB9B9EFE/picture.jpg?width=375&height=469&mode=crop&format=webp" 
+                alt="Flat white" class="drink-img">
+                <h3>Flat White</h3>
+                <p>Espresso with creamy microfoam</p>
+                <p class="price">Sm: 5 TND | La: 6.5 TND</p>
+                <button class="order-btn" onclick="alert('Ordering Flat White...')">Order Now</button>
+            </div>
+            
+            <div class="item">
+                <img src="https://thelittlestcrumb.com/wp-content/uploads/salted-caramel-macchiato-featured-image-1.jpg" 
+                alt="Macchiato" class="drink-img">
+                <h3>Macchiato</h3>
+                <p>Espresso with a dash of foam</p>
+                <p class="price">Sm: 5 TND | La: 6.5 TND</p>
+                <button class="order-btn" onclick="alert('Ordering Macchiato...')">Order Now</button>
+            </div>
+
+            <div class="item">
+                <img src="https://www.pamperedchef.com/iceberg/com/recipe/2131269-lg.jpg" 
+                alt="Mocha" class="drink-img">
+                <h3>Mocha</h3>
+                <p>Espresso with chocolate and milk</p>
+                <p class="price">Sm: 6 TND | La: 6.5 TND</p>
+                <button class="order-btn" onclick="alert('Ordering Mocha...')">Order Now</button>
+            </div>
+
+            <div class="item">
+                <img src="https://dfjx2uxqg3cgi.cloudfront.net/img/photo/219501/219501_00_2x.jpg?20201015061052" 
+                alt="Hot chocolate" class="drink-img">
                 <h3>Hot Chocolate</h3>
                 <p>Sweet & creamy cocoa</p>
-                <p class="price">6dt</p>
+                <p class="price">6 TND</p>
+                <button class="order-btn" onclick="alert('Ordering Espresso...')">Order Now</button>
             </div>
+
+            <div class="item">
+                <img src="https://www.popsci.com/wp-content/uploads/2024/02/15/steeping-tea.png?quality=85&w=2000" 
+                alt="gm tea" class="drink-img">
+                <h3>Green Mint Tea </h3>
+                <p>green tea with fresh mint</p>
+                <p class="price">Sm: 2 TND | La: 3 TND</p>
+                <button class="order-btn" onclick="alert('Ordering Green Mint Tea...')">Order Now</button>
+            </div>
+
+            <div class="item">
+                <img src="https://cdn.shopify.com/s/files/1/0022/1393/7252/articles/20221114103112-dark-tea-recipe-blog.jpg?v=1668422229" 
+                alt="b tea" class="drink-img">
+                <h3>Black Tea</h3>
+                <p>bold, classic steeped tea</p>
+                <p class="price">Sm: 2 TND | La: 3 TND</p>
+                <button class="order-btn" onclick="alert('Ordering Black Tea...')">Order Now</button>
+            </div>    
+
+            <div class="item">
+                <img src="https://cdn.shopify.com/s/files/1/0659/8043/2572/files/20241203194106-london-fog-latte_001.jpg?v=1733254868&width=600&height=900" 
+                alt="london fog" class="drink-img">
+                <h3>London Fog</h3>
+                <p>Earl Grey tea with milk and vanilla</p>
+                <p class="price">Sm: 6 TND | La: 7 TND</p>
+                <button class="order-btn" onclick="alert('Ordering London Fog...')">Order Now</button>
+            </div>
+
+            <div class="item">
+                <img src="https://www.livingnorth.com/images/media/articles/food-and-drink/eat-and-drink/coffee.png?fm=webp&w=1000" 
+                alt="Chai latte" class="drink-img">
+                <h3>Chai Latte</h3>
+                <p>Spiced tea with milk</p>
+                <p class="price">Sm: 5.5 TND | La: 7 TND</p>
+                <button class="order-btn" onclick="alert('Ordering Chai Latte...')">Order Now</button>
+            </div>
+
+            <div class="item popular">
+                <span class="badge">Popular</span>
+                <img src="https://midwestniceblog.com/wp-content/uploads/2022/09/homemade-dirty-chai-latte-recipe.jpg" 
+                alt="diry chai" class="drink-img">
+                <h3>Dirty Chai Latte</h3>
+                <p>chai latte with espresso</p>
+                <p class="price">Sm: 10 TND | La: 12 TND</p>
+                <button class="order-btn" onclick="alert('Ordering Dirty Chai...')">Order Now</button>
+            </div>
+
+            <div class="item popular">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFDf6BgVL_nG-3RscVS7bMUhD7-RjVgaGQiQ&s" 
+                alt="matcha" class="drink-img">
+                <span class="badge">Popular</span>
+                <h3>Matcha Latte</h3>
+                <p>Matcha green tea with milk</p>
+                <p class="price">Sm: 10 TND | La: 13 TND</p>
+                <button class="order-btn" onclick="alert('Ordering Matcha Latte...')">Order Now</button>
+            </div>
+
         </div>
     </section>
 
