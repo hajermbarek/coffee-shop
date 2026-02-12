@@ -1,22 +1,21 @@
-.html{
-    background-color:#faf0ed;
-}
+
+
 .headercls {
-    background:
-      linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
-      url("cofsh.jpg") center/cover no-repeat;
-
-    min-height: 500px;
-    padding: 0%;
+    background: 
+        linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+        url("cofsh.jpg") center/cover no-repeat;
+    color: #fff0e9;
     text-align: center;
-    color: white;
-    margin: 0px ;
-    width: 100%;
-
+    flex: 1;                   
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    min-height: 60vh;     
 }
+
+
 
 .htext {
     display: flex;
@@ -50,16 +49,22 @@
     text-align: center;
 }
 
-.buttoncls {
-    margin: 0px ;
+.body{
+    margin: 0;
+    min-height: 100vh;
+    background-color: #fff0e9;
     display: flex;
     flex-direction: column;
-    gap: 20px;              
-    width: 320px;             
-    margin: 60px auto;        
-    padding: 15px 500px;
-    width: 100% ;
-    background: #faf0ed;
+}
+
+
+.buttoncls {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    width: 340px;
+    max-width: 90%;
+    margin: 40px auto 60px;
 }
 
 
@@ -78,4 +83,171 @@
 
 .buttoncls a:hover {
     background-color: #8b634b; 
+}
+
+
+.site-footer {
+    background-color: #3b2f2f;          /* very dark brown / almost charcoal */
+    color: #e8d9c5;                     /* light warm beige for text */
+    padding: 40px 20px 0;
+    font-size: 0.95rem;
+    font-family: Arial, sans-serif;
+}
+
+.footer-main {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.footer-columns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px 65px;                     
+    flex: 1;
+}
+
+.footer-brand h3 {
+    font-size: 1.4rem;
+    margin-bottom: 9px;
+    color: white;
+}
+
+.footer-brand p {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin: 0;
+}
+
+.footer-group h4 {
+    font-size: 1rem;
+    color: #d4a373;                   
+    margin: 0 0 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.footer-group ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-group li {
+    margin: 6.5px 0;
+}
+
+.footer-group a {
+    color: #e8d9c5;
+    text-decoration: none;
+    opacity: 0.9;
+    transition: opacity 0.2s;
+}
+
+.footer-group a:hover {
+    opacity: 1;
+    color: white;
+}
+
+
+.footer-newsletter {
+    flex-basis: 300px;
+    min-width: 280px;
+}
+
+.footer-newsletter h4 {
+    font-size: 1.1rem;
+    color: #d4a373;
+    margin: 0 0 12px;
+}
+
+.footer-newsletter p {
+    font-size: 0.95rem;
+    opacity: 0.85;
+    margin: 0 0 19px;
+}
+
+.subscribe-form {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.subscribe-form input {
+    flex: 1;
+    padding: 10px 14px;
+    border: none;
+    border-radius: 4px 0 0 4px;
+    font-size: 1rem;
+}
+
+.subscribe-form button {
+    padding: 10px 14px;
+    background: #6f4e37;
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.subscribe-form button:hover {
+    background: #8b634b;
+}
+
+.social-icons {
+    margin-top: 12px;
+}
+
+.social-icons a {
+    color: #e8d9c5;
+    font-size: 1.5rem;
+    margin-right: 16px;
+    text-decoration: none;
+    opacity: 0.8;
+}
+
+.social-icons a:hover {
+    opacity: 1;
+}
+
+
+.footer-bottom {
+    background-color: #2a1f1f;          /* even darker */
+    text-align: center;
+    padding: 16px 0;
+    font-size: 0.85rem;
+    border-top: 1px solid #4a3a3a;
+    margin-top: 32px;
+}
+
+.footer-bottom a {
+    color: #d4a373;
+    text-decoration: none;
+}
+
+.footer-bottom a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .footer-main {
+        gap: 40px;
+        flex-direction: column;
+    }
+    .footer-columns {
+        flex-direction: column;
+        gap: 30px;
+        text-align: center;
+    }
+    .footer-newsletter {
+        text-align: center;
+    }
+    .subscribe-form {
+        max-width: 400px;
+        margin: 0 auto 20px;
+    }
 }
