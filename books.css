@@ -1,8 +1,18 @@
+<<<<<<< HEAD
+=======
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+>>>>>>> a838b8e (emna.books)
 body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #f5f1ee;
     color: #3b2f2f;
+<<<<<<< HEAD
         }
 
 header {
@@ -242,4 +252,162 @@ footer {
         max-width: 400px;
         margin: 0 auto 20px;
     }
+=======
+}
+
+.books-section {
+    max-width: 1100px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background: #fffcf8;
+    border-radius: 32px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+h1 {
+    font-size: 3rem;
+    font-weight: 400;
+    letter-spacing: 4px;
+    color: #4a3729;
+    border-bottom: 1px solid #e2d6cc;
+    padding-bottom: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.subhead {
+    color: #7b6b5e;
+    font-style: italic;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+h2 {
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: #5c4a3b;
+    margin: 2rem 0 1rem;
+}
+
+.books-grid {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+
+.book-card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 8px;
+    width: 220px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    text-align: center;
+    position: relative;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+    overflow: hidden;
+    min-height: 330px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0 0 20px 0;  
+    box-sizing: border-box;
+}
+
+.book-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(80, 50, 30, 0.12);
+    border-color: #dbbc9f;
+}
+
+
+.book-img {
+      width:100%;
+      height: 350px;              
+      object-fit: cover;
+      position:relative;           
+      border-radius: 10px 10px 10px 10px;
+      margin-bottom: 0px;
+}
+
+
+.book-info {
+    padding: 1.5rem 1.2rem 1.2rem;
+}
+
+.book-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #3f2e22;
+    line-height: 1.2;
+    margin-bottom: 0.25rem;
+}
+
+.book-author {
+    color: #8b7a6b;
+    font-style: italic;
+    font-size: 1rem;
+    border-bottom: 1px dashed #ddd2c8;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.book-desc {
+    font-size: 0.9rem;
+    color: #5e4e41;
+    line-height: 1.4;
+}
+
+hr {
+    border: none;
+    border-top: 2px dotted #dccfc4;
+    margin: 2rem 0;
+}
+
+.small-note {
+    color: #aa9b8f;
+    font-size: 0.9rem;
+    text-align: right;
+    font-style: italic;
+    margin-top: 1.5rem;
+}
+
+.order-btn {
+    background-color: #4a3729;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px 15px 15px 15px;
+    border-radius: 30px;
+    font-family: 'Georgia', serif;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: auto;
+    display: inline-block;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.order-btn:hover {
+    background-color: #5c4a3b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.order-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+}
+
+.book-card .order-btn {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.book-card:hover .order-btn {
+    opacity: 1;
+>>>>>>> a838b8e (emna.books)
 }
