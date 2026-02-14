@@ -1,0 +1,72 @@
+/* Header */
+header {
+    background-color: #6f4e37;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+/* Corps de page */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f5f1ee;
+    color: #3b2f2f;
+}
+
+/* Formulaire */
+.reservation-form {
+    width: 100%;
+    min-height: calc(100vh - 80px); /* hauteur totale moins header */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* commence en haut */
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #f5f5f5;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+/* Titre du formulaire */
+.reservation-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Labels */
+.reservation-form label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+/* Champs et bouton */
+.reservation-form input,
+.reservation-form textarea,
+.reservation-form select,
+.reservation-form button {
+    display: block;       /* chaque champ sur une ligne */
+    width: 100%;
+    max-width: 500px;     /* pour garder lisible sur grand écran */
+    margin-bottom: 15px;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+/* Bouton */
+.reservation-form button {
+    background-color: #6b4eff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.reservation-form button:hover {
+    background-color: #563dbe;
+}
