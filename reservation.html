@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmation de Réservation</title>
+    <link rel="stylesheet" href="reservation.css">
+</head>
+<body>
+    <header>
+        <h1>Cozy Café</h1>
+        <p>Your daily dose of happiness</p>
+    </header>
+
+    <form id="finalReservationForm" class="reservation-form">
+        <h2>Finalize Your Reservation</h2>
+
+        <!-- Informations personnelles -->
+        <label for="firstname">Prénom :</label>
+        <input type="text" id="firstname" name="firstname" required>
+
+        <label for="name">Nom :</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="email">Email :</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="phone">Téléphone :</label>
+        <input type="tel" id="phone" name="phone" required>
+
+        <label for="address">Adresse :</label>
+        <input type="text" id="address" name="address">
+
+        <!-- Détails réservation -->
+        <label for="date">Date de réservation :</label>
+        <input type="date" id="date" name="date" required>
+
+        <label for="time">Heure :</label>
+        <input type="time" id="time" name="time" required>
+
+        <label for="people">Nombre de personnes :</label>
+        <input type="number" id="people" name="people" min="1" required>
+
+        <label for="zone">Zone :</label>
+        <select id="zone" name="zone" required>
+            <option value="quieter">Quieter Zone</option>
+            <option value="fun">Fun Zone</option>
+        </select>
+
+        <label for="activity">Activité spécifique :</label>
+        <input type="text" id="activity" name="activity" placeholder="Ex: Book corner, jeux de société...">
+
+        <!-- Santé / allergies -->
+        <label for="allergies">Allergies alimentaires :</label>
+        <textarea id="allergies" name="allergies" placeholder="Ex: Noix, gluten..."></textarea>
+
+        <label for="diet">Régime spécial :</label>
+        <input type="text" id="diet" name="diet" placeholder="Ex: Végétarien, Halal...">
+
+        <!-- Commentaires supplémentaires -->
+        <label for="comments">Commentaires supplémentaires :</label>
+        <textarea id="comments" name="comments" placeholder="Demandes particulières..."></textarea>
+
+        <button type="submit">Confirmer la réservation</button>
+    </form>
+
+    <script>
+        document.getElementById('finalReservationForm').addEventListener('submit', function(event){
+            event.preventDefault();
+
+            const reservationData = {
+                firstname: document.getElementById('firstname').value,
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                address: document.getElementById('address').value,
+                date: document.getElementById('date').value,
+                time: document.getElementById('time').value,
+                people: document.getElementById('people').value,
+                zone: document.getElementById('zone').value,
+                activity: document.getElementById('activity').value,
+                allergies: document.getElementById('allergies').value,
+                diet: document.getElementById('diet').value,
+                comments: document.getElementById('comments').value
+            };
+
+            console.log("Réservation confirmée :", reservationData);
+            alert("Merci ! Votre réservation est confirmée.");
+        });
+    </script>
+</body>
+</html>
