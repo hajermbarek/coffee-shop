@@ -27,43 +27,38 @@
         <label for="phone">Téléphone :</label>
         <input type="tel" id="phone" name="phone" required>
 
-        <label for="address">Adresse :</label>
-        <input type="text" id="address" name="address">
-
         <!-- Détails réservation -->
-        <label for="date">Date de réservation :</label>
-        <input type="date" id="date" name="date" required>
+        <label>Date de réservation :</label>
+        <input type="text" id="dateDisplay" readonly>
 
-        <label for="time">Heure :</label>
-        <input type="time" id="time" name="time" required>
+        <label>Heure :</label>
+        <input type="text" id="timeDisplay" readonly>
 
         <label for="people">Nombre de personnes :</label>
-        <input type="number" id="people" name="people" min="1" required>
+        <input type="number" id="people" name="people" min="1" readonly>
 
-        <label for="zone">Zone :</label>
-        <select id="zone" name="zone" required>
-            <option value="quieter">Quieter Zone</option>
-            <option value="fun">Fun Zone</option>
-        </select>
+        <label>Zone :</label>
+        <input type="text" id="zoneDisplay" readonly>
 
-        <label for="activity">Activité spécifique :</label>
-        <input type="text" id="activity" name="activity" placeholder="Ex: Book corner, jeux de société...">
+        <label>Activité spécifique :</label>
+        <input type="text" id="activityDisplay" readonly>
 
         <!-- Santé / allergies -->
         <label for="allergies">Allergies alimentaires :</label>
         <textarea id="allergies" name="allergies" placeholder="Ex: Noix, gluten..."></textarea>
 
-        <label for="diet">Régime spécial :</label>
-        <input type="text" id="diet" name="diet" placeholder="Ex: Végétarien, Halal...">
-
         <!-- Commentaires supplémentaires -->
         <label for="comments">Commentaires supplémentaires :</label>
         <textarea id="comments" name="comments" placeholder="Demandes particulières..."></textarea>
 
+        <button type="button" onclick="goBack()">Modifier le choix</button>
         <button type="submit">Confirmer la réservation</button>
     </form>
 
     <script>
+        function goBack() {
+            window.history.back();
+        }
         document.getElementById('finalReservationForm').addEventListener('submit', function(event){
             event.preventDefault();
 
@@ -72,19 +67,19 @@
                 name: document.getElementById('name').value,
                 email: document.getElementById('email').value,
                 phone: document.getElementById('phone').value,
-                address: document.getElementById('address').value,
-                date: document.getElementById('date').value,
-                time: document.getElementById('time').value,
+                date: document.getElementById('dateDisplay').value,
+                time: document.getElementById('timeDisplay').value,
                 people: document.getElementById('people').value,
-                zone: document.getElementById('zone').value,
-                activity: document.getElementById('activity').value,
+                zone: document.getElementById('zoneDisplay').value,
+                activity: document.getElementById('activityDisplay').value,
                 allergies: document.getElementById('allergies').value,
-                diet: document.getElementById('diet').value,
-                comments: document.getElementById('comments').value
+                comments: document.getElementById('comments').value 
+                
             };
 
             console.log("Réservation confirmée :", reservationData);
             alert("Merci ! Votre réservation est confirmée.");
+            window.location.href = "merci.html";
         });
     </script>
 </body>

@@ -1,0 +1,13 @@
+localStorage.setItem("date", selectedDate);
+localStorage.setItem("time", selectedTime);
+localStorage.setItem("zone", selectedZone);
+localStorage.setItem("activity", selectedActivity);
+
+
+// Charger les données sauvegardées
+window.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("dateDisplay").value = localStorage.getItem("date");
+    document.getElementById("timeDisplay").value = localStorage.getItem("time");
+    document.getElementById("zoneDisplay").value = localStorage.getItem("zone");
+    document.getElementById("activityDisplay").value = localStorage.getItem("activity");
+});
