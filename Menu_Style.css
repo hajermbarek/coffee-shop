@@ -25,6 +25,27 @@ h2 {
 
 @media (max-width: 768px) { .decor { display: none; } }
 
+.navbar.bg-body-tertiary {
+    background-color: #795945 !important;
+}
+
+/* Make text/icons visible on dark background */
+.navbar-brand,
+.nav-link,
+.navbar-toggler-icon {
+    color: rgb(230, 230, 210) !important;
+}
+
+.navbar-toggler {
+    border-color: rgba(255,255,255,0.5) !important;
+}
+
+
+.nav-link.active,
+.nav-link:hover {
+    color: #d0b59e !important; 
+}
+
 .menu {
     display: flex;
     gap: 20px;
