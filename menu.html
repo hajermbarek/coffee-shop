@@ -2,488 +2,100 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="MenuStyle.css">
-    <title>Cozy Café</title>
-
-</head>
-<body>
-
-    <header>
-        <h1 style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">Cozy Café</h1>
-        <p>Your daily dose of happiness</p>
-    </header>
-
-    <section>
-        <h2>Our Menu</h2>
-        <strong><h3 style="font-size: x-large; color:3b1f1e">Hot Drinks</h3></strong>
-        <div class="menu">
-            <div class="item">
-                <img src="https://www.sharmispassions.com/wp-content/uploads/2012/07/espresso-coffee-recipe04-500x500.jpg" 
-                alt="Espresso shot" class="drink-img">
-                <h3>Espresso</h3>
-                <p>Strong & rich coffee shot</p>
-                <p class="price">3.5 TND</p>
-                <button class="order-btn" onclick="alert('Ordering Espresso...')">Order Now</button>
-            </div>
-
-            <div class="item">
-                <img src="https://myeverydaytable.com/wp-content/uploads/AmericanoHotandIced-3.jpg" 
-                alt="Americano" class="drink-img">
-                <h3>Americano</h3>
-                <p>Lighter Espresso (long black) </p>
-                <p class="price">Sm: 4 TND | La: 4.5 TND</p>
-                <button class="order-btn" onclick="alert('Ordering Americano...')">Order Now</button>
-            </div>
-
-            <div class="item">
-                <img src="https://www.livingnorth.com/images/media/articles/food-and-drink/eat-and-drink/coffee.png?fm=webp&w=1000" 
-                alt="Cappuccino" class="drink-img">
-                <h3>Cappuccino</h3>
-                <p>Espresso with milk foam and chocolate</p>
-                <p class="price">Sm: 5.5 TND |  La: 7 TND</p>
-                <button class="customize-toggle" type="button">
-                Customize <span class="arrow">▼</span>
-            </button>
-
-        <div class="customize-panel">
-            <div class="customize-inner">
-                    <label class="option-row">
-                        <span>Size</span>
-                        <select>
-                            <option>Small</option>
-                            <option>Large</option>
-                        </select>
-                    </label>
-
-                    <label class="option-row">
-                        <span>Milk</span>
-                        <select>
-                            <option>Whole Milk</option>
-                            <option>Oat Milk (+2 TND)</option>
-                            <option>Almond Milk (+2 TND)</option>
-                            <option>Soy Milk (+2 TND)</option>
-                            <option>Cow Milk</option>
-                        </select>
-                    </label>
-
-                    <div class="checkbox-group">
-                            <label><input type="checkbox"> Extra shot (+1.5 TND)</label>
-                        <label><input type="checkbox"> Flavored syrup (+1.2 TND)</label>
-                        <label><input type="checkbox"> Whipped cream (+1.2 TND)</label>
-                    </div>
-
-                </div>
-            </div>
-                <button class="order-btn" onclick="alert('Ordering Cappuccino...')">Order Now</button>
-            </div>
-
-            <div class="item">
-                <img src="https://www.brighteyedbaker.com/wp-content/uploads/2024/07/Dulce-de-Leche-Latte-Recipe-500x500.jpg" 
-                alt="Latte" class="drink-img">
-                <h3>Latte</h3>
-                <p>Smooth coffee with milk</p>
-                <p class="price">Sm: 5 TND | La: 6.5 TND</p>
-
-                    <button class="customize-toggle" type="button">
-                Customize <span class="arrow">▼</span>
-            </button>
-
-        <div class="customize-panel">
-            <div class="customize-inner">
-                    <label class="option-row">
-                        <span>Size</span>
-                        <select>
-                            <option>Small</option>
-                            <option>Large</option>
-                        </select>
-                    </label>
-
-                    <label class="option-row">
-                        <span>Milk</span>
-                        <select>
-                            <option>Whole Milk</option>
-                            <option>Oat Milk (+2 TND)</option>
-                            <option>Almond Milk (+2 TND)</option>
-                            <option>Soy Milk (+2 TND)</option>
-                            <option>Cow Milk</option>
-                        </select>
-                    </label>
-
-                    <div class="checkbox-group">
-                            <label><input type="checkbox"> Extra shot (+1.5 TND)</label>
-                        <label><input type="checkbox"> Flavored syrup (+1.2 TND)</label>
-                        <label><input type="checkbox"> Whipped cream (+1.2 TND)</label>
-                    </div>
-
-                    <!--<div class="total-line">
-                        Estimated total: <strong>7.0 TND</strong>
-                    </div>-->
-                </div>
-            </div>
-
-                <button class="order-btn" onclick="alert('Ordering Latte...')">Order Now</button>
-    </div>
-
-            <div class="item">
-                <img src="https://images.arla.com/recordid/8763AA65-2EDD-4328-80C50FD4BB9B9EFE/picture.jpg?width=375&height=469&mode=crop&format=webp" 
-                alt="Flat white" class="drink-img">
-                <h3>Flat White</h3>
-                <p>Espresso with creamy microfoam</p>
-                <p class="price">Sm: 5 TND | La: 6.5 TND</p>
-                <button class="customize-toggle" type="button">
-                Customize <span class="arrow">▼</span>
-            </button>
-
-        <div class="customize-panel">
-            <div class="customize-inner">
-                    <label class="option-row">
-                        <span>Size</span>
-                        <select>
-                            <option>Small</option>
-                            <option>Large</option>
-                        </select>
-                    </label>
-
-                    <label class="option-row">
-                        <span>Milk</span>
-                        <select>
-                            <option>Whole Milk</option>
-                            <option>Oat Milk (+2 TND)</option>
-                            <option>Almond Milk (+2 TND)</option>
-                            <option>Soy Milk (+2 TND)</option>
-                            <option>Cow Milk</option>
-                        </select>
-                    </label>
-
-                    <div class="checkbox-group">
-                            <label><input type="checkbox"> Extra shot (+1.5 TND)</label>
-                        <label><input type="checkbox"> Flavored syrup (+1.2 TND)</label>
-                        <label><input type="checkbox"> Whipped cream (+1.2 TND)</label>
-                    </div>
-                </div>
-            </div>
-                <button class="order-btn" onclick="alert('Ordering Flat White...')">Order Now</button>
-            </div>
-            
-            <div class="item">
-                <img src="https://thelittlestcrumb.com/wp-content/uploads/salted-caramel-macchiato-featured-image-1.jpg" 
-                alt="Macchiato" class="drink-img">
-                <h3>Macchiato</h3>
-                <p>Espresso with a dash of foam</p>
-                <p class="price">Sm: 5 TND | La: 6.5 TND</p>
-                <button class="customize-toggle" type="button">
-                Customize <span class="arrow">▼</span>
-            </button>
-
-        <div class="customize-panel">
-            <div class="customize-inner">
-                    <label class="option-row">
-                        <span>Size</span>
-                        <select>
-                            <option>Small</option>
-                            <option>Large</option>
-                        </select>
-                    </label>
-
-                    <label class="option-row">
-                        <span>Milk</span>
-                        <select>
-                            <option>Whole Milk</option>
-                            <option>Oat Milk (+2 TND)</option>
-                            <option>Almond Milk (+2 TND)</option>
-                            <option>Soy Milk (+2 TND)</option>
-                            <option>Cow Milk</option>
-                        </select>
-                    </label>
-
-                    <div class="checkbox-group">
-                            <label><input type="checkbox"> Extra shot (+1.5 TND)</label>
-                        <label><input type="checkbox"> Flavored syrup (+1.2 TND)</label>
-                        <label><input type="checkbox"> Whipped cream (+1.2 TND)</label>
-                    </div>
-                </div>
-            </div>
-                <button class="order-btn" onclick="alert('Ordering Macchiato...')">Order Now</button>
-            </div>
-
-            <div class="item">
-                <img src="https://www.pamperedchef.com/iceberg/com/recipe/2131269-lg.jpg" 
-                alt="Mocha" class="drink-img">
-                <h3>Mocha</h3>
-                <p>Espresso with chocolate and milk</p>
-                <p class="price">Sm: 6 TND | La: 6.5 TND</p>
-                <button class="customize-toggle" type="button">
-                Customize <span class="arrow">▼</span>
-            </button>
-
-        <div class="customize-panel">
-            <div class="customize-inner">
-                    <label class="option-row">
-                        <span>Size</span>
-                        <select>
-                            <option>Small</option>
-                            <option>Large</option>
-                        </select>
-                    </label>
-
-                    <label class="option-row">
-                        <span>Milk</span>
-                        <select>
-                            <option>Whole Milk</option>
-                            <option>Oat Milk (+2 TND)</option>
-                            <option>Almond Milk (+2 TND)</option>
-                            <option>Soy Milk (+2 TND)</option>
-                            <option>Cow Milk</option>
-                        </select>
-                    </label>
-
-                    <div class="checkbox-group">
-                            <label><input type="checkbox"> Extra shot (+1.5 TND)</label>
-                        <label><input type="checkbox"> Flavored syrup (+1.2 TND)</label>
-                        <label><input type="checkbox"> Whipped cream (+1.2 TND)</label>
-                    </div>
-                </div>
-            </div>
-                <button class="order-btn" onclick="alert('Ordering Mocha...')">Order Now</button>
-            </div>
-
-            <div class="item">
-                <img src="https://dfjx2uxqg3cgi.cloudfront.net/img/photo/219501/219501_00_2x.jpg?20201015061052" 
-                alt="Hot chocolate" class="drink-img">
-                <h3>Hot Chocolate</h3>
-                <p>Sweet & creamy cocoa</p>
-                <p class="price">6 TND</p>
-                <button class="customize-toggle" type="button">
-                Customize <span class="arrow">▼</span>
-            </button>
-
-        <div class="customize-panel">
-            <div class="customize-inner">
-                    <label class="option-row">
-                        <span>Milk</span>
-                        <select>
-                            <option>Whole Milk</option>
-                            <option>Oat Milk (+2 TND)</option>
-                            <option>Almond Milk (+2 TND)</option>
-                            <option>Soy Milk (+2 TND)</option>
-                            <option>Cow Milk</option>
-                        </select>
-                    </label>
-
-                    <div class="checkbox-group">
-                        <label><input type="checkbox"> Flavored syrup (+1.2 TND)</label>
-                        <label><input type="checkbox"> Whipped cream (+1.2 TND)</label>
-                        <label><input type="checkbox"> Cinnamon (+1.2 TND)</label>
-                    </div>
-                </div>
-            </div>
-                <button class="order-btn" onclick="alert('Ordering Espresso...')">Order Now</button>
-            </div>
-
-            <div class="item">
-                <img src="https://www.popsci.com/wp-content/uploads/2024/02/15/steeping-tea.png?quality=85&w=2000" 
-                alt="gm tea" class="drink-img">
-                <h3>Green Mint Tea </h3>
-                <p>green tea with fresh mint</p>
-                <p class="price">Sm: 2 TND | La: 3 TND</p>
-                <button class="order-btn" onclick="alert('Ordering Green Mint Tea...')">Order Now</button>
-            </div>
-
-            <div class="item">
-                <img src="https://cdn.shopify.com/s/files/1/0022/1393/7252/articles/20221114103112-dark-tea-recipe-blog.jpg?v=1668422229" 
-                alt="b tea" class="drink-img">
-                <h3>Black Tea</h3>
-                <p>bold, classic steeped tea</p>
-                <p class="price">Sm: 2 TND | La: 3 TND</p>
-                <button class="order-btn" onclick="alert('Ordering Black Tea...')">Order Now</button>
-            </div>    
-
-            <div class="item">
-                <img src="https://cdn.shopify.com/s/files/1/0659/8043/2572/files/20241203194106-london-fog-latte_001.jpg?v=1733254868&width=600&height=900" 
-                alt="london fog" class="drink-img">
-                <h3>London Fog</h3>
-                <p>Earl Grey tea with milk and vanilla</p>
-                <p class="price">Sm: 6 TND | La: 7 TND</p>
-                <button class="customize-toggle" type="button">
-                Customize <span class="arrow">▼</span>
-            </button>
-
-        <div class="customize-panel">
-            <div class="customize-inner">
-                    <label class="option-row">
-                        <span>Size</span>
-                        <select>
-                            <option>Small</option>
-                            <option>Large</option>
-                        </select>
-                    </label>
-
-                    <label class="option-row">
-                        <span>Milk</span>
-                        <select>
-                            <option>Whole Milk</option>
-                            <option>Oat Milk (+2 TND)</option>
-                            <option>Almond Milk (+2 TND)</option>
-                            <option>Soy Milk (+2 TND)</option>
-                            <option>Cow Milk</option>
-                        </select>
-                    </label>
-                </div>
-            </div>
-                <button class="order-btn" onclick="alert('Ordering London Fog...')">Order Now</button>
-            </div>
-
-            <div class="item">
-                <img src="https://www.livingnorth.com/images/media/articles/food-and-drink/eat-and-drink/coffee.png?fm=webp&w=1000" 
-                alt="Chai latte" class="drink-img">
-                <h3>Chai Latte</h3>
-                <p>Spiced tea with milk</p>
-                <p class="price">Sm: 5.5 TND | La: 7 TND</p>
-                <button class="customize-toggle" type="button">
-                Customize <span class="arrow">▼</span>
-            </button>
-
-        <div class="customize-panel">
-            <div class="customize-inner">
-                    <label class="option-row">
-                        <span>Size</span>
-                        <select>
-                            <option>Small</option>
-                            <option>Large</option>
-                        </select>
-                    </label>
-
-                    <label class="option-row">
-                        <span>Milk</span>
-                        <select>
-                            <option>Whole Milk</option>
-                            <option>Oat Milk (+2 TND)</option>
-                            <option>Almond Milk (+2 TND)</option>
-                            <option>Soy Milk (+2 TND)</option>
-                            <option>Cow Milk</option>
-                        </select>
-                    </label>
-                    <label>
-                        <span>Tea</span>
-                        <select>
-                            <option>Normal Chai</option>
-                            <option>Green</option>
-                            <option>Peppermint</option>
-                            <option>Earl Grey (+2 TND)</option>
-                            <option>English breakfast(+1.5 TND)</option>
-                        </select>
-                    </label>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox"> Whipped cream (+1.2 TND)</label>
-                    </div>
-                </div>
-            </div>
-                <button class="order-btn" onclick="alert('Ordering Chai Latte...')">Order Now</button>
-            </div>
-
-            <div class="item popular">
-                <span class="badge">Popular</span>
-                <img src="https://midwestniceblog.com/wp-content/uploads/2022/09/homemade-dirty-chai-latte-recipe.jpg" 
-                alt="diry chai" class="drink-img">
-                <h3>Dirty Chai Latte</h3>
-                <p>chai latte with espresso</p>
-                <p class="price">Sm: 10 TND | La: 12 TND</p>
-                <button class="customize-toggle" type="button">
-                Customize <span class="arrow">▼</span>
-            </button>
-
-        <div class="customize-panel">
-                <div class="customize-inner">
-                    <label class="option-row">
-                        <span>Size</span>
-                        <select>
-                            <option>Small</option>
-                            <option>Large</option>
-                        </select>
-                    </label>
-
-                    <label class="option-row">
-                        <span>Milk</span>
-                        <select>
-                            <option>Whole Milk</option>
-                            <option>Oat Milk (+2 TND)</option>
-                            <option>Almond Milk (+2 TND)</option>
-                            <option>Soy Milk (+2 TND)</option>
-                            <option>Cow Milk</option>
-                        </select>
-                    </label>
-                    <label>
-                        <span>Tea</span>
-                        <select>
-                            <option>Normal Chai</option>
-                            <option>Green</option>
-                            <option>Peppermint</option>
-                            <option>Earl Grey (+2 TND)</option>
-                            <option>English breakfast(+1.5 TND)</option>
-                        </select>
-                    </label>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox"> Extra shot (+1.5 TND)</label>
-                        <label><input type="checkbox"> Whipped cream (+1.2 TND)</label>
-                    </div>
-                </div>
-            </div>
-                <button class="order-btn" onclick="alert('Ordering Dirty Chai...')">Order Now</button>
-            </div>
-
-            <div class="item popular">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFDf6BgVL_nG-3RscVS7bMUhD7-RjVgaGQiQ&s" 
-                alt="matcha" class="drink-img">
-                <span class="badge">Popular</span>
-                <h3>Matcha Latte</h3>
-                <p>Matcha green tea with milk</p>
-                <p class="price">Sm: 10 TND | La: 13 TND</p>
-                <button class="customize-toggle" type="button">
-                Customize <span class="arrow">▼</span>
-            </button>
-
-        <div class="customize-panel">
-                <div class="customize-inner">
-                    <label class="option-row">
-                        <span>Size</span>
-                        <select>
-                            <option>Small</option>
-                            <option>Large</option>
-                        </select>
-                    </label>
-
-                    <label class="option-row">
-                        <span>Milk</span>
-                        <select>
-                            <option>Whole Milk</option>
-                            <option>Oat Milk (+2 TND)</option>
-                            <option>Almond Milk (+2 TND)</option>
-                            <option>Soy Milk (+2 TND)</option>
-                            <option>Cow Milk</option>
-                        </select>
-                    </label>
-                    <label>
-                        <span>Tea</span>
-                        <select>
-                            <option>Normal Chai</option>
-                            <option>Green</option>
-                            <option>Peppermint</option>
-                            <option>Earl Grey (+2 TND)</option>
-                            <option>English breakfast(+1.5 TND)</option>
-                        </select>
-                    </label>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox"> Whipped cream (+1.2 TND)</label>
-                    </div>
-                </div>
-            </div>
-                <button class="order-btn" onclick="alert('Ordering Matcha Latte...')">Order Now</button>
-            </div>
-
+    <link rel="stylesheet" href="menuStyle.css">
+    <title>Cozy Café Menu</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Coffee Shop</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="page1.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="anothermenu.html" ><b>Full Menu</b></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Our Story</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Events</a>
+            </li>
+          </ul>
         </div>
-    </section>
+      </div>
+    </nav>
+    <section class="bakery-section">
+    <h2>Bakery</h2>
+    <p>
+        At Cozy Café, we offer a wide range of bakery items that are perfect for any occasion. 
+        From our freshly baked breads to our decadent cakes and pastries, each of our products is made with 
+        the finest ingredients and the utmost care.
+    </p>
+    <a href="biscuit.html" target="_blank" class="category-link" >
+    <div class="bakery-items">
+        <div class="bakery-item">
+            <img src="https://moversandbakers.co.uk/wp-content/uploads/2020/06/custard-creams_0501.jpg" alt="Biscuit">
+            <p class="item-label">Biscuits, Cookies and Crepes</p>
+        </div></a>
+        <a href="cake.html" target="_blank" class="category-link" >
+        <div class="bakery-item">
+            <img src="https://cdn.prod.website-files.com/649249d29a20bd6bc3deac45/649249d29a20bd6bc3deaea9_Cloud-Cake-2-p-500.jpg" alt="Cake">
+            <p class="item-label">Cake</p>
+        </div></a>
+        <a href="pastry.html" target="_blank" class="category-link" >
+        <div class="bakery-item">
+            <img src="https://cdn.prod.website-files.com/649249d29a20bd6bc3deac45/668ddf055c2c837b4b6ce41a_Straberry%20Croissant-2.webp" alt="Pastry">
+            <p class="item-label">Pastry</p>
+        </div></a>
+    </div>
+</section>
+<section class="beverages-section">
+    <h2>Beverages</h2>
+    <p>
+        From bold espresso to refreshing iced creations and fresh juices, 
+        our drinks are crafted daily with the utmost care and the finest beans, leaves and fruits.
+    </p>
 
-    <section>
+   <a href="hotdr.html" target="_blank" class="category-link" >
+    <div class="beverages-items">
+         <div class="beverage-item">
+            <img src="https://cdn.prod.website-files.com/649249d29a20bd6bc3deac48/649249d29a20bd6bc3deae11_Copy%2520of%2520Cafe%2520Latte-p-500.png" alt="Hot Drinks">
+            <p class="item-label" >Hot Drinks</p>
+        </div></a> 
+        <a href="colddr.html" target="_blank" class="category-link" >
+        <div class="beverage-item">
+            <img src="https://cdn.prod.website-files.com/649249d29a20bd6bc3deac48/649249d29a20bd6bc3deae14_Copy%2520of%2520Iced%2520Cafe%2520Mocha-p-500.png" alt="Cold Drinks">
+            <p class="item-label">Cold Drinks</p>
+        </div>
+        </a>
+        <a href="blended.html" target="_blank" class="category-link" >
+        <div class="beverage-item">
+            <img src="https://cdn.prod.website-files.com/649249d29a20bd6bc3deac48/649249d29a20bd6bc3deae1e_Copy%2520of%2520Strawberry%2520Smoothie-p-500.png" alt="Juices">
+            <p class="item-label">Blended</p>
+        </div>
+        </a>
+    </div>
+</section>
+
+    <!--<section>
         <h2>About Us</h2>
         <p style="text-align:center;">
             Cozy Coffee is a small coffee shop made with love.  
@@ -491,7 +103,7 @@
         </p>
     </section>
 
-    <!--<footer>
+    <footer>
         <p>📍 Centre Urbain Nord | 📞 71 234 567</p>
         <p>© 2026 Cozy Coffee</p>
     </footer>-->
@@ -571,26 +183,30 @@
             <a href="#">Privacy Policy</a> • 
             <a href="#">Terms of Use</a> • 
             <a href="#">Cookie Preferences</a>
-            </p>
-        </div>
-    </footer>
+        </p>
+    </div>
+</footer>
+<script>
+const track = document.getElementById('sliderTrack');
+const container = document.querySelector('.slider-container');
+container.addEventListener('mouseenter', () => {
+    track.style.animationPlayState = 'paused';
+});
 
-    <script>
-document.querySelectorAll('.customize-toggle').forEach(toggle => {
-    toggle.addEventListener('click', () => {
-        const panel = toggle.nextElementSibling;
-        const isOpen = panel.classList.contains('open');
-        
-        document.querySelectorAll('.customize-panel.open').forEach(p => {
-            if (p !== panel) p.classList.remove('open');
-        });
-        document.querySelectorAll('.customize-toggle.active').forEach(t => {
-            if (t !== toggle) t.classList.remove('active');
-        });
-        panel.classList.toggle('open', !isOpen);
-        toggle.classList.toggle('active', !isOpen);
-    });
+container.addEventListener('mouseleave', () => {
+    track.style.animationPlayState = 'running';
+});
+
+document.querySelector('.prev').addEventListener('click', () => {
+    track.style.transition = 'transform 0.4s ease';
+    track.style.transform = 'translateX(-300px)';
+    setTimeout(() => {
+        track.style.transition = 'none';
+        track.style.transform = 'translateX(0)';
+    }, 400);
 });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    </script>
 </body>
 </html>
