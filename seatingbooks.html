@@ -8,6 +8,10 @@
       href="https://fonts.googleapis.com/css2?family=Iosevka+Charon:...&display=swap"
       rel="stylesheet"
     />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <title>Cozy Café</title>
   </head>
   <body>
@@ -20,9 +24,11 @@
             sans-serif;
         "
       >
-        Cozy Café
+        Reservation
       </h1>
-      <p class="title">Reservation</p>
+      <p class="title">
+        pick a table on the floor plan then choose the time and date
+      </p>
     </header>
     <section>
       <div class="arrange">
@@ -127,6 +133,12 @@
         </div>
       </div>
       <div class="select">
+        <div class="booking">
+          <label class="booking-label">Selected table :</label>
+          <div class="selected-box">
+            <p id="slcttable"></p>
+          </div>
+        </div>
         <div class="date">
           <label for="date">Pick a day :</label>
           <input type="date" id="date" name="date" />
@@ -157,5 +169,6 @@
         <button class="reserve">Reserve now</button>
       </div>
     </section>
+    <script src="seatingbooks.js"></script>
   </body>
 </html>
