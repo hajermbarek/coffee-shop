@@ -112,7 +112,11 @@ section{
     transform: translateY(-6px);
     box-shadow: 0 12px 24px rgba(0,0,0,0.15);
 }
-.reserve{
+.reserve {
+    display: inline-block; 
+    text-align: center;
+    line-height: 70px;  
+
     border-radius: 15px;
     background-color: rgb(173, 135, 101);
     color:#ffffff;
@@ -120,8 +124,9 @@ section{
     width:200px;
     font-size: 20px;
     font-weight: 600;
-  font-family: 'Iosevka Charon', sans-serif;
-  cursor:pointer;
+    font-family: 'Iosevka Charon', sans-serif;
+    cursor:pointer;
+    text-decoration: none; 
 }
 .reserve:hover{
     transform: translateY(-6px);
