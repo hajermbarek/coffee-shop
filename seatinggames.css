@@ -203,3 +203,9 @@ button:hover{
 input{
   text-align:center;
 }
+
+.table4.selected-table {
+  background-color: #c7a07b;
+  border: 3px solid #4a2a12;
+  box-shadow: 0 0 0 2px #f5e2c8;
+}

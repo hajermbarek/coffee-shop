@@ -369,5 +369,22 @@
         }, 400);
       });
     </script>
+
+    <script>
+    document.querySelectorAll('.zone-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        const zoneText = this.closest('.zone-card').querySelector('h3').innerText;
+        if (zoneText.includes('Quiet')) {
+          sessionStorage.setItem('reservationZone', 'Quiet Zone');
+        } else if (zoneText.includes('Fun')) {
+          sessionStorage.setItem('reservationZone', 'Fun Zone');
+        } else {
+          return; // Food & Drinks ne déclenche pas de réservation de zone
+        }
+        // Ne pas empêcher le lien, mais on stocke avant la redirection
+      });
+    });
+  </script>
+
   </body>
 </html>

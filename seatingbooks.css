@@ -261,3 +261,8 @@ section{
   cursor: not-allowed;
   opacity: 0.6;
 }
+.table-top.selected-table {
+  background-color: #d4b594;
+  border: 3px solid #6b3e1c;
+  transform: scale(1.02);
+}

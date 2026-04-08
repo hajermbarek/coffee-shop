@@ -170,5 +170,49 @@
       </div>
     </section>
     <script src="seatingbooks.js"></script>
+      // Récupération de la zone depuis la page précédente
+  let selectedTable = null;
+  const zone = sessionStorage.getItem('reservationZone') || 'Quiet Zone';
+
+  // Gestion de la sélection des tables
+  document.querySelectorAll('.table-top').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      // Retirer la classe active de tous
+      document.querySelectorAll('.table-top').forEach(b => b.classList.remove('selected-table'));
+      this.classList.add('selected-table');
+      const tableNum = this.querySelector('.number')?.innerText || '?';
+      selectedTable = tableNum;
+      document.getElementById('slcttable').innerText = `Table ${tableNum}`;
+    });
+  });
+
+  // Bouton "Reserve now" – stockage et redirection
+  document.querySelector('.reserve').addEventListener('click', function(e) {
+    e.preventDefault();
+    const date = document.getElementById('date').value;
+    const timeSelect = document.getElementById('timeSelect');
+    const time = timeSelect.options[timeSelect.selectedIndex]?.value;
+
+    if (!selectedTable) {
+      alert('Veuillez sélectionner une table.');
+      return;
+    }
+    if (!date) {
+      alert('Veuillez choisir une date.');
+      return;
+    }
+    if (!time) {
+      alert('Veuillez choisir un créneau horaire.');
+      return;
+    }
+
+    sessionStorage.setItem('reservationDate', date);
+    sessionStorage.setItem('reservationTime', time);
+    sessionStorage.setItem('reservationTable', selectedTable);
+    sessionStorage.setItem('reservationZone', zone);
+    // Redirection vers la page des livres
+    window.location.href = 'books.html';
+  });
   </body>
 </html>
