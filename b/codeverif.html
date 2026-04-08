@@ -1,0 +1,119 @@
+<script>
+    // Get book from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const bookToVerify = urlParams.get("book");
+    
+    // Get all reserved books
+    let allBooks = [];
+    let bookData = null;
+    
+    try {
+        const stored = localStorage.getItem("cozy_books");
+        if (stored) {
+            allBooks = JSON.parse(stored);
+            
+            // Filter expired
+            const now = new Date();
+            allBooks = allBooks.filter(book => {
+                const reservedAt = new Date(book.reservedAt);
+                const expiryDate = new Date(reservedAt);
+                expiryDate.setDate(expiryDate.getDate() + 7);
+                return now <= expiryDate;
+            });
+            localStorage.setItem("cozy_books", JSON.stringify(allBooks));
+            
+            // Find the specific book
+            if (bookToVerify) {
+                const cleanTitle = bookToVerify.replace(/["']/g, '').replace(/\\/g, '').trim();
+                bookData = allBooks.find(book => {
+                    const bookTitle = book.title.replace(/["']/g, '').replace(/\\/g, '').trim();
+                    return bookTitle.toLowerCase() === cleanTitle.toLowerCase();
+                });
+            } else if (allBooks.length > 0) {
+                bookData = allBooks[allBooks.length - 1];
+            }
+            
+            if (bookData) {
+                const cleanTitle = bookData.title.replace(/["']/g, '').replace(/\\/g, '').trim();
+                const expiryDate = new Date(new Date(bookData.reservedAt).getTime() + 7*24*60*60*1000);
+                const daysLeft = Math.ceil((expiryDate - new Date()) / (1000 * 60 * 60 * 24));
+                
+                document.getElementById('bookInfo').innerHTML = `
+                    📖 <strong>${cleanTitle}</strong><br>
+                    ⏰ Valid for: ${daysLeft} day(s) remaining
+                `;
+            } else {
+                document.getElementById('bookInfo').innerHTML = '❌ No reservation found for this book';
+            }
+        } else {
+            document.getElementById('bookInfo').innerHTML = '❌ No active reservations found';
+        }
+    } catch(e) {
+        console.error("Error:", e);
+        document.getElementById('bookInfo').innerHTML = '❌ Error loading reservation';
+    }
+    
+    function verify() {
+        const code = document.getElementById("code").value;
+        const errorMsg = document.getElementById("errorMsg");
+        
+        errorMsg.style.display = "none";
+        
+        if (!code) {
+            errorMsg.textContent = "❌ Please enter your verification code.";
+            errorMsg.style.display = "block";
+            return;
+        }
+        
+        if (code.length !== 6) {
+            errorMsg.textContent = "❌ Code must be 6 digits.";
+            errorMsg.style.display = "block";
+            return;
+        }
+        
+        if (!bookData) {
+            errorMsg.textContent = "❌ No reservation found.";
+            errorMsg.style.display = "block";
+            setTimeout(() => {
+                window.location.href = "../books.html";
+            }, 2000);
+            return;
+        }
+        
+        // Check expiration
+        const expiryDate = new Date(new Date(bookData.reservedAt).getTime() + 7*24*60*60*1000);
+        if (new Date() > expiryDate) {
+            errorMsg.textContent = "❌ Your reservation has expired.";
+            errorMsg.style.display = "block";
+            
+            // Remove only this expired book
+            const currentBooks = JSON.parse(localStorage.getItem("cozy_books") || "[]");
+            const updatedBooks = currentBooks.filter(book => {
+                const bookTitle = book.title.replace(/["']/g, '').replace(/\\/g, '').trim();
+                const currentTitle = bookData.title.replace(/["']/g, '').replace(/\\/g, '').trim();
+                return bookTitle.toLowerCase() !== currentTitle.toLowerCase();
+            });
+            localStorage.setItem("cozy_books", JSON.stringify(updatedBooks));
+            
+            setTimeout(() => {
+                window.location.href = "../books.html";
+            }, 2000);
+            return;
+        }
+        
+        // Verify code
+        if (parseInt(bookData.code) === parseInt(code)) {
+            window.location.href = "success.html?book=" + encodeURIComponent(bookData.title);
+        } else {
+            errorMsg.style.display = "block";
+            document.getElementById("code").value = "";
+            document.getElementById("code").focus();
+        }
+    }
+    
+    document.getElementById("code").addEventListener("keypress", function(e) {
+        if (e.key === "Enter") {
+            verify();
+        }
+    });
+</script>

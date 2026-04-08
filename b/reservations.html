@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book a Table - Cozy Café</title>
+    <link rel="stylesheet" href="resrvations.css">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Cozy Café</h1>
+        <p>Your daily dose of happiness</p>
+    </header>
+
+    <div style="max-width: 650px; margin: 20px auto; padding: 0 20px;">
+        <div id="userBookReservationStatus"></div>
+    </div>
+
+    <form id="finalReservationForm" class="reservation-form">
+        <h2>Book Your Table</h2>
+
+        <!-- Personal Information -->
+        <label for="firstname">First Name:</label>
+        <input type="text" id="firstname" name="firstname" required>
+
+        <label for="name">Last Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="phone">Phone:</label>
+        <input type="tel" id="phone" name="phone" required>
+
+        <!-- Reservation Details -->
+        <label>Reservation Date:</label>
+        <input type="text" id="dateDisplay" placeholder="From previous page" readonly>
+
+        <label>Time:</label>
+        <input type="text" id="timeDisplay" placeholder="From previous page" readonly>
+
+        <label for="people">Number of People:</label>
+        <input type="number" id="people" name="people" min="1" readonly>
+
+        <label>Area:</label>
+        <input type="text" id="zoneDisplay" placeholder="From previous page" readonly>
+
+        <label>Special Activity:</label>
+        <input type="text" id="activityDisplay" placeholder="From previous page" readonly>
+
+        <!-- Health / Allergies -->
+        <label for="allergies">Food Allergies:</label>
+        <textarea id="allergies" name="allergies" placeholder="e.g., nuts, gluten..."></textarea>
+
+        <!-- Additional Comments -->
+        <label for="comments">Additional Comments:</label>
+        <textarea id="comments" name="comments" placeholder="Special requests..."></textarea>
+
+        <button type="button" onclick="window.location.href='booking.html'">← Modify Selection</button>
+        <button type="submit">Confirm Table Booking</button>
+    </form>
+   
+<script>
+    emailjs.init("UNEq9WL4uF1HtWlUr");
+    
+    // Get and clean the book name
+    let bookName = new URLSearchParams(window.location.search).get("book");
+    if (bookName) {
+        bookName = bookName.replace(/["']/g, '').replace(/\\/g, '').trim();
+        console.log("Book being reserved:", bookName);
+    }
+    
+    // Get all existing reservations
+    let allReservations = [];
+    try {
+        const stored = localStorage.getItem("cozy_books");
+        if (stored) {
+            allReservations = JSON.parse(stored);
+            
+            // Clean expired ones
+            const now = new Date();
+            allReservations = allReservations.filter(book => {
+                const reservedAt = new Date(book.reservedAt);
+                const expiryDate = new Date(reservedAt);
+                expiryDate.setDate(expiryDate.getDate() + 7);
+                return now <= expiryDate;
+            });
+            localStorage.setItem("cozy_books", JSON.stringify(allReservations));
+        }
+    } catch(e) {
+        allReservations = [];
+    }
+    
+    // Check if this specific book is already reserved
+    let isAlreadyReserved = false;
+    
+    if (bookName) {
+        const cleanBookName = bookName.replace(/["']/g, '').trim().toLowerCase();
+        isAlreadyReserved = allReservations.some(book => {
+            const existingTitle = book.title.replace(/["']/g, '').trim().toLowerCase();
+            return existingTitle === cleanBookName;
+        });
+        
+        if (isAlreadyReserved) {
+            alert("⚠️ This book is already reserved! You'll be redirected to verification.");
+            window.location.href = "codeverif.html?book=" + encodeURIComponent(bookName);
+        }
+    }
+    
+    // Only show book display if not already reserved
+    if (bookName && !isAlreadyReserved) {
+        const form = document.getElementById("finalReservationForm");
+        const bookDisplay = document.createElement("div");
+        bookDisplay.style.cssText = "background: #f5e6d3; padding: 10px; border-radius: 8px; margin-bottom: 20px; text-align: center; font-weight: bold;";
+        bookDisplay.innerHTML = `📖 Reserving: ${bookName}`;
+        form.insertBefore(bookDisplay, form.firstChild);
+    }
+    
+    document.getElementById("finalReservationForm").onsubmit = function(e) {
+        e.preventDefault();
+        
+        if (isAlreadyReserved) {
+            alert("This book is already reserved!");
+            window.location.href = "codeverif.html?book=" + encodeURIComponent(bookName);
+            return;
+        }
+        
+        // Double-check the book isn't already reserved
+        const currentReservations = JSON.parse(localStorage.getItem("cozy_books") || "[]");
+        const cleanBookName = bookName.replace(/["']/g, '').trim().toLowerCase();
+        const alreadyExists = currentReservations.some(book => {
+            const existingTitle = book.title.replace(/["']/g, '').trim().toLowerCase();
+            return existingTitle === cleanBookName;
+        });
+        
+        if (alreadyExists) {
+            alert("❌ This book has already been reserved!");
+            window.location.href = "../books.html";
+            return;
+        }
+        
+        const email = document.getElementById("email").value;
+        const firstName = document.getElementById("firstname").value;
+        const code = Math.floor(100000 + Math.random() * 900000);
+        
+        if (!bookName) {
+            alert("Error: No book selected. Please go back and try again.");
+            return;
+        }
+        
+        // Create new reservation
+        const newReservation = {
+            title: bookName,
+            code: code,
+            email: email,
+            firstName: firstName,
+            reservedAt: new Date().toISOString()
+        };
+        
+        // Get ALL existing reservations (load fresh)
+        let allBooks = [];
+        try {
+            const stored = localStorage.getItem("cozy_books");
+            if (stored) {
+                allBooks = JSON.parse(stored);
+                
+                // Clean expired ones
+                const now = new Date();
+                allBooks = allBooks.filter(book => {
+                    const reservedAt = new Date(book.reservedAt);
+                    const expiryDate = new Date(reservedAt);
+                    expiryDate.setDate(expiryDate.getDate() + 7);
+                    return now <= expiryDate;
+                });
+            }
+        } catch(e) {
+            allBooks = [];
+        }
+        
+        // Add new reservation
+        allBooks.push(newReservation);
+        localStorage.setItem("cozy_books", JSON.stringify(allBooks));
+        console.log("Total reservations:", allBooks.length);
+        
+        emailjs.send("service_3r395qf", "template_t55yr0b", {
+            to_email: email,
+            to_name: firstName,
+            book_title: bookName,
+            code: code
+        }).then(function() {
+            alert(`✅ Code sent to ${email}`);
+            window.location.href = "success.html?book=" + encodeURIComponent(bookName);
+        }).catch(function(error) {
+            console.log(error);
+            alert(`⚠️ Your code: ${code} (email failed, but code saved)`);
+            window.location.href = "success.html?book=" + encodeURIComponent(bookName);
+        });
+    };
+</script>
+
+</body>
+</html>

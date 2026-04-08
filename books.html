@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="books.css" />
     <title>Cozy Café</title>
+    
   </head>
   <body>
     <header>
@@ -120,6 +121,47 @@
           <p class="names">The Secret History</p>
           <a href="b/TheSecretHistory.html" class="more">Learn More</a>
         </div>
+        <div class="book">
+          <img src="images/b18.png" alt="tm" class="bookimg" />
+          <p class="names">The Night We Met</p>
+          <a href="b/TheNightWeMet.html" class="more">Learn More</a>
+        </div>
+        <div class="book">
+          <img src="images/b19.png" alt="tm" class="bookimg" />
+          <p class="names">They Both Die at the End</p>
+          <a href="b/TheyBothDieAtTheEnd.html" class="more">Learn More</a>
+        </div>
+        <div class="book">
+          <img src="images/b20.png" alt="tm" class="bookimg" />
+          <p class="names">The Seven Husbands of Evelyn Hugo</p>
+          <a href="b/TheSevenHusbandsOfEvelynHugo.html" class="more">Learn More</a>
+        </div>
+        <div class="book">
+          <img src="images/b21.png" alt="tm" class="bookimg" />
+          <p class="names">A Court of Thorns and Roses (ACOTAR)</p>
+          <a href="b/ACourtOfThornsAndRoses.html" class="more">Learn More</a>
+        </div>  
+        <div class="book">
+          <img src="images/b22.png" alt="tm" class="bookimg" />
+          <p class="names">The Love Hypothesis</p>
+          <a href="b/TheLoveHypothesis.html" class="more">Learn More</a>
+        </div>
+        <div class="book">
+          <img src="images/b23.png" alt="tm" class="bookimg" />
+          <p class="names">The Housemaid</p>
+          <a href="b/TheHousemaid.html" class="more">Learn More</a>
+        </div>
+        <div class="book">
+          <img src="images/b24.png" alt="tm" class="bookimg" />
+          <p class="names"> Six of Crows</p>
+          <a href="b/SixOfCrows.html" class="more">Learn More</a>
+        </div>       
+      </div>
+        <div class="book">
+          <img src="images/b25.png" alt="tm" class="bookimg" />
+          <p class="names">The Cruel Prince</p>
+          <a href="b/TheCruelPrince.html" class="more">Learn More</a>
+        </div>       
       </div>
     </section>
      <section id="reserve-section" class="reserve-section">
@@ -127,6 +169,7 @@
         
       <p style="text-align: center">
         The book you chose will be yours for 7 days , you can come whenever you want to the cafe and read for as many hours as you want . But once your week is over , some one else will be able to book it !<br><br>
+        <br>If you already reserved your boook , once you enter the website , you'll find it labled as "Reserved" you just have to enter the code sent to you right after reservation and you'll be able to book whatever table you want .<br><br>the code is available for 7 days<br>
         <br><br>PS: You can't take  the book home with you & don't worry you'll be able to read with no distractions as this place is especially made to make you feel at ease .
       </p>  
     <section>
@@ -264,6 +307,7 @@
         </p>
       </div>
     </footer>
+<<<<<<< Updated upstream
     <script>
     document.querySelectorAll('.book .more').forEach(link => {
       link.addEventListener('click', function() {
@@ -276,5 +320,87 @@
       });
     });
   </script>
+=======
+<script>
+    // Get all reserved books from localStorage
+    let reservedBooks = [];
+    
+    try {
+        const stored = localStorage.getItem("cozy_books");
+        if (stored) {
+            reservedBooks = JSON.parse(stored);
+            
+            // Filter out expired reservations
+            const now = new Date();
+            reservedBooks = reservedBooks.filter(book => {
+                const reservedAt = new Date(book.reservedAt);
+                const expiryDate = new Date(reservedAt);
+                expiryDate.setDate(expiryDate.getDate() + 7);
+                return now <= expiryDate;
+            });
+            
+            // Save back filtered list
+            localStorage.setItem("cozy_books", JSON.stringify(reservedBooks));
+        }
+    } catch(e) {
+        localStorage.removeItem("cozy_books");
+        reservedBooks = [];
+    }
+    
+    // Helper function to check if a book is reserved
+    function isBookReserved(title) {
+        const cleanTitle = title.replace(/["']/g, '').trim();
+        return reservedBooks.some(book => {
+            const bookTitle = book.title.replace(/["']/g, '').trim();
+            return bookTitle.toLowerCase() === cleanTitle.toLowerCase();
+        });
+    }
+    
+    // Mark reserved books
+    document.querySelectorAll('.book').forEach(book => {
+        const titleElem = book.querySelector('.names');
+        if (titleElem) {
+            const displayTitle = titleElem.innerText.trim();
+            
+            if (isBookReserved(displayTitle)) {
+                book.classList.add('reserved');
+                book.style.position = 'relative';
+                
+                const existingLabel = book.querySelector('.reserved-label');
+                if (existingLabel) existingLabel.remove();
+                
+                const label = document.createElement('div');
+                label.className = 'reserved-label';
+                label.style.cssText = 'position:absolute; top:10px; right:10px; background:#d4a373; color:#3b2f2f; padding:4px 8px; border-radius:20px; font-size:11px; font-weight:bold; z-index:10;';
+                label.innerText = '🔒 RESERVED';
+                book.appendChild(label);
+            }
+        }
+    });
+    
+    // Handle book clicks
+    document.querySelectorAll('.book').forEach(book => {
+        const titleElem = book.querySelector('.names');
+        if (titleElem) {
+            const title = titleElem.innerText.trim();
+            
+            book.style.cursor = 'pointer';
+            book.onclick = (e) => {
+                if (e.target.classList && (e.target.classList.contains('more') || e.target.classList.contains('reserved-label'))) {
+                    return;
+                }
+                
+                if (isBookReserved(title)) {
+                    window.location.href = "b/codeverif.html?book=" + encodeURIComponent(title);
+                } else {
+                    window.location.href = "b/reservations.html?book=" + encodeURIComponent(title);
+                }
+            };
+        }
+    });
+</script>
+
+>>>>>>> Stashed changes
   </body>
 </html>
+

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Your Table - Cozy Café</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #f5f1ee; color: #3b2f2f; }
+        header { background: #6f4e37; color: white; padding: 20px; text-align: center; }
+        .reservation-form { max-width: 600px; margin: 40px auto; padding: 30px; background: white; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        h2 { text-align: center; margin-bottom: 20px; color: #6f4e37; }
+        .book-badge { background: #e8d9c5; padding: 12px; border-radius: 8px; margin-bottom: 20px; text-align: center; }
+        label { display: block; margin: 12px 0 5px; font-weight: bold; }
+        input, select, textarea { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; }
+        button { background: #6f4e37; color: white; padding: 12px 24px; border: none; border-radius: 30px; cursor: pointer; font-size: 16px; margin-right: 10px; }
+        button[type="button"] { background: #ccc; color: #333; }
+        button:hover { opacity: 0.9; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Cozy Café</h1>
+        <p>Your daily dose of happiness</p>
+    </header>
+    
+    <form id="tableBookingForm" class="reservation-form">
+        <h2>📖 Book Your Quiet Table</h2>
+        <div id="bookInfo" class="book-badge"></div>
+        
+        <label>📅 Date:</label>
+        <input type="date" id="reserveDate" required>
+        
+        <label>⏰ Time:</label>
+        <input type="time" id="reserveTime" required>
+        
+        <label>👥 Number of People:</label>
+        <input type="number" id="peopleCount" min="1" value="1" required>
+        
+        <label>🍽️ Area:</label>
+        <select id="areaSelect">
+            <option>Quiet Reading Corner</option>
+            <option>Window Seats</option>
+            <option>Cozy Lounge</option>
+        </select>
+        
+        <label>☕ Drink Order:</label>
+        <select id="drinkOrder">
+            <option>Just reading 📖</option>
+            <option>Espresso ☕</option>
+            <option>Latte 🥛</option>
+            <option>Cappuccino ☁️</option>
+            <option>Hot Chocolate 🍫</option>
+            <option>Tea 🍵</option>
+        </select>
+        
+        <label>📝 Special Requests / Allergies:</label>
+        <textarea id="comments" rows="3" placeholder="Any allergies or special requests?"></textarea>
+        
+        <div style="text-align: center;">
+            <button type="submit">✅ Confirm Table Booking</button>
+            <button type="button" onclick="history.back()">← Back</button>
+        </div>
+    </form>
+    
+    <script src="reservation-system.js"></script>
+    <script>initTableBookingPage();</script>
+</body>
+</html>

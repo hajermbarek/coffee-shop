@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reservation Confirmed - Cozy Café</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #f5f1ee; text-align: center; padding: 50px; }
+        .card { background: white; max-width: 500px; margin: auto; padding: 30px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        h1 { color: #6f4e37; margin-bottom: 20px; }
+        button { background: #6f4e37; color: white; padding: 12px 24px; border: none; border-radius: 30px; cursor: pointer; margin-top: 20px; font-size: 16px; }
+        button:hover { background: #8b634b; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🎉 Reservation Confirmed!</h1>
+        <div id="confirmDetails"></div>
+        <button onclick="window.location.href='books.html'">← Back to Books</button>
+    </div>
+    <script src="reservation-system.js"></script>
+    <script>showConfirmation();</script>
+</body>
+</html>
