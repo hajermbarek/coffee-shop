@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="MenuStyle.css">
+    <title>Cozy Café</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Coffee Shop</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="page1.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="anothermenu.html" ><b>Full Menu</b></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Our Story</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Events</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <header>
+        <h1 style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">Cozy Café</h1>
+        <p>Your daily dose of happiness</p>
+    </header>
+    <br>
+        <h2>Blended Drinks</h2>
+        <br>
+        <div class="menu">
+            <div class="item">
+                <img src="https://www.livveganstrong.com/wp-content/uploads/2023/07/strawberry-smoothie-6.jpg" 
+                alt="str" class="drink-img">
+                <h3>Strawberry Smoothie</h3>
+                <p>Fresh blended strawnberry,banana and milk </p>
+                <p class="price">8 TND</p>
+                <button class="customize-toggle" type="button">
+                Customize <span class="arrow">▼</span>
+            </button>
+                <div class="customize-panel">
+            <div class="customize-inner">
+                    <label class="option-row">
+                        <span>Milk</span>
+                        <select>
+                            <option>Whole Milk</option>
+                            <option>Oat Milk (+2 TND)</option>
+                            <option>Almond Milk (+2 TND)</option>
+                            <option>Soy Milk (+2 TND)</option>
+                            <option>Cow Milk</option>
+                        </select>
+                    </label>
+                    <div class="checkbox-group">
+                    <input type="checkbox"> Whipped cream (+1.2 TND)</label>
+                    </div>
+                    </div>
+                </div>
+                <button class="order-btn" onclick="alert('Ordering Strawberry Smoothie...')">Order Now</button>
+            </div>
+            <div class="item">
+                <img src="https://i.ytimg.com/vi/1wVS8h33ttU/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLBcVbUhzEJTlspOrH2Fjbg8bXa-pw" 
+                alt="sorb" class="drink-img">
+                <h3>Fruit Sorbet </h3>
+                <p>Dairy-free ice blended fruit </p>
+                <p class="price">8 TND</p>
+                <button class="customize-toggle" type="button">
+                Customize <span class="arrow">▼</span>
+            </button>
+                <div class="customize-panel">
+            <div class="customize-inner">
+                    <label class="option-row">
+                        <span>Size</span>
+                        <select>
+                            <option>Small</option>
+                            <option>Large</option>
+                        </select>
+                    </label>
+                    <label class="option-row">
+                        <span>Fruit</span>
+                        <select>
+                            <option>Strawberry</option>
+                            <option>Banana (+2 TND)</option>
+                            <option>Lime/Lemon/Orange</option>
+                            <option>Peach/Apple</option>
+                            <option>Available seasonal fruits</option>
+                        </select>
+                    </label>
+                </div>
+                <button class="order-btn" onclick="alert('Ordering Sorbet...')">Order Now</button>
+            </div>
+        </div>
+            <div class="item">
+                <img src="https://www.purelykaylie.com/wp-content/uploads/2021/07/mango-banana-smoothie-3.jpg" 
+                alt="Cappuccino" class="drink-img">
+                <h3>Mango Smoothie</h3>
+                <p>Blended Mango, milk and frozen yogurt</p>
+                <p class="price">10 TND</p>
+                <button class="customize-toggle" type="button">
+                Customize <span class="arrow">▼</span>
+            </button>
+        <div class="customize-panel">
+            <div class="customize-inner">
+                    <label class="option-row">
+                        <span>Milk</span>
+                        <select>
+                            <option>Whole Milk</option>
+                            <option>Oat Milk (+2 TND)</option>
+                            <option>Almond Milk (+2 TND)</option>
+                            <option>Soy Milk (+2 TND)</option>
+                            <option>Cow Milk</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+                <button class="order-btn" onclick="alert('Ordering Mango Smoothie...')">Order Now</button>
+            </div>
+
+            <div class="item">
+                <img src="https://evergreenkitchen.ca/wp-content/uploads/2024/03/Blueberry-Raspberry-Smoothie-Evergreen-Kitchen-1.jpg" 
+                alt="Latte" class="drink-img">
+                <h3>Blueberry Smoothie</h3>
+                <p>Refreshing blended Blueberries</p>
+                <p class="price">10 TND</p>
+                    <button class="customize-toggle" type="button">
+                Customize <span class="arrow">▼</span>
+            </button>
+        
+
+        <div class="customize-panel">
+            <div class="customize-inner">
+                    <label class="option-row">
+                        <span>Milk</span>
+                        <select>
+                            <option>Whole Milk</option>
+                            <option>Oat Milk (+2 TND)</option>
+                            <option>Almond Milk (+2 TND)</option>
+                            <option>Soy Milk (+2 TND)</option>
+                            <option>Cow Milk</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+
+                <button class="order-btn" onclick="alert('Ordering Blueberry Smoothie...')">Order Now</button>
+    </div>
+    <div class="item">
+                <img src="https://magicalbutter.com/cdn/shop/articles/vkkaghljdtrftxdlzhxa.jpg?v=1692647211" 
+                alt="Latte" class="drink-img">
+                <h3>Our Milkshakes</h3>
+                <p>Icecream, milk and all the sweet treats</p>
+                <p class="price">9 TND</p>
+                    <button class="customize-toggle" type="button">
+                Customize <span class="arrow">▼</span>
+            </button>
+        <div class="customize-panel">
+            <div class="customize-inner">
+                    <label class="option-row">
+                        <span>Milk</span>
+                        <select>
+                            <option>Whole Milk</option>
+                            <option>Oat Milk (+2 TND)</option>
+                            <option>Almond Milk (+2 TND)</option>
+                            <option>Soy Milk (+2 TND)</option>
+                            <option>Cow Milk</option>
+                        </select>
+                    </label>
+                    <label class="option-row">
+                        <span>Flavour</span>
+                        <select>
+                            <option>Strawberry</option>
+                            <option>Banana (+2 TND)</option>
+                            <option>Lime/Lemon/Orange</option>
+                            <option>Peach/Apple</option>
+                            <option>Available Ice creams</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+
+                <button class="order-btn" onclick="alert('Ordering Smoothie Latte...')">Order Now</button>
+    </div>
+        <div class="item">
+                <img src="https://cascadeeyeskin.com/wp-content/uploads/2025/07/6-smoothie-recipes-that-support-healthy-eyes.jpg" 
+                alt="Flat white" class="drink-img">
+                <h3>Smoothie</h3>
+                <p>Blended Fruit?</p>
+                <p class="price">10 TND</p>
+                <button class="customize-toggle" type="button">
+                Customize <span class="arrow">▼</span>
+            </button>
+
+        <div class="customize-panel">
+            <div class="customize-inner">
+                <label class="option-row">
+                        <span>Milk</span>
+                        <select>
+                            <option>Whole Milk</option>
+                            <option>Oat Milk (+2 TND)</option>
+                            <option>Almond Milk (+2 TND)</option>
+                            <option>Soy Milk (+2 TND)</option>
+                            <option>Cow Milk</option>
+                        </select>
+                    </label>
+                    <label class="option-row">
+                        <span>Fruit</span>
+                        <select>
+                            <option>Kiwi</option>
+                            <option>Banana (+2 TND)</option>
+                            <option>Lime/Lemon/Orange</option>
+                            <option>Peach/Apple</option>
+                            <option>Available seasonal fruits</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+                <button class="order-btn" onclick="alert('Ordering Smoothie...')">Order Now</button>
+            </div>
+            <div class="item">
+                <img src="https://cdn.prod.website-files.com/649249d29a20bd6bc3deac48/649249d29a20bd6bc3deae1b_Copy%2520of%2520Matcha%2520Frappe-p-500.png" 
+                alt="Macchiato" class="drink-img">
+                <h3>Caramel Frappe</h3>
+                <p>Refreshing, sweet caramel Frappe</p>
+                <p class="price">11 TND</p>
+                <button class="customize-toggle" type="button">
+                Customize <span class="arrow">▼</span>
+            </button>
+
+        <div class="customize-panel">
+            <div class="customize-inner">
+                <label class="option-row">
+                        <span>Milk</span>
+                        <select>
+                            <option>Whole Milk</option>
+                            <option>Oat Milk (+2 TND)</option>
+                            <option>Almond Milk (+2 TND)</option>
+                            <option>Soy Milk (+2 TND)</option>
+                            <option>Cow Milk</option>
+                        </select>
+                    </label>
+
+                    <div class="checkbox-group">
+                            <label><input type="checkbox"> Extra shot (+1.5 TND)</label>
+                        <label><input type="checkbox"> Flavored syrup (+1.2 TND)</label>
+                        <label><input type="checkbox"> Whipped cream (+1.2 TND)</label>
+                    </div>
+                </div>
+            </div>
+                <button class="order-btn" onclick="alert('Ordering Caramel Frappe...')">Order Now</button>
+            </div>
+            <div class="item">
+                <img src="https://t3.ftcdn.net/jpg/05/14/49/48/360_F_514494803_JVTzwZZAdbiKOF9AAegiPQNclu8mlfJI.jpg" 
+                alt="Mocha" class="drink-img">
+                <h3>Chocolate Frappe</h3>
+                <p>Blended cholocate, coffee and ice cream</p>
+                <p class="price">10 TND</p>
+                <button class="customize-toggle" type="button">
+                Customize <span class="arrow">▼</span>
+            </button>
+
+        <div class="customize-panel">
+            <div class="customize-inner">
+                    <label class="option-row">
+                        <span>Size</span>
+                        <select>
+                            <option>Milk chocolate</option>
+                            <option>Dark chocolate</option>
+                        </select>
+                    </label>
+
+                    <label class="option-row">
+                        <span>Milk</span>
+                        <select>
+                            <option>Whole Milk</option>
+                            <option>Oat Milk (+2 TND)</option>
+                            <option>Almond Milk (+2 TND)</option>
+                            <option>Soy Milk (+2 TND)</option>
+                            <option>Cow Milk</option>
+                        </select>
+                    </label>
+
+                    <div class="checkbox-group">
+                            <label><input type="checkbox"> Extra shot (+1.5 TND)</label>
+                        <label><input type="checkbox"> Flavored syrup (+1.2 TND)</label>
+                        <label><input type="checkbox"> Whipped cream (+1.2 TND)</label>
+                    </div>
+                </div>
+            </div>
+                <button class="order-btn" onclick="alert('Ordering Iced Cafe Mocha...')">Order Now</button>
+            </div>
+
+            <div class="item">
+                <img src="https://cdn.prod.website-files.com/649249d29a20bd6bc3deac48/649249d29a20bd6bc3deae2d_Iced%2520Green%2520Tea-p-500.png"
+                alt="gm tea" class="drink-img">
+                <h3>Iced Green Mint Tea </h3>
+                <p>Iced green tea with fresh mint</p>
+                <p class="price">Sm: 5 TND | La: 7 TND</p>
+                <button class="order-btn" onclick="alert('Ordering Iced Green Mint Tea...')">Order Now</button>
+            </div>
+
+            <div class="item">
+                <img src="https://cdn.prod.website-files.com/649249d29a20bd6bc3deac48/649249d29a20bd6bc3deae2f_Iced%2520Black%2520Tea-p-500.png" 
+                alt="b tea" class="drink-img">
+                <h3>Iced Black Tea</h3>
+                <p>Refreshing, bold, classic steeped tea</p>
+                <p class="price">Sm: 5 TND | La: 7 TND</p>
+                <button class="order-btn" onclick="alert('Ordering Black Tea...')">Order Now</button>
+            </div>    
+
+            <div class="item">
+                <img src="https://midwestniceblog.com/wp-content/uploads/2023/06/starbucks-iced-vanilla-chai.jpg" 
+                alt="Iced Chai latte" class="drink-img">
+                <h3>Iced Chai Latte</h3>
+                <p>Spiced Iced tea with milk</p>
+                <p class="price">Sm: 7 TND | La: 9 TND</p>
+                <button class="customize-toggle" type="button">
+                Customize <span class="arrow">▼</span>
+            </button>
+
+        <div class="customize-panel">
+            <div class="customize-inner">
+                    <label class="option-row">
+                        <span>Size</span>
+                        <select>
+                            <option>Small</option>
+                            <option>Large</option>
+                        </select>
+                    </label>
+
+                    <label class="option-row">
+                        <span>Milk</span>
+                        <select>
+                            <option>Whole Milk</option>
+                            <option>Oat Milk (+2 TND)</option>
+                            <option>Almond Milk (+2 TND)</option>
+                            <option>Soy Milk (+2 TND)</option>
+                            <option>Cow Milk</option>
+                        </select>
+                    </label>
+                    <label>
+                        <span>Tea</span>
+                        <select>
+                            <option>Normal Chai</option>
+                            <option>Green</option>
+                            <option>Peppermint</option>
+                            <option>Earl Grey (+2 TND)</option>
+                            <option>English breakfast(+1.5 TND)</option>
+                        </select>
+                    </label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox"> Whipped cream (+1.2 TND)</label>
+                    </div>
+                </div>
+            </div>
+                <button class="order-btn" onclick="alert('Ordering Iced Chai Latte...')">Order Now</button>
+            </div>
+
+            <div class="item popular">
+                <span class="badge">Popular</span>
+                <img src="https://cdn.prod.website-files.com/649249d29a20bd6bc3deac48/649249d29a20bd6bc3deae1b_Copy%2520of%2520Matcha%2520Frappe-p-500.png" 
+                alt="diry chai" class="drink-img">
+                <h3>Matcha Frappe</h3>
+                <p>Fresh matcha frappe </p>
+                <p class="price">Sm: 15 TND</p>
+                <button class="customize-toggle" type="button">
+                Customize <span class="arrow">▼</span>
+            </button>
+
+        <div class="customize-panel">
+                <div class="customize-inner">
+                    <label class="option-row">
+                        <span>Milk</span>
+                        <select>
+                            <option>Whole Milk</option>
+                            <option>Oat Milk (+2 TND)</option>
+                            <option>Almond Milk (+2 TND)</option>
+                            <option>Soy Milk (+2 TND)</option>
+                            <option>Cow Milk</option>
+                        </select>
+                    </label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox"> Whipped cream (+1.2 TND)</label>
+                    </div>
+                </div>
+            </div>
+                <button class="order-btn" onclick="alert('Ordering Matcha Frappe...')">Order Now</button>
+            </div>
+
+            <div class="item popular">
+                <img src="https://cdn.prod.website-files.com/649249d29a20bd6bc3deac48/649249d29a20bd6bc3deae19_Copy%2520of%2520Mocha%2520Frappe-p-500.png" 
+                alt="matcha" class="drink-img">
+                <span class="badge">Popular</span>
+                <h3>Mocha Frappe</h3>
+                <p>Iced Frapped Mocha</p>
+                <p class="price">12.5 TND</p>
+                <button class="customize-toggle" type="button">
+                Customize <span class="arrow">▼</span>
+            </button>
+
+        <div class="customize-panel">
+                <div class="customize-inner">
+                    <label class="option-row">
+                        <span>Milk</span>
+                        <select>
+                            <option>Whole Milk</option>
+                            <option>Oat Milk (+2 TND)</option>
+                            <option>Almond Milk (+2 TND)</option>
+                            <option>Soy Milk (+2 TND)</option>
+                            <option>Cow Milk</option>
+                        </select>
+                    </label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox"> Whipped cream (+1.2 TND)</label>
+                    </div>
+                </div>
+            </div>
+                <button class="order-btn" onclick="alert('Ordering Mocha Frappe...')">Order Now</button>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>About Us</h2>
+        <p style="text-align:center;">
+            Cozy Coffee is a small coffee shop made with love.  
+            We serve fresh coffee every day in a warm and friendly place.
+        </p>
+    </section>
+
+    <!--<footer>
+        <p>📍 Centre Urbain Nord | 📞 71 234 567</p>
+        <p>© 2026 Cozy Coffee</p>
+    </footer>-->
+    <footer class="site-footer">
+    <div class="footer-main">
+        <div class="footer-columns">
+            <div class="footer-brand">
+                <h3>COZY CAFÉ</h3>
+                <p>A warm place for great brews & good moments</p>
+            </div>
+
+            <div class="footer-group">
+                <h4>ABOUT</h4>
+                <ul>
+                    <li><a href="#">Our Story</a></li>
+                    <li><a href="https://www.google.com/maps/place/INSAT+Institut+National+des+Sciences+Appliqu%C3%A9es+et+de+Technologie/@36.8398532,10.1981956,15z/data=!4m6!3m5!1s0x12fd34c6d1e93bef:0x4153c4733f285343!8m2!3d36.8429605!4d10.1970209!16s%2Fm%2F0h52xyw?entry=ttu&g_ep=EgoyMDI2MDIwOS4wIKXMDSoASAFQAw%3D%3D">Location</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Sustainability</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-group">
+            <h4>MENU</h4>
+            <ul>
+              <li><a href="hotdr.html">Hot Drinks</a></li>
+              <li><a href="colddr.html">Cold Brews</a></li>
+              <li><a href="blended.html">Blended Drinks</a></li>
+              <li><a href="menu.html">Pastries & Snacks</a></li>
+              <li><a href="biscuit.html">Biscuits</a></li>
+              <li><a href="#">Gift Cards</a></li>
+            </ul>
+          </div>
+
+            <div class="footer-group">
+                <h4>MORE</h4>
+                <ul>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Reservations</a></li>
+                    <li><a href="#">Accessibility</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-newsletter">
+            <h4>STAY UPDATED</h4>
+            <p>Join our newsletter for new brews, events, offers, and cozy café news.</p>
+            <form class="subscribe-form">
+                <input type="email" placeholder="Enter your email address" required>
+                <button type="submit">→</button>
+            </form>
+            <div class="social-icons">
+    <a href="https://facebook.com" target="_blank" aria-label="Facebook">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" 
+                  d="M22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12ZM12.8333 19.8333V12.8333H15.5L16 10H12.8333V8.33333C12.8333 7.5 13 7 14.1667 7H16V4.16667C15.8333 4.16667 14.1667 4 12.5 4C10.1667 4 8.5 5.5 8.5 8V10H5.83333V12.8333H8.5V19.8333H12.8333Z" 
+                  fill="#e8d9c5"/>
+        </svg>
+    </a>
+
+    <a href="https://x.com" target="_blank" aria-label="X">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" fill="#e8d9c5"/>
+        </svg>
+    </a>
+
+    <a href="https://instagram.com" target="_blank" aria-label="Instagram">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.332.014 7.052.072 2.578.225.225 2.581.072 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.153 4.471 2.506 6.825 6.98 6.977 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.471-.153 6.824-2.506 6.977-6.977.058-1.28.072-1.689.072-4.948 0-3.259-.014-3.668-.072-4.948-.153-4.471-2.506-6.824-6.977-6.977C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zm0 10.162a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 11-2.88 0 1.44 1.44 0 012.88 0z" fill="#e8d9c5"/>
+        </svg>
+    </a>
+</div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>© 2026 Cozy Café • Centre Urbain Nord, Tunis • All rights reserved</p>
+        <p>
+            <a href="#">Privacy Policy</a> • 
+            <a href="#">Terms of Use</a> • 
+            <a href="#">Cookie Preferences</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+document.querySelectorAll('.customize-toggle').forEach(toggle => {
+    toggle.addEventListener('click', () => {
+        const panel = toggle.nextElementSibling;
+        const isOpen = panel.classList.contains('open');
+        
+        document.querySelectorAll('.customize-panel.open').forEach(p => {
+            if (p !== panel) p.classList.remove('open');
+        });
+        document.querySelectorAll('.customize-toggle.active').forEach(t => {
+            if (t !== toggle) t.classList.remove('active');
+        });
+
+        panel.classList.toggle('open', !isOpen);
+        toggle.classList.toggle('active', !isOpen);
+    });
+});
+</script>
+</body>
+</html>
