@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Booking Confirmed - Cozy Café</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f1ee;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .card {
+            background: white;
+            padding: 50px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            max-width: 500px;
+        }
+        h1 {
+            color: #6f4e37;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 18px;
+            margin: 20px 0;
+            color: #3b2f2f;
+        }
+        button {
+            background: #6f4e37;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        button:hover {
+            background: #8b634b;
+        }
+        .code-box {
+            background: #f5e6d3;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 24px;
+            letter-spacing: 2px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🎉 Your Table is Booked!</h1>
+        <p>📖 Your book is reserved and waiting for you.</p>
+        <p>☕ We'll be waiting for you!</p>
+        <div id="codeDisplay"></div>
+        <button onclick="window.location.href='../books.html'">← Back to Books</button>
+    </div>
+    
+   <script>
+    // Get book name from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentBook = urlParams.get("book");
+    
+    // Get all reservations
+    const savedReservations = localStorage.getItem("cozy_books");
+    
+    if (savedReservations && currentBook) {
+        const allBooks = JSON.parse(savedReservations);
+        const cleanCurrentBook = currentBook.replace(/["']/g, '').trim();
+        
+        // Find the specific book
+        const bookData = allBooks.find(book => {
+            const bookTitle = book.title.replace(/["']/g, '').trim();
+            return bookTitle.toLowerCase() === cleanCurrentBook.toLowerCase();
+        });
+        
+        if (bookData && bookData.code) {
+            document.getElementById('codeDisplay').innerHTML = `
+                <div class="code-box">
+                    🔑 Your Code: ${bookData.code}
+                </div>
+                <p>📧 A copy has been sent to: ${bookData.email}</p>
+                <p>⚠️ Keep this code safe! You'll need it to verify your reservation.</p>
+            `;
+        } else if (bookData) {
+            document.getElementById('codeDisplay').innerHTML = `
+                <p>✅ Reservation verified! You're all set to enjoy your reading time.</p>
+                <p>We're so looking forward to having you!</p>
+            `;
+        } else {
+            document.getElementById('codeDisplay').innerHTML = '<p>⚠️ Reservation found but book details missing.</p>';
+        }
+    } else if (savedReservations && !currentBook) {
+        // Show most recent
+        const allBooks = JSON.parse(savedReservations);
+        const latestBook = allBooks[allBooks.length - 1];
+        if (latestBook) {
+            document.getElementById('codeDisplay').innerHTML = `
+                <div class="code-box">
+                    🔑 Your Code: ${latestBook.code}
+                </div>
+                <p>📧 A copy has been sent to: ${latestBook.email}</p>
+                <p>⚠️ Keep this code safe! You'll need it to verify your reservation.</p>
+            `;
+        }
+    } else {
+        document.getElementById('codeDisplay').innerHTML = '<p>⚠️ No reservation found. Please make a reservation first.</p>';
+    }
+    
+    // Auto-redirect after 15 seconds
+    setTimeout(function() {
+        window.location.href = "../books.html";
+    }, 15000);
+</script>
+</body>
+</html>

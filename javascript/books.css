@@ -303,3 +303,12 @@ footer {
     transform: translateY(1px);
     box-shadow: 0 4px 12px rgba(111, 78, 55, 0.3);
 }
+
+.book {
+    position: relative;
+}
+
+.book.reserved {
+    opacity: 0.8;
+    border: 2px solid #d4a373;
+}
