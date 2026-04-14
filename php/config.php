@@ -1,4 +1,5 @@
 <?php
+
 $host = 'localhost';
 $dbname = 'cozy_cafe';
 $username = 'root';
