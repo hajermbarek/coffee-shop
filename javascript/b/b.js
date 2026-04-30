@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
     reserveBtn.addEventListener('click', function(e) {
       e.preventDefault();
       sessionStorage.setItem('activity', bookName);
-      window.location.href = '../reservation.html';
+      window.location.href = '../seatingbooks.html';
     });
   }
 });

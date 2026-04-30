@@ -53,7 +53,7 @@ include 'config.php';
             <li>Power outlets & high-speed Wi-Fi</li>
           </ul>
 
-          <a href="books.php" class="zone-btn">Reserve Quiet Zone</a>
+          <a href="books/books.php" class="zone-btn">Reserve Quiet Zone</a>
         </div>
 
         <div class="zone-card">
