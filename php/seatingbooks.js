@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     try {
       const res = await fetch(
-        `check_availability.php?date=${encodeURIComponent(date)}&time=${encodeURIComponent(time)}`,
+        `seatingbooks.php?check_availability=1&date=${encodeURIComponent(date)}&time=${encodeURIComponent(time)}`,
       );
       const data = await res.json();
 
@@ -85,11 +85,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       if (!time) {
         alert("Please choose a time slot.");
-        e.preventDefault();
-        return;
-      }
-      if (!name) {
-        alert("Please enter your name.");
         e.preventDefault();
         return;
       }

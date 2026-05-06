@@ -1,7 +1,77 @@
 <?php
 session_start();
-$zone  = 'Quiet Zone';
-$error = $_GET['error'] ?? '';
+require_once 'cnx.php';
+
+if (isset($_GET['check_availability'])) {
+    header('Content-Type: application/json');
+    $date = $_GET['date'] ?? '';
+    $time = $_GET['time'] ?? '';
+
+    if (!$date || !$time) {
+        echo json_encode(['reserved' => []]);
+        exit;
+    }
+
+    $stmt = $pdo->prepare(
+        "SELECT id_table FROM reservations
+         WHERE date_reservation = :date
+           AND heure_reservation = :time
+           AND statut = 'confirmee'"
+    );
+    $stmt->execute([':date' => $date, ':time' => $time . ':00']);
+    $rows = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    echo json_encode(['reserved' => array_map('intval', $rows)]);
+    exit;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $table_id = isset($_POST['table_id']) ? (int)$_POST['table_id'] : 0;
+    $date     = trim($_POST['date'] ?? '');
+    $time     = trim($_POST['time'] ?? '');
+    $zone_id  = 1;
+
+    $errors = [];
+    if ($table_id < 1 || $table_id > 15)             $errors[] = 'Please select a valid table.';
+    if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) $errors[] = 'Please choose a date.';
+    if (!preg_match('/^\d{2}:\d{2}$/', $time))        $errors[] = 'Please choose a time slot.';
+    if ($date < date('Y-m-d'))                        $errors[] = 'You cannot reserve a table in the past.';
+
+    if (empty($errors)) {
+        $stmt = $pdo->prepare(
+            "SELECT id_reservation FROM reservations
+             WHERE id_table = :tid
+               AND date_reservation = :date
+               AND heure_reservation = :time
+               AND statut = 'confirmee'"
+        );
+        $stmt->execute([':tid' => $table_id, ':date' => $date, ':time' => $time . ':00']);
+        if ($stmt->fetch()) {
+            $errors[] = 'Sorry, that table is already reserved at this time. Please choose another.';
+        }
+    }
+
+    if (!empty($errors)) {
+        $error = implode(' ', $errors);
+    } else {
+        $zoneStmt = $pdo->prepare("SELECT name FROM zones WHERE id = ?");
+        $zoneStmt->execute([$zone_id]);
+        $zoneName = $zoneStmt->fetchColumn() ?: 'Quiet Zone';
+        $_SESSION['reservationZone']  = $zoneName;
+        $_SESSION['reservationTable'] = $table_id;
+        $_SESSION['table_id']         = $table_id;
+        $_SESSION['reservationDate']  = $date;
+        $_SESSION['reservationTime']  = $time;
+
+        if (!isset($_SESSION['activity']))      $_SESSION['activity']      = 'Aucune activité choisie';
+        if (!isset($_SESSION['activity_type'])) $_SESSION['activity_type'] = null;
+        if (!isset($_SESSION['activity_id']))   $_SESSION['activity_id']   = null;
+
+        header('Location: books.php');
+        exit;
+    }
+}
+
+$error = $error ?? $_GET['error'] ?? '';
 ?>
 <!doctype html>
 <html lang="en">
@@ -15,6 +85,7 @@ $error = $_GET['error'] ?? '';
 </head>
 
 <body>
+
     <header>
         <h1>Reservation</h1>
         <p class="title">pick a table on the floor plan then choose the time and date</p>
@@ -59,11 +130,9 @@ $error = $_GET['error'] ?? '';
                 <?php endforeach; ?>
             </div>
         </div>
-
         <div class="select">
-            <form method="POST" action="set_session.php" id="reservationForm">
+            <form method="POST" action="seatingbooks.php" id="reservationForm">
                 <input type="hidden" name="table_id" id="table_id_input" value="" />
-                <input type="hidden" name="zone" value="<?= htmlspecialchars($zone) ?>" />
 
                 <div class="booking">
                     <label>Selected table :</label>
