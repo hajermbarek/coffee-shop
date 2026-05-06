@@ -1,30 +1,28 @@
 <?php
 require_once '../cnx.php';
-require_once '../lib/BookManager.php';
-
 session_start();
 
-$bookManager = new BookManager($pdo);
+// Récupérer TOUS les livres depuis la BDD
+$stmt = $pdo->query("SELECT * FROM livres ORDER BY titre");
+$books = $stmt->fetchAll();
 
-// ── Auto-release expired reservations on every page load ──────────────────────
-$bookManager->releaseExpiredReservations();
-
-// ── Fetch all books with their reservation status ─────────────────────────────
-$books = $bookManager->getAllBooks();
+// Vérifier si chaque livre est réservé (optionnel)
 foreach ($books as &$book) {
-    $book['reservation_status'] = $bookManager->isBookReserved($book['id_livre']);
+    // Vérifier si le livre est actuellement réservé
+    $stmt = $pdo->prepare("
+        SELECT rl.*, r.date_reservation 
+        FROM reservation_livres rl
+        JOIN reservations r ON rl.id_reservation = r.id_reservation
+        WHERE rl.id_livre = ? 
+        AND r.statut = 'confirmee'
+        AND DATE_ADD(r.date_reservation, INTERVAL 7 DAY) > CURDATE()
+    ");
+    $stmt->execute([$book['id_livre']]);
+    $reservation = $stmt->fetch();
+    
+    $book['reserved'] = ($reservation !== false);
+    $book['expiry_date'] = $reservation ? date('Y-m-d', strtotime($reservation['date_reservation'] . ' +7 days')) : null;
 }
-unset($book);
-
-// ── Error / success messages from redirects ───────────────────────────────────
-$error   = $_GET['error']   ?? null;
-$success = $_GET['success'] ?? null;
-$errorMessages = [
-    'invalid_code'  => '❌ Code invalide. Veuillez réessayer.',
-    'expired_code'  => '⚠️ Ce code a expiré. Le livre est à nouveau disponible.',
-    'book_reserved' => '⚠️ Ce livre vient d\'être réservé par quelqu\'un d\'autre.',
-    'no_code'       => '❌ Aucun code fourni.',
-];
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -34,7 +32,7 @@ $errorMessages = [
     <title>Cozy Café – Books</title>
     <link rel="stylesheet" href="books.css"/>
     <style>
-        /* ── Alert banners ── */
+        /* Alert banners */
         .alert {
             max-width: 700px;
             margin: 20px auto 0;
@@ -46,7 +44,7 @@ $errorMessages = [
         .alert.error   { background:#f8d7da; color:#721c24; }
         .alert.success { background:#d4edda; color:#155724; }
 
-        /* ── Badge overlay on book card ── */
+        /* Badge overlay on book card */
         .book { position: relative; }
 
         .reserved-badge {
@@ -72,7 +70,6 @@ $errorMessages = [
             z-index: 2;
         }
 
-        /* ── Disabled button ── */
         .more.disabled {
             opacity: 0.55;
             background: #aaa;
@@ -80,7 +77,6 @@ $errorMessages = [
             pointer-events: none;
         }
 
-        /* ── Verify-code section ── */
         .verify-section {
             background: #f0e8e0;
             padding: 30px;
@@ -117,7 +113,6 @@ $errorMessages = [
         .vm.error   { background:#f8d7da; color:#721c24; display:block; }
         .vm.success { background:#d4edda; color:#155724; display:block; }
 
-        /* ── Button container ── */
         .button-container {
             display: flex;
             gap: 14px;
@@ -125,7 +120,6 @@ $errorMessages = [
             flex-wrap: wrap;
         }
 
-        /* ── Discover button ── */
         .discover-btn {
             background: linear-gradient(135deg, #3b2f2f 0%, #5a3e2b 100%);
             box-shadow: 0 8px 24px rgba(59,47,47,0.3);
@@ -144,22 +138,15 @@ $errorMessages = [
         <p>Your daily dose of happiness</p>
     </header>
 
-    <?php if ($error && isset($errorMessages[$error])): ?>
-        <div class="alert error"><?= $errorMessages[$error] ?></div>
-    <?php endif; ?>
-    <?php if ($success === 'released'): ?>
-        <div class="alert success">✅ Votre réservation a bien été libérée.</div>
-    <?php endif; ?>
-
     <section>
         <h2>Books Available</h2>
 
         <div class="button-container">
             <a href="#reserve-section" class="how">How does reserving work?</a>
-            <a href="../../javascript/books.html" class="how discover-btn">📖 Discover Our Books</a>
+            <a href="books.php" class="how discover-btn">📖 Discover Our Books</a>
         </div>
 
-        <!-- ── Verify existing code ── -->
+        <!-- Verify existing code -->
         <div class="verify-section">
             <h3>📖 Vous avez déjà un code ?</h3>
             <p>Entrez votre code à 6 chiffres pour vérifier votre réservation</p>
@@ -170,49 +157,47 @@ $errorMessages = [
 
         <br>
 
-        <!-- ── Book grid ── -->
+        <!-- Book grid -->
         <div class="books">
-            <?php foreach ($books as $book): ?>
-            <?php $status = $book['reservation_status']; ?>
-            <div class="book">
+            <?php if (empty($books)): ?>
+                <p>Aucun livre disponible pour le moment.</p>
+            <?php else: ?>
+                <?php foreach ($books as $book): ?>
+                <div class="book">
+                    <?php if ($book['reserved']): ?>
+                        <span class="reserved-badge">
+                            Réservé<br>jusqu'au <?= $book['expiry_date'] ?>
+                        </span>
+                    <?php else: ?>
+                        <span class="available-badge">Disponible</span>
+                    <?php endif; ?>
 
-                <?php if ($status['reserved']): ?>
-                    <span class="reserved-badge">
-                        Réservé<br>jusqu'au <?= $status['until_date'] ?>
-                    </span>
-                <?php else: ?>
-                    <span class="available-badge">Disponible</span>
-                <?php endif; ?>
+                    <img src="<?= htmlspecialchars($book['image'] ?? 'images/default-book.png') ?>"
+                         alt="<?= htmlspecialchars($book['titre']) ?>"
+                         class="bookimg"
+                         onerror="this.src='images/default-book.png'">
 
-                <img src="<?= htmlspecialchars($book['image'] ?? 'images/default-book.png') ?>"
-                     alt="<?= htmlspecialchars($book['titre']) ?>"
-                     class="bookimg"
-                     onerror="this.src='images/default-book.png'">
+                    <p class="names"><?= htmlspecialchars($book['titre']) ?></p>
+                    <p class="names" style="font-size:0.8rem;color:#999;margin-top:2px;">
+                        <?= htmlspecialchars($book['auteur'] ?? '') ?>
+                    </p>
 
-                <p class="names"><?= htmlspecialchars($book['titre']) ?></p>
-                <p class="names" style="font-size:0.8rem;color:#999;margin-top:2px;">
-                    <?= htmlspecialchars($book['auteur'] ?? '') ?>
-                </p>
-
-                <?php if ($status['reserved']): ?>
-                    <!-- Reserved → go to code verification page -->
-                    <a href="verify-code-page.php?book_id=<?= $book['id_livre'] ?>"
-                       class="more">
-                       🔑 J'ai un code
-                    </a>
-                <?php else: ?>
-                    <!-- Available → go to reservation form -->
-                    <a href="book-detail.php?id=<?= $book['id_livre'] ?>" class="more">
-                        Réserver
-                    </a>
-                <?php endif; ?>
-
-            </div>
-            <?php endforeach; ?>
+                    <?php if ($book['reserved']): ?>
+                        <a href="verify-code-page.php?book_id=<?= $book['id_livre'] ?>" class="more">
+                           🔑 J'ai un code
+                        </a>
+                    <?php else: ?>
+                        <a href="book-detail.php?id=<?= $book['id_livre'] ?>" class="more">
+                            📖 Voir détails
+                        </a>
+                    <?php endif; ?>
+                </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </div>
     </section>
 
-    <!-- ── How it works ── -->
+    <!-- How it works -->
     <section id="reserve-section">
         <h1 style="text-align:center">How Our Book Reservation Works</h1>
         <p style="text-align:center;max-width:600px;margin:auto;line-height:1.8;">
@@ -270,8 +255,7 @@ $errorMessages = [
         });
     }
 
-    // Allow pressing Enter in the code input
-    document.getElementById('verifyCode').addEventListener('keydown', e => {
+    document.getElementById('verifyCode')?.addEventListener('keydown', e => {
         if (e.key === 'Enter') verifyCode();
     });
     </script>

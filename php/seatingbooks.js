@@ -71,7 +71,6 @@ document.addEventListener("DOMContentLoaded", function () {
     form.addEventListener("submit", function (e) {
       const date = dateInput.value;
       const time = timeSelect.value;
-      const name = document.getElementById("name")?.value.trim();
 
       if (!selectedTable) {
         alert("Please select a table.");
