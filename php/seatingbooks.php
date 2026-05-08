@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($errors)) {
         $error = implode(' ', $errors);
     } else {
-        $zoneStmt = $pdo->prepare("SELECT name FROM zones WHERE id = ?");
+        $zoneStmt = $pdo->prepare("SELECT nom FROM zones WHERE id_zone = ?");
         $zoneStmt->execute([$zone_id]);
         $zoneName = $zoneStmt->fetchColumn() ?: 'Quiet Zone';
         $_SESSION['reservationZone']  = $zoneName;
