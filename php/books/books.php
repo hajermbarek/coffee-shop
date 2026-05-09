@@ -185,9 +185,9 @@ foreach ($books as &$book) {
                     </p>
 
                     <?php if ($book['reserved']): ?>
-                        <a href="verify-code-page.php?book_id=<?= $book['id_livre'] ?>" class="more">
-                           🔑 J'ai un code
-                        </a>
+                        <div class="code-info-text">
+                            🔑 Vous avez un code ? Utilisez la zone ci-dessus
+                        </div>
                     <?php else: ?>
                         <a href="book-detail.php?id=<?= $book['id_livre'] ?>" class="more">
                             📖 Voir détails
@@ -247,8 +247,8 @@ foreach ($books as &$book) {
                 msgDiv.innerHTML =
                     '✅ Code valide ! Livre : <strong>' + data.book_title + '</strong><br>' +
                     'Valable jusqu\'au ' + data.expiry_date + '<br>' +
-                    '<a href="../seatingbooks.php?code=' + encodeURIComponent(code) +
-                    '" style="color:#6f4e37;font-weight:bold;">→ Réserver ma table</a>';
+                    '<a href="../reservation1.php?code=' + encodeURIComponent(code) +
+                    '" style="color:#6f4e37;font-weight:bold;">→ finnaliser ma reservation </a>';
             }
         })
         .catch(() => {

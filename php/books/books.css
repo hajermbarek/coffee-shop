@@ -147,3 +147,20 @@ footer {
     .book  { width: 160px; height: 280px; }
     .bookimg { height: 165px; }
 }
+
+.code-info-text {
+    display: block;
+    margin: 10px auto;
+    padding: 6px 10px;
+    background: #f0e8e0;
+    color: #6f4e37;
+    font-size: 0.75rem;
+    text-align: center;
+    border-radius: 20px;
+    width: 90%;
+    font-style: italic;
+}
+
+.code-info-text:before {
+    content: "💡 ";
+}
