@@ -391,7 +391,7 @@ try {
         <?php endif; ?>
         
         <div>
-            <a href="index.php" class="btn">🏠 Retour à l'accueil</a>
+            <a href="page1.php" class="btn">🏠 Retour à l'accueil</a>
             <button onclick="window.print()" class="btn btn-secondary">🖨️ Imprimer</button>
         </div>
         

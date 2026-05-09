@@ -1,6 +1,6 @@
 <?php
 $host = 'localhost';
-$dbname = 'coffee_shop';
+$dbname = 'cozy_cafe';
 $username = 'root';
 $password = '';
 

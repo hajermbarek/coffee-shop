@@ -229,7 +229,7 @@ foreach ($books as &$book) {
             return;
         }
 
-        fetch('verify-code.php', {
+        fetch('../verify_code.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: 'code=' + encodeURIComponent(code)
@@ -247,7 +247,7 @@ foreach ($books as &$book) {
                 msgDiv.innerHTML =
                     '✅ Code valide ! Livre : <strong>' + data.book_title + '</strong><br>' +
                     'Valable jusqu\'au ' + data.expiry_date + '<br>' +
-                    '<a href="reserve-book.php?code=' + encodeURIComponent(code) +
+                    '<a href="../seatingbooks.php?code=' + encodeURIComponent(code) +
                     '" style="color:#6f4e37;font-weight:bold;">→ Réserver ma table</a>';
             }
         })
