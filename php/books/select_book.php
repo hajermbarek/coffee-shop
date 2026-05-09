@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['booking_message'] = "Livre sélectionné : " . $book_title;
         
         // 🔄 REDIRIGER VERS LE CHOIX DE TABLE
-        header('Location: ../seatingbooks.php');
+        header('Location: ../reservation.php');
         exit;  // Toujours appeler exit après header()
         
     } else {

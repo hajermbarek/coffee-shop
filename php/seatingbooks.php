@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!isset($_SESSION['activity_type'])) $_SESSION['activity_type'] = null;
         if (!isset($_SESSION['activity_id']))   $_SESSION['activity_id']   = null;
 
-        header('Location: books.php');
+        header('Location: books/books.php');
         exit;
     }
 }
