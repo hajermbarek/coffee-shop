@@ -1,5 +1,5 @@
 <?php
-include 'config.php';
+include 'cnx.php';
 ?>
 
 <!doctype html>
@@ -74,7 +74,7 @@ include 'config.php';
             <li>Social events calendar</li>
           </ul>
 
-          <a href="jouer.php" class="zone-btn">Reserve Fun Zone</a>
+          <a href="seating_games.php" class="zone-btn">Reserve Fun Zone</a>
         </div>
 
         <div class="zone-card">

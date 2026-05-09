@@ -3,7 +3,7 @@ require_once 'cnx.php';
 session_start();
 
 // ============================================
-// PARTIE 1 : FONCTIONS UTILITAIRES (INVISIBLE)
+// FONCTIONS UTILITAIRES
 // ============================================
 
 function getClientByEmail($pdo, $email) {
@@ -23,7 +23,7 @@ function generateCode() {
 }
 
 // ============================================
-// PARTIE 2 : RÉCUPÉRATION ET VALIDATION (INVISIBLE)
+// RÉCUPÉRATION ET VALIDATION DES DONNÉES
 // ============================================
 
 $prenom      = trim($_POST['firstname'] ?? '');
@@ -36,8 +36,10 @@ $commentaires= trim($_POST['comments'] ?? '');
 $idTable     = (int)($_POST['table_id'] ?? 0);
 $dateResa    = $_POST['reservation_date'] ?? '';
 $heureResa   = $_POST['reservation_time'] ?? '';
-$activityType= $_SESSION['activity_type'] ?? null;
-$activityId  = (int)($_SESSION['activity_id'] ?? 0);
+$activityType= $_POST['activity_type'] ?? null;
+$activityId  = (int)($_POST['activity_id'] ?? 0);
+$zoneName    = $_POST['zone_name'] ?? 'Non spécifiée';
+$tableNumber = $_POST['table_number'] ?? '—';
 
 // Validation
 $errors = [];
@@ -56,7 +58,7 @@ if (!empty($errors)) {
 }
 
 // ============================================
-// PARTIE 3 : TRAITEMENT BDD (INVISIBLE)
+// TRAITEMENT BASE DE DONNÉES
 // ============================================
 
 try {
@@ -71,7 +73,7 @@ try {
         $stmt->execute([$prenom, $nom, $telephone, $idClient]);
     }
     
-    // 2. Insertion de la réservation
+    // 2. Insertion de la réservation de table
     $stmt = $pdo->prepare("
         INSERT INTO reservations (id_client, id_table, date_reservation, heure_reservation, nb_personnes, allergies, commentaires, statut)
         VALUES (?, ?, ?, ?, ?, ?, ?, 'confirmee')
@@ -79,29 +81,82 @@ try {
     $stmt->execute([$idClient, $idTable, $dateResa, $heureResa, $nbPersonnes, $allergies, $commentaires]);
     $idReservation = $pdo->lastInsertId();
     
-    // 3. Gestion du livre et génération du code
-    $code = generateCode();
-    $dateExpiration = date('Y-m-d', strtotime($dateResa . ' +7 days'));
+    // 3. Gestion selon le type d'activité (LIVRE ou JEU)
     
-    $stmt = $pdo->prepare("
-        INSERT INTO reservation_livres (id_reservation, id_livre, code, date_expiration) 
-        VALUES (?, ?, ?, ?)
-    ");
-    $stmt->execute([$idReservation, $activityId, $code, $dateExpiration]);
+    if ($activityType === 'book' && $activityId) {
+        // ============================================
+        // TRAITEMENT POUR LES LIVRES
+        // ============================================
+        
+        // Vérifier si le livre est déjà emprunté
+        $stmt = $pdo->prepare("
+            SELECT rl.id_RL, r.id_reservation, r.id_client, r.date_reservation
+            FROM reservation_livres rl
+            JOIN reservations r ON rl.id_reservation = r.id_reservation
+            WHERE rl.id_livre = ?
+            AND r.statut = 'confirmee'
+            AND r.date_reservation >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+            ORDER BY r.date_reservation DESC
+            LIMIT 1
+        ");
+        $stmt->execute([$activityId]);
+        $existing = $stmt->fetch();
+
+        if ($existing) {
+            // Un emprunt actif existe
+            if ($existing['id_client'] == $idClient) {
+                // Même client : on met à jour l'id_reservation
+                $stmtUpdate = $pdo->prepare("UPDATE reservation_livres SET id_reservation = ? WHERE id_RL = ?");
+                $stmtUpdate->execute([$idReservation, $existing['id_RL']]);
+            } else {
+                throw new Exception("Ce livre est déjà emprunté par un autre client.");
+            }
+        } else {
+            // Aucun emprunt actif : insertion normale
+            $code = generateCode();
+            $dateExpiration = date('Y-m-d', strtotime($dateResa . ' +7 days'));
+            
+            $stmt = $pdo->prepare("
+                INSERT INTO reservation_livres (id_reservation, id_livre, code, date_expiration) 
+                VALUES (?, ?, ?, ?)
+            ");
+            $stmt->execute([$idReservation, $activityId, $code, $dateExpiration]);
+            
+            // Diminuer le nombre d'exemplaires disponibles
+            $stmt = $pdo->prepare("UPDATE livres SET exemplaires_disponibles = exemplaires_disponibles - 1 WHERE id_livre = ? AND exemplaires_disponibles > 0");
+            $stmt->execute([$activityId]);
+        }
+        
+        // Récupérer le titre du livre
+        $stmt = $pdo->prepare("SELECT titre FROM livres WHERE id_livre = ?");
+        $stmt->execute([$activityId]);
+        $activityName = $stmt->fetchColumn();
+        
+    } elseif ($activityType === 'game' && $activityId) {
+        // ============================================
+        // TRAITEMENT POUR LES JEUX
+        // ============================================
+        
+        $stmt = $pdo->prepare("INSERT INTO reservation_jeux (id_reservation, id_game) VALUES (?, ?)");
+        $stmt->execute([$idReservation, $activityId]);
+
+        // Diminuer le nombre d'exemplaires disponibles
+        $stmt = $pdo->prepare("UPDATE game SET exemplaires_disponibles = exemplaires_disponibles - 1 WHERE id = ? AND exemplaires_disponibles > 0");
+        $stmt->execute([$activityId]);
+        
+        // Récupérer le nom du jeu
+        $stmt = $pdo->prepare("SELECT name FROM game WHERE id = ?");
+        $stmt->execute([$activityId]);
+        $activityName = $stmt->fetchColumn();
+        
+        $code = null;
+        $dateExpiration = null;
+    }
     
-    // 4. Diminuer le nombre d'exemplaires disponibles
-    $stmt = $pdo->prepare("UPDATE livres SET exemplaires_disponibles = exemplaires_disponibles - 1 WHERE id_livre = ?");
-    $stmt->execute([$activityId]);
-    
-    // 5. Récupérer le titre du livre pour l'affichage
-    $stmt = $pdo->prepare("SELECT titre FROM livres WHERE id_livre = ?");
-    $stmt->execute([$activityId]);
-    $bookTitle = $stmt->fetchColumn();
-    
-    // 6. Valider la transaction
+    // Valider la transaction
     $pdo->commit();
     
-    // 7. Nettoyer la session
+    // Nettoyer la session
     unset($_SESSION['activity']);
     unset($_SESSION['activity_type']);
     unset($_SESSION['activity_id']);
@@ -118,7 +173,7 @@ try {
 }
 
 // ============================================
-// PARTIE 4 : PAGE DE CONFIRMATION (VISIBLE)
+// PAGE DE CONFIRMATION
 // ============================================
 ?>
 <!DOCTYPE html>
@@ -260,7 +315,7 @@ try {
             color: white;
             transform: translateY(-2px);
         }
-        .footer {
+        .footer-text {
             margin-top: 30px;
             font-size: 12px;
             color: #999;
@@ -282,16 +337,18 @@ try {
         <h1>✅ Réservation confirmée !</h1>
         <p class="subtitle">Votre place au Cozy Café est réservée</p>
         
+        <?php if ($activityType === 'book' && $code): ?>
         <div class="code-container">
             <div class="code-label">🔑 VOTRE CODE UNIQUE</div>
             <div class="code"><?= $code ?></div>
             <div class="expiry">📅 Valable jusqu'au <?= date('d/m/Y', strtotime($dateExpiration)) ?></div>
         </div>
+        <?php endif; ?>
         
         <div style="text-align: left; margin: 20px 0;">
             <div class="info-row">
-                <span class="info-label">📖 Livre réservé</span>
-                <span class="info-value"><?= htmlspecialchars($bookTitle) ?></span>
+                <span class="info-label"><?= $activityType === 'book' ? '📖 Livre réservé' : '🎮 Jeu réservé' ?></span>
+                <span class="info-value"><?= htmlspecialchars($activityName) ?></span>
             </div>
             <div class="info-row">
                 <span class="info-label">👤 Client</span>
@@ -307,7 +364,7 @@ try {
             </div>
             <div class="info-row">
                 <span class="info-label">🪑 Table</span>
-                <span class="info-value">Table n°<?= $idTable ?></span>
+                <span class="info-value">Table n°<?= $idTable ?> (<?= htmlspecialchars($zoneName) ?>)</span>
             </div>
             <div class="info-row">
                 <span class="info-label">📅 Date & Heure</span>
@@ -319,28 +376,39 @@ try {
             </div>
         </div>
         
+        <?php if ($activityType === 'book'): ?>
         <div class="warning-box">
             <p><strong>⚠️ À conserver précieusement</strong></p>
             <p>Présentez ce code à l'accueil du Cozy Café pour récupérer votre livre.</p>
             <p>Le code expire automatiquement après 7 jours.</p>
         </div>
+        <?php else: ?>
+        <div class="warning-box">
+            <p><strong>🎲 Bon jeu !</strong></p>
+            <p>Rendez-vous à l'accueil pour récupérer votre jeu.</p>
+            <p>N'oubliez pas de le rendre avant de partir.</p>
+        </div>
+        <?php endif; ?>
         
         <div>
             <a href="index.php" class="btn">🏠 Retour à l'accueil</a>
             <button onclick="window.print()" class="btn btn-secondary">🖨️ Imprimer</button>
         </div>
         
-        <div class="footer">
+        <div class="footer-text">
             <p>Cozy Café - Centre Urbain Nord, Tunis</p>
+            <?php if ($activityType === 'book' && $code): ?>
             <p>Code : <strong><?= $code ?></strong> | Expire le <?= date('d/m/Y', strtotime($dateExpiration)) ?></p>
+            <?php endif; ?>
         </div>
     </div>
     
     <script>
-        // Sauvegarde dans localStorage pour consultation ultérieure
+        <?php if ($activityType === 'book' && $code): ?>
         localStorage.setItem('cozy_last_code', '<?= $code ?>');
-        localStorage.setItem('cozy_last_book', '<?= addslashes($bookTitle) ?>');
+        localStorage.setItem('cozy_last_activity', '<?= addslashes($activityName) ?>');
         localStorage.setItem('cozy_last_expiry', '<?= $dateExpiration ?>');
+        <?php endif; ?>
     </script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 <?php
-include '../config.php';
+include '../cnx.php';
 
 $category_slug = 'hot-drinks';
 

@@ -4,7 +4,7 @@ require_once '../cnx.php';
 $category = $_GET['category'] ?? 'ALL';
 $search   = trim($_GET['search'] ?? '');
 
-$sql    = "SELECT * FROM jeux WHERE 1=1";
+$sql    = "SELECT * FROM game WHERE 1=1";
 $params = [];
 
 if ($category !== 'ALL') {
@@ -13,11 +13,13 @@ if ($category !== 'ALL') {
 }
 
 if ($search !== '') {
-    $sql .= " AND (nom LIKE :search OR description LIKE :search)";
+    // CORRIGÉ: utiliser 'name' au lieu de 'nom'
+    $sql .= " AND (name LIKE :search OR description LIKE :search)";
     $params[':search'] = '%' . $search . '%';
 }
 
-$sql .= " ORDER BY nom ASC";
+// CORRIGÉ: utiliser 'name' au lieu de 'nom'
+$sql .= " ORDER BY name ASC";
 
 $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
@@ -30,7 +32,9 @@ $categories = ['ALL', 'FUN', 'STRATEGY', 'CLASSIC GAME'];
 <head>
     <meta charset="UTF-8" />
     <title>Cozy Café – Nos Jeux</title>
-    <link rel="stylesheet" href="jouer.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="games.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
@@ -114,8 +118,8 @@ $categories = ['ALL', 'FUN', 'STRATEGY', 'CLASSIC GAME'];
                 $url      = 'jouer.php?category=' . urlencode($cat) . ($search ? '&search=' . urlencode($search) : '');
             ?>
                 <a href="<?= $url ?>"
-                   class="filter-btn <?= $isActive ?>"
-                   style="--badge-color: <?= $color ?>">
+                    class="filter-btn <?= $isActive ?>"
+                    style="--badge-color: <?= $color ?>">
                     <i class="fa-solid <?= $icon ?>"></i> <?= $cat ?>
                 </a>
             <?php endforeach; ?>
@@ -150,21 +154,26 @@ $categories = ['ALL', 'FUN', 'STRATEGY', 'CLASSIC GAME'];
                         <div class="game-badge" style="background: <?= htmlspecialchars($game['category_color']) ?>;">
                             <?= htmlspecialchars($game['category']) ?>
                         </div>
-                        <img src="<?= htmlspecialchars($game['image']) ?>" alt="<?= htmlspecialchars($game['nom']) ?>">
+                        <!-- CORRIGÉ: image_path au lieu de image -->
+                        <img src="<?= htmlspecialchars($game['image_path']) ?>" alt="<?= htmlspecialchars($game['name']) ?>">
                         <div class="game-content">
-                            <h3><?= htmlspecialchars($game['nom']) ?></h3>
+                            <!-- CORRIGÉ: name au lieu de nom -->
+                            <h3><?= htmlspecialchars($game['name']) ?></h3>
                             <p class="game-desc"><?= htmlspecialchars($game['description']) ?></p>
                             <div class="game-info">
-                                <span>👥 <?= $game['nb_joueurs_min'] ?>-<?= $game['nb_joueurs_max'] ?> players</span>
-                                <span>⏳ <?= $game['duree_moyenne'] ?> min</span>
+                                <!-- CORRIGÉ: players au lieu de nb_joueurs_min/max -->
+                                <span>👥 <?= htmlspecialchars($game['players']) ?></span>
+                                <!-- CORRIGÉ: duration au lieu de duree_moyenne -->
+                                <span>⏳ <?= htmlspecialchars($game['duration']) ?></span>
                             </div>
                             <div class="game-buttons">
-                                <a class="btn-reserve"
-                                   href="reservation.php?activity=<?= urlencode($game['nom']) ?>">
+                                <!-- CORRIGÉ: name au lieu de nom -->
+                                <a class="btn-reserve" href="../reservation.php?game=<?= urlencode($game['name']) ?>&game_id=<?= $game['id'] ?>">
                                     Book
                                 </a>
+                                <!-- CORRIGÉ: rules au lieu de [], et name au lieu de nom -->
                                 <button class="btn-rules"
-                                        onclick="openRules([], '<?= htmlspecialchars($game['nom'], ENT_QUOTES) ?>')">
+                                        onclick="openRules(<?= htmlspecialchars($game['rules']) ?>, '<?= addslashes($game['name']) ?>')">
                                     Rules
                                 </button>
                             </div>

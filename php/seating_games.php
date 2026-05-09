@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $_SESSION['activity_type']    = null;
     $_SESSION['activity_id']      = null;
 
-    header("Location: reservation.php");
+    header("Location: games/games.php");
     exit;
 }
 ?>
@@ -54,6 +54,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html>
 <head>
     <title>table game reservation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="seating_games.css">
 </head>
 <body>
@@ -105,10 +107,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $class  = $seats === 4 ? 'table4 four' : 'table4 six';
         ?>
             <div class="<?= $class ?>"
-                 id="t<?= $numero ?>"
-                 data-id="<?= $id ?>"
-                 data-numero="<?= $numero ?>"
-                 data-seats="<?= $seats ?>">
+                id="t<?= $numero ?>"
+                data-id="<?= $id ?>"
+                data-numero="<?= $numero ?>"
+                data-seats="<?= $seats ?>">
 
                 <?php if ($seats === 6): ?>
                     <div class="korsi1"></div>

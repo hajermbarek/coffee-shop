@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const gameName = gameNameElem ? gameNameElem.innerText.trim() : null;
             if (gameName) {
                 sessionStorage.setItem('activity', gameName);
-                window.location.href = 'reservation.html';
+                window.location.href = 'reservation.php';
             }
         });
     });
