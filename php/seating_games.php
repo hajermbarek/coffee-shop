@@ -2,6 +2,28 @@
 session_start();
 require_once 'cnx.php';
 
+if (isset($_GET['check_availability'])) {
+    header('Content-Type: application/json');
+    $date = $_GET['date'] ?? '';
+    $time = $_GET['time'] ?? '';
+
+    if (!$date || !$time) {
+        echo json_encode(['reserved' => []]);
+        exit;
+    }
+
+    $stmt = $pdo->prepare(
+        "SELECT id_table FROM reservations
+         WHERE date_reservation = :date
+           AND heure_reservation = :time
+           AND statut != 'annulee'"
+    );
+    $stmt->execute([':date' => $date, ':time' => $time . ':00']);
+    $rows = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    echo json_encode(['reserved' => array_map('intval', $rows)]);
+    exit;
+}
+
 $zone = 'Fun Zone';
 $error = $_GET['error'] ?? '';
 

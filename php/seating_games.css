@@ -206,3 +206,8 @@ button:hover{
 input{
   text-align:center;
 }
+.table4.reserved {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
