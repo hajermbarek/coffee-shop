@@ -26,9 +26,10 @@ if (isset($_GET['check_availability'])) {
 
 $tablesStmt = $pdo->prepare(
     "SELECT t.id_table, t.numero, t.places, z.nom AS zone_name
-     FROM tables t
-     JOIN zones z ON t.id_zone = z.id_zone
-     ORDER BY t.numero"
+    FROM tables t
+    JOIN zones z ON t.id_zone = z.id_zone
+    WHERE t.id_zone = 1 
+    ORDER BY t.numero"
 );
 $tablesStmt->execute();
 $dbTables = $tablesStmt->fetchAll(PDO::FETCH_ASSOC);
@@ -59,10 +60,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($errors)) {
         $stmt = $pdo->prepare(
             "SELECT id_reservation FROM reservations
-             WHERE id_table = :tid
-               AND date_reservation = :date
-               AND heure_reservation = :time
-               AND statut = 'confirmee'"
+            WHERE id_table = :tid
+            AND date_reservation = :date
+            AND heure_reservation = :time
+            AND statut = 'confirmee'"
         );
         $stmt->execute([':tid' => $table_id, ':date' => $date, ':time' => $time . ':00']);
         if ($stmt->fetch()) {
