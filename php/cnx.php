@@ -1,6 +1,6 @@
 <?php
 $host = 'localhost';
-$dbname = 'cozy_cafe';
+$dbname = 'coffee_shop';
 $username = 'root';
 $password = '';
 
@@ -10,4 +10,3 @@ try {
 } catch (PDOException $e) {
     die("Database connection failed: " . $e->getMessage());
 }
-?>

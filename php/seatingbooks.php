@@ -24,11 +24,31 @@ if (isset($_GET['check_availability'])) {
     exit;
 }
 
+$tablesStmt = $pdo->prepare(
+    "SELECT t.id_table, t.numero, t.places, z.nom AS zone_name
+     FROM tables t
+     JOIN zones z ON t.id_zone = z.id_zone
+     ORDER BY t.numero"
+);
+$tablesStmt->execute();
+$dbTables = $tablesStmt->fetchAll(PDO::FETCH_ASSOC);
+
+function getDotsForSeats(int $seats): array
+{
+    return match (true) {
+        $seats >= 4 => ['top', 'right', 'bottom', 'left'],
+        $seats == 3 => ['top', 'right', 'left'],
+        $seats == 2 => ['right', 'left'],
+        default     => ['top'],
+    };
+}
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $table_id = isset($_POST['table_id']) ? (int)$_POST['table_id'] : 0;
     $date     = trim($_POST['date'] ?? '');
     $time     = trim($_POST['time'] ?? '');
-    $zone_id  = 1;
+    $validIds = array_column($dbTables, 'id_table');
 
     $errors = [];
     if ($table_id < 1 || $table_id > 15)             $errors[] = 'Please select a valid table.';
@@ -53,9 +73,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($errors)) {
         $error = implode(' ', $errors);
     } else {
-        $zoneStmt = $pdo->prepare("SELECT nom FROM zones WHERE id_zone = ?");
-        $zoneStmt->execute([$zone_id]);
-        $zoneName = $zoneStmt->fetchColumn() ?: 'Quiet Zone';
+        $selectedTable = array_values(array_filter($dbTables, fn($t) => $t['id_table'] === $table_id))[0];
+        $zoneName = $selectedTable['zone_name'] ?? 'Quiet Zone';
+
         $_SESSION['reservationZone']  = $zoneName;
         $_SESSION['reservationTable'] = $table_id;
         $_SESSION['table_id']         = $table_id;
@@ -101,32 +121,15 @@ $error = $error ?? $_GET['error'] ?? '';
         <div class="arrange">
             <p>Book a Table</p>
             <div class="table-surf">
-                <?php
-                $tables = [
-                    [1,  4, ['top', 'right', 'bottom', 'left']],
-                    [2,  2, ['right', 'left']],
-                    [3,  4, ['top', 'right', 'bottom', 'left']],
-                    [4,  1, ['top']],
-                    [5,  2, ['right', 'left']],
-                    [6,  1, ['top']],
-                    [7,  4, ['top', 'right', 'bottom', 'left']],
-                    [8,  2, ['right', 'left']],
-                    [9,  3, ['top', 'right', 'left']],
-                    [10, 4, ['top', 'right', 'bottom', 'left']],
-                    [11, 1, ['top']],
-                    [12, 2, ['right', 'left']],
-                    [13, 3, ['top', 'right', 'left']],
-                    [14, 2, ['right', 'left']],
-                    [15, 1, ['top']],
-                ];
-                foreach ($tables as [$id, $seats, $dots]):
-                    $seatLabel = $seats === 1 ? '1 seat' : "$seats seats";
+                <?php foreach ($dbTables as $table):
+                    $seatLabel = $table['places'] === 1 ? '1 seat' : "{$table['places']} seats";
+                    $dots      = getDotsForSeats((int)$table['places']);
                 ?>
-                    <button class="table-top" data-table="<?= $id ?>" data-seats="<?= htmlspecialchars($seatLabel) ?>">
+                    <button class="table-top" data-table="<?= $table['id_table'] ?>" data-seats="<?= htmlspecialchars($seatLabel) ?>">
                         <?php foreach ($dots as $pos): ?>
                             <span class="dot <?= $pos ?>"></span>
                         <?php endforeach; ?>
-                        <span class="number"><?= $id ?></span>
+                        <span class="number"><?= $table['numero'] ?></span>
                         <span class="seats"><?= $seatLabel ?></span>
                     </button>
                 <?php endforeach; ?>
