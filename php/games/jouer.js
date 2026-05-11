@@ -18,6 +18,10 @@ function openRules(rules, gameName) {
     modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
 }
+// Rafraîchir le stock toutes les 30 secondes
+setInterval(() => {
+    window.location.reload();
+}, 30000);
 
 function closeRules() {
     document.getElementById('rulesModal').style.display = 'none';
@@ -53,6 +57,23 @@ function clearSearch() {
         searchInput.value = '';
         document.getElementById('searchForm').submit();
     }
+}
+function checkStock(gameId, gameName) {
+    const date = new URLSearchParams(window.location.search).get('date') 
+                 || new Date().toISOString().split('T')[0];
+    
+    let dispo = false;
+    
+    fetch(`check_stock.php?id_game=${gameId}&date=${date}`)
+        .then(res => res.json())
+        .then(data => {
+            if (data.disponibles <= 0) {
+                alert(`"${gameName}" is no longer available on this date!`);
+                window.location.reload(); // rafraîchir les badges
+            }
+        });
+    
+    return true; // laisser la navigation se faire
 }
 
 // ── Booking (sessionStorage pour reservation.html) ────────────────────────────

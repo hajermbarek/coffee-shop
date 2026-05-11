@@ -131,28 +131,46 @@ try {
         $stmt = $pdo->prepare("SELECT titre FROM livres WHERE id_livre = ?");
         $stmt->execute([$activityId]);
         $activityName = $stmt->fetchColumn();
+
+
+
         
     } elseif ($activityType === 'game' && $activityId) {
-        // ============================================
-        // TRAITEMENT POUR LES JEUX
-        // ============================================
-        
-        $stmt = $pdo->prepare("INSERT INTO reservation_jeux (id_reservation, id_game) VALUES (?, ?)");
-        $stmt->execute([$idReservation, $activityId]);
 
-        // Diminuer le nombre d'exemplaires disponibles
-        $stmt = $pdo->prepare("UPDATE game SET exemplaires_disponibles = exemplaires_disponibles - 1 WHERE id = ? AND exemplaires_disponibles > 0");
-        $stmt->execute([$activityId]);
-        
-        // Récupérer le nom du jeu
-        $stmt = $pdo->prepare("SELECT name FROM game WHERE id = ?");
-        $stmt->execute([$activityId]);
-        $activityName = $stmt->fetchColumn();
-        
-        $code = null;
-        $dateExpiration = null;
+    // Vérifier le stock dynamiquement à cette date
+   $stmt = $pdo->prepare("
+    SELECT COUNT(*) 
+    FROM reservation_jeux rj
+    JOIN reservations r ON rj.id_reservation = r.id_reservation
+    WHERE rj.id_game = ?
+    AND r.date_reservation = ?
+    AND r.statut = 'confirmee'
+    AND r.heure_reservation BETWEEN 
+        SUBTIME(?, '03:00:00') AND ADDTIME(?, '03:00:00')
+");
+    $stmt->execute([$activityId, $dateResa, $heureResa, $heureResa]);
+    $dejaPris = $stmt->fetchColumn();
+
+    $stmtTotal = $pdo->prepare("SELECT exemplaires_total FROM game WHERE id = ?");
+    $stmtTotal->execute([$activityId]);
+    $total = $stmtTotal->fetchColumn();
+
+    if ($dejaPris >= $total) {
+        throw new Exception("Ce jeu n'est plus disponible à cette date.");
     }
-    
+
+    // Stock OK → insérer
+    $stmt = $pdo->prepare("INSERT INTO reservation_jeux (id_reservation, id_game) VALUES (?, ?)");
+    $stmt->execute([$idReservation, $activityId]);
+
+    // Récupérer le nom du jeu
+    $stmt = $pdo->prepare("SELECT name FROM game WHERE id = ?");
+    $stmt->execute([$activityId]);
+    $activityName = $stmt->fetchColumn();
+
+    $code = null;
+    $dateExpiration = null;
+}
     // Valider la transaction
     $pdo->commit();
     

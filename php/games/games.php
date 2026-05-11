@@ -1,8 +1,11 @@
 <?php
+session_start();
 require_once '../cnx.php';
 
 $category = $_GET['category'] ?? 'ALL';
 $search   = trim($_GET['search'] ?? '');
+$date = $_SESSION['reservationDate'] ?? date('Y-m-d');
+$heure    = ($_SESSION['reservationTime'] ?? date('H:i')) . ':00';
 
 $sql    = "SELECT * FROM game WHERE 1=1";
 $params = [];
@@ -13,17 +16,33 @@ if ($category !== 'ALL') {
 }
 
 if ($search !== '') {
-    // CORRIGÉ: utiliser 'name' au lieu de 'nom'
     $sql .= " AND (name LIKE :search OR description LIKE :search)";
     $params[':search'] = '%' . $search . '%';
 }
 
-// CORRIGÉ: utiliser 'name' au lieu de 'nom'
 $sql .= " ORDER BY name ASC";
 
 $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
 $games = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Calcul dynamique du stock par jeu selon date et heure
+foreach ($games as &$game) {
+    $stmt2 = $pdo->prepare("
+        SELECT COUNT(*) 
+        FROM reservation_jeux rj
+        JOIN reservations r ON rj.id_reservation = r.id_reservation
+        WHERE rj.id_game = ?
+        AND r.date_reservation = ?
+        AND r.statut = 'confirmee'
+        AND r.heure_reservation BETWEEN 
+            SUBTIME(?, '03:00:00') AND ADDTIME(?, '03:00:00')
+    ");
+    $stmt2->execute([$game['id'], $date, $heure, $heure]);
+    $reservations = $stmt2->fetchColumn();
+    $game['stock_dispo'] = max(0, $game['exemplaires_total'] - $reservations);
+}
+unset($game);
 
 $categories = ['ALL', 'FUN', 'STRATEGY', 'CLASSIC GAME'];
 ?>
@@ -35,7 +54,6 @@ $categories = ['ALL', 'FUN', 'STRATEGY', 'CLASSIC GAME'];
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../style.css" />
     <link rel="stylesheet" href="games.css" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
 </head>
@@ -53,7 +71,7 @@ $categories = ['ALL', 'FUN', 'STRATEGY', 'CLASSIC GAME'];
                 <li class="nav-item"><a class="nav-link" href="../page1.php">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="../menu/menu.php">Full menu</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Our Story</a></li>
-                <li class="nav-item"><a class="nav-link active" href="jouer.php">Games</a></li>
+                <li class="nav-item"><a class="nav-link active" href="games.php">Games</a></li>
             </ul>
         </div>
     </div>
@@ -73,8 +91,7 @@ $categories = ['ALL', 'FUN', 'STRATEGY', 'CLASSIC GAME'];
 
     <!-- Recherche + Filtres -->
     <div class="filter-bar">
-
-        <form method="GET" action="jouer.php" class="search-form" id="searchForm">
+        <form method="GET" action="games.php" class="search-form" id="searchForm">
             <div class="search-wrapper">
                 <i class="fa-solid fa-magnifying-glass search-icon"></i>
                 <input
@@ -115,11 +132,11 @@ $categories = ['ALL', 'FUN', 'STRATEGY', 'CLASSIC GAME'];
                 $isActive = ($category === $cat) ? 'active' : '';
                 $color    = $colors[$cat];
                 $icon     = $icons[$cat];
-                $url      = 'jouer.php?category=' . urlencode($cat) . ($search ? '&search=' . urlencode($search) : '');
+                $url      = 'games.php?category=' . urlencode($cat) . ($search ? '&search=' . urlencode($search) : '');
             ?>
                 <a href="<?= $url ?>"
-                    class="filter-btn <?= $isActive ?>"
-                    style="--badge-color: <?= $color ?>">
+                   class="filter-btn <?= $isActive ?>"
+                   style="--badge-color: <?= $color ?>">
                     <i class="fa-solid <?= $icon ?>"></i> <?= $cat ?>
                 </a>
             <?php endforeach; ?>
@@ -142,7 +159,7 @@ $categories = ['ALL', 'FUN', 'STRATEGY', 'CLASSIC GAME'];
         <div class="no-results">
             <i class="fa-solid fa-dice fa-3x"></i>
             <p>No game found. Try another search or filter.</p>
-            <a href="jouer.php" class="btn-reserve" style="display:inline-block;padding:10px 28px;">
+            <a href="games.php" class="btn-reserve" style="display:inline-block;padding:10px 28px;">
                 See all games
             </a>
         </div>
@@ -150,28 +167,41 @@ $categories = ['ALL', 'FUN', 'STRATEGY', 'CLASSIC GAME'];
         <div class="row g-4">
             <?php foreach ($games as $game): ?>
                 <div class="col-12 col-md-6 col-lg-4">
-                    <div class="game-card">
+                    <div class="game-card <?= $game['stock_dispo'] === 0 ? 'card-indispo' : '' ?>">
+
+                        <!-- Badge stock -->
+                        <div class="stock-badge <?= $game['stock_dispo'] > 0 ? 'stock-dispo' : 'stock-indispo' ?>">
+                            <?php if ($game['stock_dispo'] > 0): ?>
+                                ✅ <?= $game['stock_dispo'] ?> available
+                            <?php else: ?>
+                                ❌ Unavailable
+                            <?php endif; ?>
+                        </div>
+
+                        <!-- Badge catégorie -->
                         <div class="game-badge" style="background: <?= htmlspecialchars($game['category_color']) ?>;">
                             <?= htmlspecialchars($game['category']) ?>
                         </div>
-                        <!-- CORRIGÉ: image_path au lieu de image -->
+
                         <img src="<?= htmlspecialchars($game['image_path']) ?>" alt="<?= htmlspecialchars($game['name']) ?>">
+
                         <div class="game-content">
-                            <!-- CORRIGÉ: name au lieu de nom -->
                             <h3><?= htmlspecialchars($game['name']) ?></h3>
                             <p class="game-desc"><?= htmlspecialchars($game['description']) ?></p>
                             <div class="game-info">
-                                <!-- CORRIGÉ: players au lieu de nb_joueurs_min/max -->
                                 <span>👥 <?= htmlspecialchars($game['players']) ?></span>
-                                <!-- CORRIGÉ: duration au lieu de duree_moyenne -->
                                 <span>⏳ <?= htmlspecialchars($game['duration']) ?></span>
                             </div>
                             <div class="game-buttons">
-                                <!-- CORRIGÉ: name au lieu de nom -->
-                                <a class="btn-reserve" href="../reservation.php?game=<?= urlencode($game['name']) ?>&game_id=<?= $game['id'] ?>">
-                                    Book
-                                </a>
-                                <!-- CORRIGÉ: rules au lieu de [], et name au lieu de nom -->
+                                <?php if ($game['stock_dispo'] > 0): ?>
+                                    <a class="btn-reserve"
+                                       href="../reservation.php?game=<?= urlencode($game['name']) ?>&game_id=<?= $game['id'] ?>">
+                                        Book
+                                    </a>
+                                <?php else: ?>
+                                    <button class="btn-reserve btn-disabled" disabled>Unavailable</button>
+                                <?php endif; ?>
+
                                 <button class="btn-rules"
                                         onclick="openRules(<?= htmlspecialchars($game['rules']) ?>, '<?= addslashes($game['name']) ?>')">
                                     Rules
@@ -214,9 +244,9 @@ $categories = ['ALL', 'FUN', 'STRATEGY', 'CLASSIC GAME'];
             <div class="footer-group">
                 <h4>MENU</h4>
                 <ul>
-                    <li><a href="menu.html">Hot Drinks</a></li>
-                    <li><a href="menu.html">Cold Brews</a></li>
-                    <li><a href="menu.html">Pastries & Snacks</a></li>
+                    <li><a href="../menu/menu.php">Hot Drinks</a></li>
+                    <li><a href="../menu/menu.php">Cold Brews</a></li>
+                    <li><a href="../menu/menu.php">Pastries & Snacks</a></li>
                 </ul>
             </div>
             <div class="footer-group">
@@ -235,7 +265,7 @@ $categories = ['ALL', 'FUN', 'STRATEGY', 'CLASSIC GAME'];
     </div>
 </footer>
 
-<script src="jouer.js"></script>
+<script src="games.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
