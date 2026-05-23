@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1>✅ Reservation confirmed!</h1>
+
+{% if code %}
+    <div class="code-box">
+        <p>Your code: <strong>{{ code }}</strong></p>
+        <p>Valid until {{ expiry|date('d/m/Y') }}</p>
+    </div>
+{% endif %}
+
+<p><strong>Activity:</strong> {{ activityName }}</p>
+<p><strong>Client:</strong> {{ clientName }}</p>
+<p><strong>Date & time:</strong> {{ date }} at {{ time }}</p>
+<p><strong>Table:</strong> {{ tableNum }} ({{ zone }})</p>
+
+<a href="{{ path('book_list') }}">Return to home</a>
+<button onclick="window.print()">Print</button>
+{% endblock %}

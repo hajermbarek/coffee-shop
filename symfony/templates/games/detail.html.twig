@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1>{{ game.name }}</h1>
+<p><strong>Category:</strong> {{ game.category }}</p>
+<p><strong>Players:</strong> {{ game.players }}</p>
+<p><strong>Duration:</strong> {{ game.duration }}</p>
+<p><strong>Description:</strong> {{ game.description }}</p>
+<p><strong>Available copies:</strong> {{ game.exemplairesDisponibles }}</p>
+
+{% if game.exemplairesDisponibles > 0 %}
+    <form method="post" action="{{ path('game_reserve', {id: game.id}) }}">
+        <button type="submit">🎲 Reserve this game</button>
+    </form>
+{% else %}
+    <p>❌ Currently unavailable</p>
+{% endif %}
+
+<a href="{{ path('games_list') }}">← Back to games</a>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1>Finalize your reservation</h1>
+
+<form method="post">
+    <label>Zone: {{ zone }}</label>
+    <label>Table: {{ tableId }}</label>
+    <label>Date: {{ date }}</label>
+    <label>Time: {{ time }}</label>
+    <label>Activity: {{ activity }}</label>
+
+    <label>First name:</label>
+    <input type="text" name="firstname" required>
+    <label>Last name:</label>
+    <input type="text" name="name" required>
+    <label>Email:</label>
+    <input type="email" name="email" required>
+    <label>Phone:</label>
+    <input type="tel" name="phone" required>
+    <label>Number of people:</label>
+    <input type="number" name="people" min="1" required>
+    <label>Allergies:</label>
+    <textarea name="allergies"></textarea>
+    <label>Comments:</label>
+    <textarea name="comments"></textarea>
+
+    <button type="submit">Confirm reservation</button>
+</form>
+{% endblock %}

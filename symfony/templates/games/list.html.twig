@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h2>Our Games</h2>
+
+<form method="get" action="{{ path('games_list') }}">
+    <input type="text" name="search" placeholder="Search a game..." value="{{ search }}">
+    <button type="submit">Search</button>
+</form>
+
+<div class="filter-buttons">
+    <a href="{{ path('games_list', {category: 'ALL'}) }}">ALL</a>
+    <a href="{{ path('games_list', {category: 'FUN'}) }}">FUN</a>
+    <a href="{{ path('games_list', {category: 'STRATEGY'}) }}">STRATEGY</a>
+    <a href="{{ path('games_list', {category: 'CLASSIC GAME'}) }}">CLASSIC GAME</a>
+</div>
+
+<div class="games">
+    {% for game in games %}
+        <div class="game-card">
+            <img src="{{ asset(game.imagePath) }}" alt="{{ game.name }}">
+            <h3>{{ game.name }}</h3>
+            <p>{{ game.description|slice(0, 100) }}...</p>
+            <p>👥 {{ game.players }} | ⏳ {{ game.duration }}</p>
+            {% if game.exemplairesDisponibles > 0 %}
+                <a href="{{ path('game_detail', {id: game.id}) }}">View details</a>
+            {% else %}
+                <button disabled>Unavailable</button>
+            {% endif %}
+        </div>
+    {% else %}
+        <p>No game found.</p>
+    {% endfor %}
+</div>
+{% endblock %}

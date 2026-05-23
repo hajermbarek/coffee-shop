@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1>Quiet Zone – Choose your table</h1>
+
+<form method="post" action="{{ path('seating_quiet_select') }}">
+    <label>Select a table:</label>
+    <select name="table_id" required>
+        {% for table in tables %}
+            <option value="{{ table.idTable }}">Table {{ table.numero }} ({{ table.places }} seats)</option>
+        {% endfor %}
+    </select>
+
+    <label>Date:</label>
+    <input type="date" name="date" min="{{ "now"|date("Y-m-d") }}" required>
+
+    <label>Time:</label>
+    <select name="time" required>
+        {% for hour in range(9, 18) %}
+            <option value="{{ "%02d:00"|format(hour) }}">{{ "%02d:00"|format(hour) }}</option>
+            <option value="{{ "%02d:30"|format(hour) }}">{{ "%02d:30"|format(hour) }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Reserve table</button>
+</form>
+{% endblock %}

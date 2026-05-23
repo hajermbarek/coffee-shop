@@ -247,7 +247,7 @@ foreach ($books as &$book) {
                 msgDiv.innerHTML =
                     '✅ Code valide ! Livre : <strong>' + data.book_title + '</strong><br>' +
                     'Valable jusqu\'au ' + data.expiry_date + '<br>' +
-                    '<a href="../reservation1.php?code=' + encodeURIComponent(code) +
+                    '<a href="../reservation/reservation1.php?code=' + encodeURIComponent(code) +
                     '" style="color:#6f4e37;font-weight:bold;">→ finnaliser ma reservation </a>';
             }
         })
