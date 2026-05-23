@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'cnx.php';
+require_once '../cnx.php';
 
 if (isset($_GET['check_availability'])) {
     header('Content-Type: application/json');
@@ -153,9 +153,9 @@ if ($prefilledCode && !$activityId) {
         <label>🔑 Code de réservation :</label>
         <div class="code-field">
             <input type="text" id="reservationCode" name="reservation_code" 
-                   value="<?= htmlspecialchars($prefilledCode) ?>"
-                   placeholder="Entrez votre code à 6 chiffres"
-                   <?= $prefilledCode ? 'readonly style="background:#e8e0d8;"' : '' ?>>
+                value="<?= htmlspecialchars($prefilledCode) ?>"
+                placeholder="Entrez votre code à 6 chiffres"
+                <?= $prefilledCode ? 'readonly style="background:#e8e0d8;"' : '' ?>>
             <?php if (!$prefilledCode): ?>
                 <small style="display:block; color:#999; margin-top:5px;">
                     Si vous avez déjà un code, entrez-le ici
@@ -198,9 +198,9 @@ if ($prefilledCode && !$activityId) {
         function goBack() {
             let zone = "<?= addslashes($zone) ?>";
             if (zone.includes('Quiet')) {
-                window.location.href = 'books/books.php';
+                window.location.href = '../books/books.php';
             } else if (zone.includes('Fun')) {
-                window.location.href = 'games/games.php';
+                window.location.href = '../games/games.php';
             } else {
                 window.history.back();
             }
@@ -212,7 +212,7 @@ if ($prefilledCode && !$activityId) {
             codeInput.addEventListener('blur', function() {
                 const code = this.value.trim();
                 if (/^\d{6}$/.test(code)) {
-                    fetch('verify-code.php', {
+                    fetch('verify_code.php', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                         body: 'code=' + encodeURIComponent(code)

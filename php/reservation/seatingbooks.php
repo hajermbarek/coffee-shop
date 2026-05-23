@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'cnx.php';
+require_once '../cnx.php';
 
 if (isset($_GET['check_availability'])) {
     header('Content-Type: application/json');
@@ -14,9 +14,9 @@ if (isset($_GET['check_availability'])) {
 
     $stmt = $pdo->prepare(
         "SELECT id_table FROM reservations
-         WHERE date_reservation = :date
-           AND heure_reservation = :time
-           AND statut = 'confirmee'"
+        WHERE date_reservation = :date
+        AND heure_reservation = :time
+        AND statut = 'confirmee'"
     );
     $stmt->execute([':date' => $date, ':time' => $time . ':00']);
     $rows = $stmt->fetchAll(PDO::FETCH_COLUMN);
@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!isset($_SESSION['activity_type'])) $_SESSION['activity_type'] = null;
         if (!isset($_SESSION['activity_id']))   $_SESSION['activity_id']   = null;
 
-        header('Location: books/books.php');
+        header('Location: ../books/books.php');
         exit;
     }
 }
@@ -100,7 +100,7 @@ $error = $error ?? $_GET['error'] ?? '';
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="../style.css" />
     <link rel="stylesheet" href="seatingbooks.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -188,7 +188,7 @@ $error = $error ?? $_GET['error'] ?? '';
         </div>
     </section>
 
-    <?php include 'footer.php'; ?>
+    <?php include '../footer.php'; ?>
 
     <script src="seatingbooks.js"></script>
 </body>

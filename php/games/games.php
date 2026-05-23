@@ -195,8 +195,8 @@ $categories = ['ALL', 'FUN', 'STRATEGY', 'CLASSIC GAME'];
                             <div class="game-buttons">
                                 <?php if ($game['stock_dispo'] > 0): ?>
                                     <a class="btn-reserve"
-                                       href="../reservation.php?game=<?= urlencode($game['name']) ?>&game_id=<?= $game['id'] ?>">
-                                        Book
+                                    href="../reservation/reservation.php?game=<?= urlencode($game['name']) ?>&game_id=<?= $game['id'] ?>">
+                                    Book
                                     </a>
                                 <?php else: ?>
                                     <button class="btn-reserve btn-disabled" disabled>Unavailable</button>

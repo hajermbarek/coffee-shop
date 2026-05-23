@@ -53,7 +53,7 @@ include 'cnx.php';
             <li>Power outlets & high-speed Wi-Fi</li>
           </ul>
 
-          <a href="seatingbooks.php" class="zone-btn">Reserve Quiet Zone</a>
+          <a href="reservation/seatingbooks.php" class="zone-btn">Reserve Quiet Zone</a>
         </div>
 
         <div class="zone-card">
@@ -74,7 +74,7 @@ include 'cnx.php';
             <li>Social events calendar</li>
           </ul>
 
-          <a href="seating_games.php" class="zone-btn">Reserve Fun Zone</a>
+          <a href="reservation/seating_games.php" class="zone-btn">Reserve Fun Zone</a>
         </div>
 
         <div class="zone-card">

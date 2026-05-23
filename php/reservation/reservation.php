@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'cnx.php';
+require_once '../cnx.php';
 
 // Récupérer les paramètres GET depuis games.php
 if (isset($_GET['game'])) {
@@ -95,9 +95,9 @@ $activityId    = $_SESSION['activity_id'] ?? null;
         function goBack() {
             let zone = "<?= addslashes($zone) ?>";
             if (zone.includes('Quiet')) {
-                window.location.href = 'books/books.php';
+                window.location.href = '../books/books.php';
             } else if (zone.includes('Fun')) {
-                window.location.href = 'games/games.php';
+                window.location.href = '../games/games.php';
             } else {
                 window.history.back();
             }

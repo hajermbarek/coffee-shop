@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'cnx.php';
+require_once '../cnx.php';
 
 header('Content-Type: application/json');
 

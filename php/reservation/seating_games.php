@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'cnx.php';
+require_once '../cnx.php';
 
 if (isset($_GET['check_availability'])) {
     header('Content-Type: application/json');
@@ -14,9 +14,9 @@ if (isset($_GET['check_availability'])) {
 
     $stmt = $pdo->prepare(
         "SELECT id_table FROM reservations
-         WHERE date_reservation = :date
-           AND heure_reservation = :time
-           AND statut != 'annulee'"
+        WHERE date_reservation = :date
+        AND heure_reservation = :time
+        AND statut != 'annulee'"
     );
     $stmt->execute([':date' => $date, ':time' => $time . ':00']);
     $rows = $stmt->fetchAll(PDO::FETCH_COLUMN);
@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $_SESSION['activity_type']    = null;
     $_SESSION['activity_id']      = null;
 
-    header("Location: games/games.php");
+    header("Location: ../games/games.php");
     exit;
 }
 ?>
@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
 
-<?php include 'navbar.php'; ?>
+<?php include '../navbar.php'; ?>
 
 <div class="top">
     <h1>Reserve your seat!</h1>
@@ -157,7 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 </div>
 
-<?php include 'footer.php'; ?>
+<?php include '../footer.php'; ?>
 
 <script src="seating_games.js"></script>
 </body>

@@ -229,7 +229,7 @@ foreach ($books as &$book) {
             return;
         }
 
-        fetch('../verify_code.php', {
+        fetch('../reservation/verify_code.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: 'code=' + encodeURIComponent(code)
