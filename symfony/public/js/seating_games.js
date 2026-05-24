@@ -24,9 +24,9 @@ document.addEventListener("DOMContentLoaded", function () {
         selectedTable = null;
 
         try {
-            const res  = await fetch(
-                `seating_games.php?check_availability=1&date=${encodeURIComponent(date)}&time=${encodeURIComponent(time)}`
-            );
+            const res = await fetch(
+            `${checkUrl}?date=${encodeURIComponent(date)}&time=${encodeURIComponent(time)}`
+        );
             const data = await res.json();
             const reserved = data.reserved || [];
 
