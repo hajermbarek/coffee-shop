@@ -1,27 +1,60 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+<style>
+
+    .bakery-section,
+    .beverages-section {
+        max-width: none !important;
+        margin: 0 !important;
+    }
+    
+    .navbar.bg-body-tertiary {
+        background-color: #f9f1e9 !important;
+    }
+    .navbar-brand,
+    .nav-link,
+    .navbar-toggler-icon {
+        color: #3b2f2f !important;
+    }
+    .nav-link.active,
+    .nav-link:hover {
+        color: #6f4e37 !important;
+    }
+</style>
+{% endblock %}
+
 {% block body %}
+
 <section class="bakery-section">
+    <div style="width:100%">
     <h2>Bakery</h2>
-    <p>At Cozy Café, we offer a wide range of bakery items that are perfect for any occasion. 
-       From our freshly baked breads to our decadent cakes and pastries, each of our products is made with 
-       the finest ingredients and the utmost care.</p>
+    <p>At Cozy Café, we offer a wide range of bakery items that are perfect for any occasion. From our freshly baked breads to our decadent cakes and pastries, each of our products is made with the finest ingredients and the utmost care.</p>
+    </div>
     <div class="bakery-items">
         <a href="{{ path('menu_biscuit') }}" class="category-link">
             <div class="bakery-item">
-                <img src="{{ asset('images/biscuit.jpg') }}" alt="Biscuits">
+                <img src="https://moversandbakers.co.uk/wp-content/uploads/2020/06/custard-creams_0501.jpg"
+                     alt="Biscuits, Cookies and Crepes"
+                     onerror="this.src='https://placehold.co/600x420/b3855e/fff?text=Biscuits'">
                 <p class="item-label">Biscuits, Cookies and Crepes</p>
             </div>
         </a>
+
         <a href="{{ path('menu_cake') }}" class="category-link">
             <div class="bakery-item">
-                <img src="{{ asset('images/cake.jpg') }}" alt="Cakes">
+                <img src="https://cdn.prod.website-files.com/649249d29a20bd6bc3deac45/649249d29a20bd6bc3deaea9_Cloud-Cake-2-p-500.jpg"
+                     alt="Cakes"
+                     onerror="this.src='https://placehold.co/600x420/b3855e/fff?text=Cakes'">
                 <p class="item-label">Cake</p>
             </div>
         </a>
+
         <a href="{{ path('menu_pastry') }}" class="category-link">
             <div class="bakery-item">
-                <img src="{{ asset('images/pastry.jpg') }}" alt="Pastries">
+                <img src="https://cdn.prod.website-files.com/649249d29a20bd6bc3deac45/668ddf055c2c837b4b6ce41a_Straberry%20Croissant-2.webp"
+                     alt="Pastries"
+                     onerror="this.src='https://placehold.co/600x420/b3855e/fff?text=Pastry'">
                 <p class="item-label">Pastry</p>
             </div>
         </a>
@@ -29,28 +62,38 @@
 </section>
 
 <section class="beverages-section">
+<div style="width:100%">
     <h2>Beverages</h2>
-    <p>From bold espresso to refreshing iced creations and fresh juices, 
-       our drinks are crafted daily with the utmost care and the finest beans, leaves and fruits.</p>
+    <p>From bold espresso to refreshing iced creations and fresh juices, our drinks are crafted daily with the finest beans, leaves, and fruits.</p>
+</div>
     <div class="beverages-items">
         <a href="{{ path('menu_hot') }}" class="category-link">
             <div class="beverage-item">
-                <img src="{{ asset('images/hot-drinks.jpg') }}" alt="Hot Drinks">
+                <img src="https://cdn.prod.website-files.com/649249d29a20bd6bc3deac48/649249d29a20bd6bc3deae11_Copy%2520of%2520Cafe%2520Latte-p-500.png"
+                     alt="Hot Drinks"
+                     onerror="this.src='https://placehold.co/600x420/f5efe8/6f4e37?text=Hot+Drinks'">
                 <p class="item-label">Hot Drinks</p>
             </div>
         </a>
+
         <a href="{{ path('menu_cold') }}" class="category-link">
             <div class="beverage-item">
-                <img src="{{ asset('images/cold-drinks.jpg') }}" alt="Cold Drinks">
+                <img src="https://cdn.prod.website-files.com/649249d29a20bd6bc3deac48/649249d29a20bd6bc3deae14_Copy%2520of%2520Iced%2520Cafe%2520Mocha-p-500.png"
+                     alt="Cold Drinks"
+                     onerror="this.src='https://placehold.co/600x420/f5efe8/6f4e37?text=Cold+Drinks'">
                 <p class="item-label">Cold Drinks</p>
             </div>
         </a>
+
         <a href="{{ path('menu_blended') }}" class="category-link">
             <div class="beverage-item">
-                <img src="{{ asset('images/blended.jpg') }}" alt="Blended Drinks">
+                <img src="https://cdn.prod.website-files.com/649249d29a20bd6bc3deac48/649249d29a20bd6bc3deae1e_Copy%2520of%2520Strawberry%2520Smoothie-p-500.png"
+                     alt="Blended Drinks"
+                     onerror="this.src='https://placehold.co/600x420/f5efe8/6f4e37?text=Blended'">
                 <p class="item-label">Blended</p>
             </div>
         </a>
     </div>
 </section>
+
 {% endblock %}

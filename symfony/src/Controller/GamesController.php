@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Entity\Game;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -15,7 +16,7 @@ class GamesController extends AbstractController
     public function list(ManagerRegistry $doctrine, Request $request): Response
     {
         $category = $request->query->get('category', 'ALL');
-        $search   = $request->query->get('search', '');
+        $search   = trim($request->query->get('search', ''));
 
         $qb = $doctrine->getRepository(Game::class)->createQueryBuilder('g');
         if ($category !== 'ALL') {
@@ -28,18 +29,25 @@ class GamesController extends AbstractController
         $games = $qb->orderBy('g.name', 'ASC')->getQuery()->getResult();
 
         return $this->render('games/list.html.twig', [
-            'games' => $games,
-            'category' => $category,
-            'search' => $search,
+            'games'      => $games,
+            'category'   => $category,
+            'search'     => $search,
+            'categories' => ['ALL', 'FUN', 'STRATEGY', 'CLASSIC GAME'],
+        ]);
+    }
+
+    #[Route('/game/check-stock/{id}', name: 'game_check_stock')]
+    public function checkStock(Game $game): JsonResponse
+    {
+        return new JsonResponse([
+            'disponibles' => $game->getExemplairesDisponibles()
         ]);
     }
 
     #[Route('/game/{id}', name: 'game_detail')]
     public function detail(Game $game): Response
     {
-        return $this->render('games/detail.html.twig', [
-            'game' => $game,
-        ]);
+        return $this->render('games/detail.html.twig', ['game' => $game]);
     }
 
     #[Route('/game/reserve/{id}', name: 'game_reserve', methods: ['POST'])]

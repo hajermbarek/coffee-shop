@@ -34,8 +34,8 @@ class Game
     #[ORM\Column(name: "image_path", type: "string", length: 255)]
     private ?string $image_path = null;
 
-    #[ORM\Column(name: "rules", type: Types::TEXT, options: ["default" => "Not available "])]
-    private ?string $rules = null;
+    #[ORM\Column(name: "rules", type: Types::JSON, nullable: true)]
+    private ?array $rules = null;
 
     #[ORM\Column(name: "exemplaires_total", type: "integer", options: ["default" => 1])]
     private ?int $exemplaires_total = null;
@@ -43,7 +43,6 @@ class Game
     #[ORM\Column(name: "exemplaires_disponibles", type: "integer", options: ["default" => 1])]
     private ?int $exemplaires_disponibles = null;
 
-    // Getters / setters...
     public function getId(): ?int { return $this->id; }
     public function getName(): ?string { return $this->name; }
     public function setName(string $name): self { $this->name = $name; return $this; }
@@ -59,8 +58,8 @@ class Game
     public function setDuration(string $duration): self { $this->duration = $duration; return $this; }
     public function getImagePath(): ?string { return $this->image_path; }
     public function setImagePath(string $image_path): self { $this->image_path = $image_path; return $this; }
-    public function getRules(): ?string { return $this->rules; }
-    public function setRules(string $rules): self { $this->rules = $rules; return $this; }
+    public function getRules(): ?array { return $this->rules; }
+    public function setRules(?array $rules): self { $this->rules = $rules; return $this; }
     public function getExemplairesTotal(): ?int { return $this->exemplaires_total; }
     public function setExemplairesTotal(int $exemplaires_total): self { $this->exemplaires_total = $exemplaires_total; return $this; }
     public function getExemplairesDisponibles(): ?int { return $this->exemplaires_disponibles; }

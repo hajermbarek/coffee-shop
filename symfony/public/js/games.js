@@ -18,6 +18,7 @@ function openRules(rules, gameName) {
     modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
 }
+
 // Rafraîchir le stock toutes les 30 secondes
 setInterval(() => {
     window.location.reload();
@@ -28,19 +29,17 @@ function closeRules() {
     document.body.style.overflow = '';
 }
 
-// Fermer en cliquant sur le fond du modal
 function closeOnBackdrop(event) {
     if (event.target === document.getElementById('rulesModal')) {
         closeRules();
     }
 }
 
-// Fermer avec la touche Escape
 document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') closeRules();
 });
 
-// ── Recherche live (debounce) ─────────────────────────────────────────────────
+// Recherche live (debounce)
 const searchInput = document.getElementById('searchInput');
 if (searchInput) {
     let debounceTimer;
@@ -48,7 +47,7 @@ if (searchInput) {
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(() => {
             document.getElementById('searchForm').submit();
-        }, 400); // soumettre après 400ms sans frappe
+        }, 400);
     });
 }
 
@@ -58,41 +57,17 @@ function clearSearch() {
         document.getElementById('searchForm').submit();
     }
 }
-function checkStock(gameId, gameName) {
-    const date = new URLSearchParams(window.location.search).get('date') 
-                 || new Date().toISOString().split('T')[0];
-    
-    let dispo = false;
-    
-    fetch(`check_stock.php?id_game=${gameId}&date=${date}`)
+
+function checkStock(gameId, gameName, url) {
+    fetch(`/game/check-stock/${gameId}`)
         .then(res => res.json())
         .then(data => {
             if (data.disponibles <= 0) {
-                alert(`"${gameName}" is no longer available on this date!`);
-                window.location.reload(); // rafraîchir les badges
+                alert(`"${gameName}" is no longer available!`);
+                window.location.reload();
+            } else {
+                window.location.href = url;
             }
         });
-    
-    return true; // laisser la navigation se faire
+    return false;
 }
-
-// ── Booking (sessionStorage pour reservation.html) ────────────────────────────
-document.addEventListener('DOMContentLoaded', function () {
-    const bookButtons = document.querySelectorAll('.btn-reserve');
-    bookButtons.forEach(btn => {
-        btn.addEventListener('click', function (e) {
-            // Si c'est un lien Symfony (href != '#'), laisser passer
-            if (this.tagName === 'A' && this.getAttribute('href') !== '#') return;
-
-            e.preventDefault();
-            const gameCard = this.closest('.game-card');
-            if (!gameCard) return;
-            const gameNameElem = gameCard.querySelector('.game-content h3');
-            const gameName = gameNameElem ? gameNameElem.innerText.trim() : null;
-            if (gameName) {
-                sessionStorage.setItem('activity', gameName);
-                window.location.href = '..reservation/reservation.php';
-            }
-        });
-    });
-});
