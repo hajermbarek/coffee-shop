@@ -1,15 +1,18 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+
 <div class="top">
     <h1>Reserve your seat!</h1>
     <h4>pick a table on the floor plan then choose time and date</h4>
 </div>
 
 <div class="container">
+
     <div class="dt">
         <form method="post" action="{{ path('seating_fun_select') }}" id="reservationForm">
-            <input type="hidden" name="table_id" id="table_id_input" value="" />
+
+            <input type="hidden" name="table_id"     id="table_id_input"     value="" />
             <input type="hidden" name="table_numero" id="table_numero_input" value="" />
 
             <div>
@@ -18,23 +21,62 @@
             </div>
             <div>
                 <label for="date">Date:</label>
-                <input type="date" id="date" name="date" min="{{ "now"|date("Y-m-d") }}" max="2026-12-31" required />
+                <input type="date" id="date" name="date"
+                       min="{{ "now"|date("Y-m-d") }}" max="2026-12-31" required />
             </div>
             <div>
                 <label for="time">Time:</label>
-                <input type="time" id="time" name="time" min="08:30" max="23:00" required />
+                <input type="time" id="time" name="time"
+                       min="08:30" max="23:00" required />
             </div>
+
             <button type="submit" class="reserve_button">Reserve table</button>
         </form>
     </div>
 
     <div class="floor">
         {% for table in tables %}
-            <div class="table4" data-id="{{ table.idTable }}" data-numero="{{ table.numero }}" data-seats="{{ table.places }}">
+
+            {# FIX 1: add 'four' or 'six' class based on number of seats #}
+            {% if table.places == 4 %}
+                {% set tableClass = 'table4 four' %}
+            {% else %}
+                {% set tableClass = 'table4 six' %}
+            {% endif %}
+
+            <div class="{{ tableClass }}"
+                 data-id="{{ table.idTable }}"
+                 data-numero="{{ table.numero }}"
+                 data-seats="{{ table.places }}">
+
+                {# FIX 2: add the chair divs so they appear around the table #}
+                {% if table.places == 6 %}
+                    <div class="korsi1"></div>
+                    <div class="korsi2"></div>
+                    <div class="korsi3"></div>
+                    <div class="korsi4"></div>
+                    <div class="korsi5"></div>
+                    <div class="korsi6"></div>
+                {% else %}
+                    <div class="korsi11"></div>
+                    <div class="korsi22"></div>
+                    <div class="korsi3"></div>
+                    <div class="korsi4"></div>
+                {% endif %}
+
                 <div class="number">{{ table.numero }}</div>
             </div>
+
         {% endfor %}
+
         <div class="counter" id="counter">Counter</div>
     </div>
+
 </div>
+
+{# FIX 3: give the JS the URL to call for availability check (grey tables) #}
+<script>
+    const checkUrl = "{{ path('seating_fun_check') }}";
+</script>
+
 {% endblock %}
