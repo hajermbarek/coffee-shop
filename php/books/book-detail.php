@@ -31,7 +31,8 @@ $stmt = $pdo->prepare("
     JOIN reservations r ON rl.id_reservation = r.id_reservation
     WHERE rl.id_livre = ? 
     AND r.statut = 'confirmee'
-    AND DATE_ADD(r.date_reservation, INTERVAL 7 DAY) > CURDATE()
+    AND DATE_ADD(r.date_reservation, INTERVAL 7 DAY) > CURDATE() 
+    
 ");
 $stmt->execute([$book_id]);
 $reservation = $stmt->fetch();
@@ -159,7 +160,7 @@ $isReserved = ($reservation !== false);
 
     <div class="book-detail-container">
         <div class="book-cover">
-            <img src="<?= htmlspecialchars($book['image'] ?? 'images/default-book.png') ?>" 
+            <img src="<?= htmlspecialchars($book['image'] ?? 'images/default-book.png') ?>"
                  alt="<?= htmlspecialchars($book['titre']) ?>"
                  onerror="this.onerror=null; this.src='images/default-book.png'">
         </div>
@@ -178,7 +179,7 @@ $isReserved = ($reservation !== false);
                 </span>
             <?php else: ?>
                 <span class="availability unavailable">
-                    ❌ Indisponible - Tous les exemplaires sont empruntés
+                    ❌ Indisponible 
                 </span>
             <?php endif; ?>
             
@@ -187,9 +188,7 @@ $isReserved = ($reservation !== false);
                 <p><?= nl2br(htmlspecialchars($book['description'] ?? 'Aucune description disponible.')) ?></p>
             </div>
             
-            <div class="copies-info">
-                📊 <?= $book['exemplaires_disponibles'] ?> exemplaire(s) disponible(s) sur <?= $book['exemplaires_total'] ?>
-            </div>
+            
             
             <hr>
             
