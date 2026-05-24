@@ -24,16 +24,16 @@ class BookController extends AbstractController
     {
         $livre = $doctrine->getRepository(Livres::class)->find($id_livre);
         if (!$livre) {
-            throw $this->createNotFoundException('Livre non trouvé');
+            throw $this->createNotFoundException('Livre non trouve');
         }
 
         $session->set('activity', $livre->getTitre());
         $session->set('activity_type', 'book');
         $session->set('activity_id', $livre->getIdLivre());
-        $this->addFlash('success', 'Livre sélectionné : ' . $livre->getTitre());
+        $this->addFlash('success', 'Livre selectionne : ' . $livre->getTitre());
 
         if ($session->get('reservationTable')) {
-            return $this->redirectToRoute('reservation_final');
+            return $this->redirectToRoute('reservation_form');
         }
         return $this->redirectToRoute('seating_quiet');
     }
@@ -43,7 +43,7 @@ class BookController extends AbstractController
     {
         $livre = $doctrine->getRepository(Livres::class)->find($id_livre);
         if (!$livre) {
-            throw $this->createNotFoundException('Livre non trouvé');
+            throw $this->createNotFoundException('Livre non trouve');
         }
         return $this->render('book/detail.html.twig', [
             'livre' => $livre,

@@ -1,47 +1,185 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<div class="confirmation-card">
-    <div class="checkmark">✓</div>
-    <h1>✅ Réservation confirmée !</h1>
-    <p>Votre place au Cozy Café est réservée</p>
+<style>
+.confirm-page {
+    max-width: 520px;
+    margin: 2rem auto;
+    font-family: 'Georgia', serif;
+    padding: 1rem;
+}
+.confirm-checkmark {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+.confirm-checkmark .circle {
+    width: 70px;
+    height: 70px;
+    background: #d4edda;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-size: 2rem;
+}
+.confirm-title {
+    text-align: center;
+    font-size: 1.6rem;
+    color: #2d1f14;
+    margin-bottom: 0.3rem;
+}
+.confirm-subtitle {
+    text-align: center;
+    color: #7a6652;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+}
+.code-box {
+    background: #f5f0eb;
+    border-radius: 14px;
+    padding: 1.5rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+.code-label {
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    color: #7a6652;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+.code-number {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #2d1f14;
+    letter-spacing: 10px;
+    margin-bottom: 0.5rem;
+}
+.code-expiry {
+    color: #8b6914;
+    font-size: 0.85rem;
+}
+.details-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5rem;
+}
+.details-table tr {
+    border-bottom: 1px solid #e8ddd4;
+}
+.details-table td {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.95rem;
+}
+.details-table td:first-child {
+    font-weight: bold;
+    color: #2d1f14;
+    width: 50%;
+}
+.details-table td:last-child {
+    color: #4a3728;
+    text-align: right;
+}
+.warning-box {
+    background: #fff8e1;
+    border: 1px solid #f0c040;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.88rem;
+    color: #5a4000;
+}
+.warning-box strong {
+    display: block;
+    margin-bottom: 0.3rem;
+}
+.confirm-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+.btn-home {
+    background: #3d2b1f;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 0.95rem;
+}
+.btn-print {
+    background: white;
+    color: #3d2b1f;
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    border: 2px solid #3d2b1f;
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+</style>
+
+<div class="confirm-page">
+    <div class="confirm-checkmark">
+        <div class="circle">✓</div>
+    </div>
+
+    <h1 class="confirm-title">✅ Réservation confirmée !</h1>
+    <p class="confirm-subtitle">Votre place au Cozy Café est réservée</p>
 
     {% if code %}
-        <div class="code-container">
-            <strong>🔑 Votre code unique</strong>
-            <div class="code">{{ code }}</div>
-            <div>📅 Valable jusqu'au {{ dateExpiration|date('d/m/Y') }}</div>
-        </div>
+    <div class="code-box">
+        <p class="code-label">🔑 VOTRE CODE UNIQUE</p>
+        <div class="code-number">{{ code|split('')|join(' ') }}</div>
+        <p class="code-expiry">📅 Valable jusqu'au {{ expiry|date('d/m/Y') }}</p>
+    </div>
     {% endif %}
 
-    <div class="info">
-        <p><strong>{{ activityType == 'book' ? '📖 Livre' : '🎮 Jeu' }}</strong> : {{ activityName }}</p>
-        <p><strong>Client</strong> : {{ reservation.client.prenom }} {{ reservation.client.nom }}</p>
-        <p><strong>Email</strong> : {{ reservation.client.email }}</p>
-        <p><strong>Téléphone</strong> : {{ reservation.client.telephone }}</p>
-        <p><strong>Table</strong> : n°{{ reservation.table.id }} ({{ reservation.table.zone }})</p>
-        <p><strong>Date & heure</strong> : {{ reservation.dateReservation|date('d/m/Y') }} à {{ reservation.heureReservation }}</p>
-        <p><strong>Personnes</strong> : {{ reservation.nbPersonnes }}</p>
+    <table class="details-table">
+        <tr>
+            <td>📚 Livre réservé</td>
+            <td>{{ activityName }}</td>
+        </tr>
+        <tr>
+            <td>👤 Client</td>
+            <td>{{ clientName }}</td>
+        </tr>
+        {% if email is defined and email %}
+        <tr>
+            <td>📧 Email</td>
+            <td>{{ email }}</td>
+        </tr>
+        {% endif %}
+        {% if phone is defined and phone %}
+        <tr>
+            <td>📞 Téléphone</td>
+            <td>{{ phone }}</td>
+        </tr>
+        {% endif %}
+        <tr>
+            <td>🪑 Table</td>
+            <td>Table n°{{ tableNum }} ({{ zone }})</td>
+        </tr>
+        <tr>
+            <td>📅 Date & Heure</td>
+            <td>{{ date }} à {{ time }}</td>
+        </tr>
+        {% if people is defined and people %}
+        <tr>
+            <td>👥 Nombre de personnes</td>
+            <td>{{ people }}</td>
+        </tr>
+        {% endif %}
+    </table>
+
+    <div class="warning-box">
+        <strong>⚠️ À conserver précieusement</strong>
+        Présentez ce code à l'accueil du Cozy Café pour récupérer votre livre.<br>
+        Le code expire automatiquement après 7 jours.
     </div>
 
-    <div class="warning">
-        ⚠️ À conserver précieusement – Présentez ce code à l'accueil.
-    </div>
-
-    <div class="actions">
-        <a href="{{ path('app_home') }}" class="btn">🏠 Accueil</a>
-        <button onclick="window.print()" class="btn-secondary">🖨️ Imprimer</button>
+    <div class="confirm-actions">
+        <a href="{{ path('book_list') }}" class="btn-home">🏠 Retour à l'accueil</a>
+        <button onclick="window.print()" class="btn-print">🖨 Imprimer</button>
     </div>
 </div>
-
-<style>
-.confirmation-card { max-width: 550px; margin: auto; background: white; padding: 30px; border-radius: 24px; text-align: center; }
-.checkmark { font-size: 60px; background: #d4edda; border-radius: 50%; width: 80px; height: 80px; line-height: 80px; margin: 0 auto; }
-.code { font-size: 48px; letter-spacing: 8px; font-family: monospace; background: #f0e8e0; padding: 20px; border-radius: 16px; }
-.info { text-align: left; margin: 20px 0; }
-.warning { background: #fff3cd; padding: 15px; border-left: 5px solid #ffc107; }
-.btn, .btn-secondary { display: inline-block; padding: 10px 20px; margin: 10px; border-radius: 40px; text-decoration: none; }
-.btn { background: #6f4e37; color: white; }
-.btn-secondary { border: 2px solid #6f4e37; color: #6f4e37; background: white; }
-</style>
 {% endblock %}
