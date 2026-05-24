@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class SeatingController extends AbstractController
 {
@@ -73,6 +75,39 @@ class SeatingController extends AbstractController
     }
     #[Route('/seating/quiet/availability', name: 'seating_quiet_availability', methods: ['GET'])]
     public function checkQuietAvailability(Request $request, EntityManagerInterface $em): JsonResponse
+    {
+        $date = $request->query->get('date', '');
+        $time = $request->query->get('time', '');
+
+        if (!$date || !$time) {
+            return $this->json(['reserved' => []]);
+        }
+
+        try {
+            $rows = $em->createQuery(
+                'SELECT IDENTITY(r.table) as id_table
+                FROM App\Entity\Reservations r
+                WHERE r.date_reservation = :date
+                AND r.heure_reservation = :time
+                AND r.statut != :cancelled'
+            )->setParameters([
+                'date'      => new \DateTime($date),
+                'time'      => new \DateTime($time),
+                'cancelled' => 'annulee',
+            ])->getArrayResult();
+
+            return $this->json([
+                'reserved' => array_map(fn($r) => (int)$r['id_table'], $rows)
+            ]);
+        } catch (\Exception $e) {
+            return $this->json([
+                'error' => $e->getMessage(),
+                'reserved' => []
+            ], 500);
+        }
+    }
+    #[Route('/seating/fun/check', name: 'seating_fun_check', methods: ['GET'])]
+    public function checkFunAvailability(Request $request, EntityManagerInterface $em): JsonResponse
     {
         $date = $request->query->get('date', '');
         $time = $request->query->get('time', '');
