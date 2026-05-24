@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600&family=IM+Fell+English:wght@400&display=swap');
 .top{
-  background-color: #6f4e37;
-  text-align:center;
-  padding:40px 20px;
+  width: 100px;
+  box-sizing: border-box;
+  margin:0;
 }
 .top  h1{
   font-family:"IM Fell English", serif;
