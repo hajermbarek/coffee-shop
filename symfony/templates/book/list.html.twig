@@ -183,8 +183,14 @@
         <div class="verify-input-row">
             <input type="text" id="verifyCode" maxlength="6" placeholder="000000">
             <button onclick="verifyCode()">Vérifier</button>
+            
         </div>
         <div id="verifyMessage"></div>
+<div id="finaliserBtn" style="display:none; margin-top:1rem;">
+    <a id="finaliserLink" href="{{ path('reservation_form') }}" class="btn-brown">
+        ✅ Finaliser la réservation
+    </a>
+</div>
     </div>
 
     <div class="books-grid">
@@ -235,6 +241,10 @@
 function verifyCode() {
     const code = document.getElementById('verifyCode').value.trim();
     const msgDiv = document.getElementById('verifyMessage');
+    const finaliserBtn = document.getElementById('finaliserBtn');
+    const finaliserLink = document.getElementById('finaliserLink');
+
+    finaliserBtn.style.display = 'none';
 
     if (!/^\d{6}$/.test(code)) {
         msgDiv.innerHTML = '<span style="color:red;">Code invalide (6 chiffres requis)</span>';
@@ -250,10 +260,14 @@ function verifyCode() {
     .then(data => {
         if (!data.valid) {
             msgDiv.innerHTML = '<span style="color:red;">❌ Code invalide ou expiré.</span>';
+            finaliserBtn.style.display = 'none';
         } else if (data.expired) {
             msgDiv.innerHTML = '<span style="color:red;">⚠️ Code expiré le ' + data.expiry_date + '.</span>';
+            finaliserBtn.style.display = 'none';
         } else {
             msgDiv.innerHTML = '<span style="color:green;">✅ Code valide ! Livre : <strong>' + data.book_title + '</strong><br>Valable jusqu\'au ' + data.expiry_date + '</span>';
+            finaliserLink.href = '{{ path('reservation_form') }}?code=' + encodeURIComponent(code);
+            finaliserBtn.style.display = 'block';
         }
     })
     .catch(() => {
