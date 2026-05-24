@@ -1,25 +1,67 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+<style>
+    .navbar.bg-body-tertiary {
+        background-color: #f9f1e9 !important;
+    }
+    .navbar-brand, .nav-link, .navbar-toggler-icon {
+        color: #3b2f2f !important;
+    }
+    .nav-link:hover {
+        color: #6f4e37 !important;
+    }
+    /* Fix headercls to be full width */
+    .headercls {
+        width: 100%;
+        box-sizing: border-box;
+    }
+    /* Fix section max-width from Menu_Style.css */
+    .services-section,
+    .instagram-feed {
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 0 !important;
+        box-sizing: border-box;
+    }
+    /* Center the Our Zones title */
+    .section-header {
+        text-align: center !important;
+    }
+    /* Make zones-grid not collapse weirdly */
+    .zones-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+    }
+    @media (max-width: 900px) {
+        .zones-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
 {% block body %}
 
-<section class="headercls">
+<div class="headercls">
     <div class="htext">
         <h1 class="welcome">Welcome</h1>
         <h2 class="title">Cozy Café</h2>
         <p class="desccls">
             A modern coffee shop where you can<br>
-            Read, Play, and Mingle all while enjoying our best 
+            Read, Play, and Mingle all while enjoying our best
             <strong>Brews and Pastries.</strong>
         </p>
         <a href="#services-section" class="explore-btn">Explore</a>
     </div>
-</section>
+</div>
 
 <section id="services-section" class="services-section">
-    <div class="section-header">
-        <h2>Our Zones</h2>
-        <p class="section-lead">Choose your atmosphere — focus or fun</p>
-    </div>
+    <div class="section-header" style="text-align:center; width:100%;">
+    <h2 style="text-align:center;">Our Zones</h2>
+    <p class="section-lead" style="text-align:center;">Choose your atmosphere — focus or fun</p>
+</div>
 
     <div class="zones-grid">
         <div class="zone-card">
@@ -45,7 +87,7 @@
             <hr class="zone-divider" />
             <p class="zone-description">
                 Where the energy lives. Board games, group tables, tournaments and
-                spontaneous hangouts — everyone’s welcome.
+                spontaneous hangouts — everyone's welcome.
             </p>
             <ul class="zone-features">
                 <li>Board & team games on reserve</li>
@@ -76,22 +118,22 @@
 </section>
 
 <section class="instagram-feed">
-    <div class="feed-header">
-        <h2>FOLLOW US ON SOCIAL MEDIA</h2>
-        <p>@cozycafe.tn · Real moments, real coffee</p>
-    </div>
+    <div class="feed-header" style="text-align:center; width:100%;">
+    <h2 style="text-align:center;">FOLLOW US ON SOCIAL MEDIA</h2>
+    <p style="text-align:center;">@cozycafe.tn · Real moments, real coffee</p>
+</div>
     <div class="slider-container">
         <button class="slider-btn prev" aria-label="Previous images">←</button>
         <div class="slider-wrapper">
             <div class="slider-track" id="sliderTrack">
-                <img src="{{ asset('images/coffee-moment.jpg') }}" alt="Coffee moment">
-                <img src="{{ asset('images/cake.jpg') }}" alt="Cake">
-                <img src="{{ asset('images/book-space.jpg') }}" alt="book space">
-                <img src="{{ asset('images/latte-art.jpg') }}" alt="Latte art">
-                <img src="{{ asset('images/pastries.jpg') }}" alt="Pastries">
-                <img src="{{ asset('images/brunch.jpg') }}" alt="Brunch">
-                <img src="{{ asset('images/cozy-interior.jpg') }}" alt="Cozy interior">
-                <img src="{{ asset('images/latte-art-2.jpg') }}" alt="Latte art">
+                <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&h=400&fit=crop" alt="Coffee moment">
+                <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=400&h=400&fit=crop" alt="Cake">
+                <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=400&fit=crop" alt="Book space">
+                <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?w=400&h=400&fit=crop" alt="Latte art">
+                <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400&h=400&fit=crop" alt="Pastries">
+                <img src="https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?w=400&h=400&fit=crop" alt="Brunch">
+                <img src="https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=400&h=400&fit=crop" alt="Cozy interior">
+                <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&h=400&fit=crop" alt="Latte art 2">
             </div>
         </div>
         <button class="slider-btn next" aria-label="Next images">→</button>

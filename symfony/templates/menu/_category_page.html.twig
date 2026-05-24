@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<header>
+    <h1 style="font-family:'Trebuchet MS', Arial, sans-serif">Cozy Café</h1>
+    <p>Your daily dose of happiness</p>
+</header>
+
+<div style="max-width: none; margin: 0; padding: 40px 5%;">
+    <h2 style="text-align:center; margin-bottom: 32px;">{{ page_title }}</h2>
+
+    <div class="menu">
+        {% for item in items %}
+            <div class="item {% if item.isPopular %}popular{% endif %}">
+                {% if item.isPopular %}
+                    <span class="badge">⭐ Popular</span>
+                {% endif %}
+                <img src="{{ item.imageUrl }}"
+                     alt="{{ item.name }}"
+                     class="drink-img"
+                     onerror="this.src='https://placehold.co/400x300/f5efe8/6f4e37?text=No+Image'">
+                <h3>{{ item.name }}</h3>
+                <p>{{ item.description }}</p>
+                <p class="price">{{ item.price }}</p>
+                <button class="order-btn"
+                        onclick="alert('Ordering {{ item.name|e('js') }}...')">Order Now</button>
+            </div>
+        {% else %}
+            <p style="color:#888;font-style:italic;text-align:center;width:100%;">No items available yet. Check back soon!</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
