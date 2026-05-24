@@ -49,4 +49,13 @@
         </form>
     </div>
 </section>
+<div id="js-data"
+     data-availability-url="{{ path('seating_quiet_availability') }}">
+</div>
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/seatingbooks.js') }}"></script>
+{% endblock %}
+
 {% endblock %}

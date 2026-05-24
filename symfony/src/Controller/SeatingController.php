@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Entity\Tables;
@@ -69,5 +70,13 @@ class SeatingController extends AbstractController
         $session->set('reservationZone', 'Fun Zone');
 
         return $this->redirectToRoute('games_list');
+    }
+    #[Route('/seating/quiet/availability', name: 'seating_quiet_availability')]
+    public function checkQuietAvailability(Request $request, ManagerRegistry $doctrine): Response
+    {
+        $date = $request->query->get('date');
+        $time = $request->query->get('time');
+        // query your reservations here and return JSON
+        return $this->json(['reserved' => [/* table ids */]]);
     }
 }
