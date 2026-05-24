@@ -2,9 +2,8 @@
 session_start();
 require_once '../cnx.php';
 
-// ============================================
 // RÉCUPÉRATION DES DONNÉES DU FORMULAIRE
-// ============================================
+
 
 $prenom      = trim($_POST['firstname'] ?? '');
 $nom         = trim($_POST['name'] ?? '');
@@ -33,9 +32,7 @@ if (!$idTable) $errors[] = "Aucune table sélectionnée.";
 if (empty($dateResa)) $errors[] = "La date est requise.";
 if (empty($heureResa)) $errors[] = "L'heure est requise.";
 
-// ============================================
 // RÉCUPÉRATION DES INFOS DU CODE (si existant)
-// ============================================
 
 $codeInfo = null;
 $activityName = '';
@@ -81,9 +78,7 @@ if (!empty($errors)) {
     exit;
 }
 
-// ============================================
 // VÉRIFIER SI LE CLIENT EXISTE DÉJÀ
-// ============================================
 
 try {
     // Vérifier si le client existe

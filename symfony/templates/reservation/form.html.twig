@@ -1,0 +1,148 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<header>
+    <h1>Cozy Café</h1>
+    <p>Your daily dose of happiness</p>
+</header>
+
+<div class="reservation-form">
+    {# Affichage des messages flash #}
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-error">{{ message }}</div>
+    {% endfor %}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+
+    <h2>Finalize Your Reservation</h2>
+
+    <form method="post">
+        <label>Prénom :</label>
+        <input type="text" name="firstname" required>
+
+        <label>Nom :</label>
+        <input type="text" name="name" required>
+
+        <label>Email :</label>
+        <input type="email" name="email" required>
+
+        <label>Téléphone :</label>
+        <input type="tel" name="phone" required>
+
+        <label>Date :</label>
+        <input type="text" value="{{ dateResa }}" readonly>
+
+        <label>Heure :</label>
+        <input type="text" value="{{ heureResa }}" readonly>
+
+        <label>Nombre de personnes :</label>
+        <input type="number" name="people" min="1" required>
+
+        <label>Zone :</label>
+        <input type="text" value="{{ zone }}" readonly>
+
+        <label>N° table :</label>
+        <input type="text" value="Table {{ tableNum }}" readonly>
+
+        <label>🔑 Code de réservation :</label>
+        <input type="text" name="reservation_code" id="reservation_code"
+               value="{{ prefilledCode }}" {% if prefilledCode %}readonly{% endif %}
+               placeholder="6 chiffres">
+        {% if prefilledCode %}
+            <small>✅ Code valide - Livre : {{ codeActivity }}</small>
+        {% else %}
+            <small>Si vous avez déjà un code, entrez-le ici</small>
+        {% endif %}
+        <div id="codeMessage"></div>
+
+        <label>Activité :</label>
+        <input type="text" id="activityDisplay" value="{{ activity }}" readonly>
+
+        <label>Allergies :</label>
+        <textarea name="allergies"></textarea>
+
+        <label>Commentaires :</label>
+        <textarea name="comments"></textarea>
+
+        {# Champs cachés #}
+        <input type="hidden" name="table_id" value="{{ tableId ?? '' }}">
+        <input type="hidden" name="reservation_date" value="{{ dateResa }}">
+        <input type="hidden" name="reservation_time" value="{{ heureResa }}">
+        <input type="hidden" name="activity_type" value="{{ activityType ?? '' }}">
+        <input type="hidden" name="activity_id" value="{{ activityId ?? '' }}">
+        <input type="hidden" name="zone_name" value="{{ zone }}">
+        <input type="hidden" name="table_number" value="{{ tableNum }}">
+        {% if prefilledCode %}
+            <input type="hidden" name="has_code" value="1">
+        {% endif %}
+
+        <div class="form-buttons">
+            <button type="button" onclick="goBack()">Modifier le choix</button>
+            <button type="submit">Confirmer la réservation</button>
+        </div>
+    </form>
+</div>
+
+<script>
+function goBack() {
+    let zone = "{{ zone|e('js') }}";
+    if (zone.includes('Quiet')) location.href = "{{ path('book_list') }}";
+    else if (zone.includes('Fun')) location.href = "{{ path('games_list') }}";
+    else history.back();
+}
+
+const codeInput = document.getElementById('reservation_code');
+if (codeInput && !codeInput.readOnly) {
+    codeInput.addEventListener('blur', function() {
+        let code = this.value.trim();
+        if (/^\d{6}$/.test(code)) {
+            fetch('{{ path('reservation_verify_code') }}', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: 'code=' + encodeURIComponent(code)
+            })
+            .then(r => r.json())
+            .then(data => {
+                let msgDiv = document.getElementById('codeMessage');
+                if (data.valid && !data.expired) {
+                    document.getElementById('activityDisplay').value = data.book_title;
+                    msgDiv.innerHTML = '<span style="color:green;">✅ Code valide !</span>';
+                } else if (data.expired) {
+                    alert('Code expiré le ' + data.expiry_date);
+                    msgDiv.innerHTML = '';
+                } else {
+                    alert('Code invalide');
+                    msgDiv.innerHTML = '';
+                }
+            });
+        }
+    });
+}
+</script>
+
+<style>
+.reservation-form { max-width: 650px; margin: auto; background: white; padding: 30px; border-radius: 15px; }
+label { font-weight: bold; display: block; margin-top: 10px; }
+input, textarea { width: 100%; padding: 8px; margin-bottom: 10px; border-radius: 6px; border: 1px solid #ccc; }
+button { padding: 10px 20px; margin-top: 10px; border-radius: 8px; cursor: pointer; }
+button[type="submit"] { background: #6f4e37; color: white; }
+button[type="button"] { background: #ccc; }
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    border: 1px solid #f5c6cb;
+}
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    border: 1px solid #c3e6cb;
+}
+</style>
+{% endblock %}

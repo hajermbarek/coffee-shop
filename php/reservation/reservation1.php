@@ -14,9 +14,9 @@ if (isset($_GET['check_availability'])) {
 
     $stmt = $pdo->prepare(
         "SELECT id_table FROM reservations
-         WHERE date_reservation = :date
-           AND heure_reservation = :time
-           AND statut != 'annulee'"
+        WHERE date_reservation = :date
+        AND heure_reservation = :time
+        AND statut != 'annulee'"
     );
     $stmt->execute([':date' => $date, ':time' => $time . ':00']);
     $rows = $stmt->fetchAll(PDO::FETCH_COLUMN);
@@ -38,9 +38,8 @@ if (isset($_GET['book'])) {
     $_SESSION['activity_id'] = $_GET['book_id'] ?? 0;
 }
 
-// ============================================
-// NOUVEAU : Gestion du code de réservation
-// ============================================
+//recuperation de code de reservation 
+
 $prefilledCode = '';
 $codeActivity = '';
 $codeActivityId = null;
@@ -147,9 +146,7 @@ if ($prefilledCode && !$activityId) {
         <label>N°table :</label>
         <input type="text" id="tableNumber" name="table_display" value="Table <?= htmlspecialchars($tableNum) ?>" readonly>
 
-        <!-- ============================================ -->
-        <!-- NOUVEAU : Champ Code (pré-rempli si disponible) -->
-        <!-- ============================================ -->
+
         <label>🔑 Code de réservation :</label>
         <div class="code-field">
             <input type="text" id="reservationCode" name="reservation_code" 
@@ -206,7 +203,7 @@ if ($prefilledCode && !$activityId) {
             }
         }
         
-        // NOUVEAU : Vérification du code en temps réel (optionnel)
+        // Vérification du code en temps réel (optionnel)
         const codeInput = document.getElementById('reservationCode');
         if (codeInput && !codeInput.readOnly) {
             codeInput.addEventListener('blur', function() {

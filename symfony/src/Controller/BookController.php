@@ -19,29 +19,34 @@ class BookController extends AbstractController
         ]);
     }
 
+    #[Route('/book/reserve/{id_livre}', name: 'book_reserve', methods: ['POST'])]
+    public function reserve(ManagerRegistry $doctrine, SessionInterface $session, int $id_livre): Response
+    {
+        $livre = $doctrine->getRepository(Livres::class)->find($id_livre);
+        if (!$livre) {
+            throw $this->createNotFoundException('Livre non trouve');
+        }
+
+        $session->set('activity', $livre->getTitre());
+        $session->set('activity_type', 'book');
+        $session->set('activity_id', $livre->getIdLivre());
+        $this->addFlash('success', 'Livre selectionne : ' . $livre->getTitre());
+
+        if ($session->get('reservationTable')) {
+            return $this->redirectToRoute('reservation_form');
+        }
+        return $this->redirectToRoute('seating_quiet');
+    }
+
     #[Route('/book/{id_livre}', name: 'book_detail')]
     public function detail(ManagerRegistry $doctrine, int $id_livre): Response
     {
         $livre = $doctrine->getRepository(Livres::class)->find($id_livre);
         if (!$livre) {
-            throw $this->createNotFoundException('Livre non trouvé');
+            throw $this->createNotFoundException('Livre non trouve');
         }
         return $this->render('book/detail.html.twig', [
             'livre' => $livre,
         ]);
-    }
-
-    #[Route('/book/reserve/{id_livre}', name: 'book_reserve', methods: ['POST'])]
-    public function reserve(Livres $livre, SessionInterface $session): Response
-    {
-        $session->set('activity', $livre->getTitre());
-        $session->set('activity_type', 'book');
-        $session->set('activity_id', $livre->getIdLivre());
-        $this->addFlash('success', 'Livre sélectionné : ' . $livre->getTitre());
-
-        if ($session->get('reservationTable')) {
-            return $this->redirectToRoute('reservation_final');
-        }
-        return $this->redirectToRoute('seating_quiet');
     }
 }

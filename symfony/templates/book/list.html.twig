@@ -1,30 +1,250 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<h1>Liste des livres</h1>
-<ul>
-{% for livre in livres %}
-    <li>
-        {{ livre.titre }} - {{ livre.auteur }} ({{ livre.exemplairesDisponibles }} disponibles)
-        <a href="{{ path('book_detail', {id_livre: livre.idLivre}) }}">🔍 Voir détail</a>
-    </li>
-{% endfor %}
-</ul>
+<style>
+.books-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: 'Georgia', serif;
+}
+.books-title {
+    text-align: center;
+    font-size: 2rem;
+    color: #4a3728;
+    margin-bottom: 1.5rem;
+}
+.books-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+.btn-brown {
+    background-color: #5c3d2e;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 0.95rem;
+    border: none;
+    cursor: pointer;
+}
+.btn-brown-outline {
+    background-color: #3d2b1f;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 0.95rem;
+    border: none;
+    cursor: pointer;
+}
+.verify-section {
+    background: #f5f0eb;
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    max-width: 500px;
+    margin: 0 auto 3rem auto;
+}
+.verify-section h3 {
+    color: #4a3728;
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+}
+.verify-section p {
+    color: #7a6652;
+    margin-bottom: 1rem;
+}
+.verify-input-row {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+.verify-input-row input {
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    text-align: center;
+    width: 140px;
+    letter-spacing: 4px;
+}
+.verify-input-row button {
+    background-color: #5c3d2e;
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
+.books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+}
+.book-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 1rem;
+}
+.book-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: white;
+}
+.badge-disponible { background-color: #4a7c59; }
+.badge-reserve { background-color: #8b6914; }
+.book-cover {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+.book-cover-placeholder {
+    width: 100%;
+    height: 200px;
+    background: #e8ddd4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+}
+.book-info {
+    padding: 0.75rem 1rem 0.5rem;
+    text-align: center;
+    width: 100%;
+}
+.book-info h4 {
+    font-size: 0.95rem;
+    color: #2d1f14;
+    margin: 0 0 0.2rem;
+}
+.book-info p {
+    font-size: 0.8rem;
+    color: #7a6652;
+    margin: 0 0 0.75rem;
+}
+.btn-detail {
+    background-color: #3d2b1f;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    display: inline-block;
+}
+#verifyMessage {
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+}
+.how-it-works {
+    margin-top: 4rem;
+    text-align: center;
+    padding: 2rem;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+.how-it-works h2 {
+    font-size: 1.8rem;
+    color: #4a3728;
+    margin-bottom: 1.5rem;
+}
+.how-it-works p {
+    font-size: 1rem;
+    color: #4a3728;
+    margin: 0.5rem 0;
+}
+</style>
 
-<hr>
+<div class="books-page">
+    <h1 class="books-title">Books Available</h1>
 
-<div class="verify-section">
-    <h3>📖 Vous avez déjà un code ?</h3>
-    <p>Entrez votre code à 6 chiffres pour vérifier votre réservation</p>
-    <input type="text" id="verifyCode" maxlength="6" placeholder="000000">
-    <button onclick="verifyCode()">Vérifier</button>
-    <div id="verifyMessage"></div>
+    <div class="books-actions">
+        <button class="btn-brown" onclick="document.getElementById('how-it-works').scrollIntoView({behavior: 'smooth'})">How does reserving work?</button>
+    </div>
+
+    <div class="verify-section">
+        <h3>📖 Vous avez déjà un code ?</h3>
+        <p>Entrez votre code à 6 chiffres pour vérifier votre réservation</p>
+        <div class="verify-input-row">
+            <input type="text" id="verifyCode" maxlength="6" placeholder="000000">
+            <button onclick="verifyCode()">Vérifier</button>
+            
+        </div>
+        <div id="verifyMessage"></div>
+<div id="finaliserBtn" style="display:none; margin-top:1rem;">
+    <a id="finaliserLink" href="{{ path('reservation_form') }}" class="btn-brown">
+        ✅ Finaliser la réservation
+    </a>
+</div>
+    </div>
+
+    <div class="books-grid">
+        {% for livre in livres %}
+        <div class="book-card">
+            {% if livre.exemplairesDisponibles > 0 %}
+                <span class="book-badge badge-disponible">Disponible</span>
+            {% else %}
+                <span class="book-badge badge-reserve">Réservé</span>
+            {% endif %}
+
+            {% if livre.image %}
+                <img src="{{ asset('images/' ~ livre.image) }}" alt="{{ livre.titre }}" class="book-cover">
+            {% else %}
+                <div class="book-cover-placeholder">📖</div>
+            {% endif %}
+
+            <div class="book-info">
+                <h4>{{ livre.titre }}</h4>
+                <p>{{ livre.auteur }}</p>
+                {% if livre.exemplairesDisponibles > 0 %}
+                    <a href="{{ path('book_detail', {id_livre: livre.idLivre}) }}" class="btn-detail">📋 Voir détails</a>
+                {% else %}
+                    <span style="font-size:0.8rem; color:#8b6914;">🔖 Vous avez un code ?<br>Utilisez la zone ci-dessus</span>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div id="how-it-works" class="how-it-works">
+        <h2>How Our Book Reservation Works</h2>
+        <p><strong>📚 Réservation gratuite pour 7 jours</strong></p>
+        <br>
+        <p>1️⃣ Choisissez un livre disponible</p>
+        <p>2️⃣ Remplissez le formulaire de réservation</p>
+        <p>3️⃣ Recevez un <strong>code à 6 chiffres</strong> par email</p>
+        <p>4️⃣ Présentez ce code à votre arrivée</p>
+        <p>5️⃣ Le livre est à vous pendant <strong>7 jours</strong> !</p>
+        <br>
+        <p>⚠️ <strong>Important :</strong> Le livre doit être consulté sur place.</p>
+        <p>🔄 Après 7 jours, le livre redevient automatiquement disponible.</p>
+    </div>
+
 </div>
 
 <script>
 function verifyCode() {
     const code = document.getElementById('verifyCode').value.trim();
     const msgDiv = document.getElementById('verifyMessage');
+    const finaliserBtn = document.getElementById('finaliserBtn');
+    const finaliserLink = document.getElementById('finaliserLink');
+
+    finaliserBtn.style.display = 'none';
 
     if (!/^\d{6}$/.test(code)) {
         msgDiv.innerHTML = '<span style="color:red;">Code invalide (6 chiffres requis)</span>';
@@ -40,10 +260,14 @@ function verifyCode() {
     .then(data => {
         if (!data.valid) {
             msgDiv.innerHTML = '<span style="color:red;">❌ Code invalide ou expiré.</span>';
+            finaliserBtn.style.display = 'none';
         } else if (data.expired) {
             msgDiv.innerHTML = '<span style="color:red;">⚠️ Code expiré le ' + data.expiry_date + '.</span>';
+            finaliserBtn.style.display = 'none';
         } else {
             msgDiv.innerHTML = '<span style="color:green;">✅ Code valide ! Livre : <strong>' + data.book_title + '</strong><br>Valable jusqu\'au ' + data.expiry_date + '</span>';
+            finaliserLink.href = '{{ path('reservation_form') }}?code=' + encodeURIComponent(code);
+            finaliserBtn.style.display = 'block';
         }
     })
     .catch(() => {

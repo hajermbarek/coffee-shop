@@ -2,9 +2,7 @@
 require_once '../cnx.php';
 session_start();
 
-// ============================================
 // FONCTIONS UTILITAIRES
-// ============================================
 
 function getClientByEmail($pdo, $email) {
     $stmt = $pdo->prepare("SELECT id_client FROM clients WHERE email = ?");
@@ -22,9 +20,7 @@ function generateCode() {
     return str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
 }
 
-// ============================================
 // RÉCUPÉRATION ET VALIDATION DES DONNÉES
-// ============================================
 
 $prenom      = trim($_POST['firstname'] ?? '');
 $nom         = trim($_POST['name'] ?? '');
