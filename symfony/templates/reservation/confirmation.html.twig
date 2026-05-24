@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="confirmation-card">
+    <div class="checkmark">✓</div>
+    <h1>✅ Réservation confirmée !</h1>
+    <p>Votre place au Cozy Café est réservée</p>
+
+    {% if code %}
+        <div class="code-container">
+            <strong>🔑 Votre code unique</strong>
+            <div class="code">{{ code }}</div>
+            <div>📅 Valable jusqu'au {{ dateExpiration|date('d/m/Y') }}</div>
+        </div>
+    {% endif %}
+
+    <div class="info">
+        <p><strong>{{ activityType == 'book' ? '📖 Livre' : '🎮 Jeu' }}</strong> : {{ activityName }}</p>
+        <p><strong>Client</strong> : {{ reservation.client.prenom }} {{ reservation.client.nom }}</p>
+        <p><strong>Email</strong> : {{ reservation.client.email }}</p>
+        <p><strong>Téléphone</strong> : {{ reservation.client.telephone }}</p>
+        <p><strong>Table</strong> : n°{{ reservation.table.id }} ({{ reservation.table.zone }})</p>
+        <p><strong>Date & heure</strong> : {{ reservation.dateReservation|date('d/m/Y') }} à {{ reservation.heureReservation }}</p>
+        <p><strong>Personnes</strong> : {{ reservation.nbPersonnes }}</p>
+    </div>
+
+    <div class="warning">
+        ⚠️ À conserver précieusement – Présentez ce code à l'accueil.
+    </div>
+
+    <div class="actions">
+        <a href="{{ path('app_home') }}" class="btn">🏠 Accueil</a>
+        <button onclick="window.print()" class="btn-secondary">🖨️ Imprimer</button>
+    </div>
+</div>
+
+<style>
+.confirmation-card { max-width: 550px; margin: auto; background: white; padding: 30px; border-radius: 24px; text-align: center; }
+.checkmark { font-size: 60px; background: #d4edda; border-radius: 50%; width: 80px; height: 80px; line-height: 80px; margin: 0 auto; }
+.code { font-size: 48px; letter-spacing: 8px; font-family: monospace; background: #f0e8e0; padding: 20px; border-radius: 16px; }
+.info { text-align: left; margin: 20px 0; }
+.warning { background: #fff3cd; padding: 15px; border-left: 5px solid #ffc107; }
+.btn, .btn-secondary { display: inline-block; padding: 10px 20px; margin: 10px; border-radius: 40px; text-decoration: none; }
+.btn { background: #6f4e37; color: white; }
+.btn-secondary { border: 2px solid #6f4e37; color: #6f4e37; background: white; }
+</style>
+{% endblock %}
