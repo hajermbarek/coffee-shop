@@ -7,6 +7,14 @@
 </header>
 
 <div class="reservation-form">
+    {# Affichage des messages flash #}
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-error">{{ message }}</div>
+    {% endfor %}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+
     <h2>Finalize Your Reservation</h2>
 
     <form method="post">
@@ -120,5 +128,21 @@ input, textarea { width: 100%; padding: 8px; margin-bottom: 10px; border-radius:
 button { padding: 10px 20px; margin-top: 10px; border-radius: 8px; cursor: pointer; }
 button[type="submit"] { background: #6f4e37; color: white; }
 button[type="button"] { background: #ccc; }
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    border: 1px solid #f5c6cb;
+}
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    border: 1px solid #c3e6cb;
+}
 </style>
 {% endblock %}

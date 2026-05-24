@@ -33,6 +33,7 @@ class SeatingController extends AbstractController
         }
 
         $session->set('reservationTable', $tableId);
+        $session->set('table_id', $tableId);  // AJOUT : pour compatibilité
         $session->set('reservationDate', $date);
         $session->set('reservationTime', $time);
         $session->set('reservationZone', 'Quiet Zone');
@@ -62,6 +63,7 @@ class SeatingController extends AbstractController
         }
 
         $session->set('reservationTable', $tableId);
+        $session->set('table_id', $tableId);  // AJOUT : pour compatibilité
         $session->set('reservationDate', $date);
         $session->set('reservationTime', $time);
         $session->set('reservationZone', 'Fun Zone');

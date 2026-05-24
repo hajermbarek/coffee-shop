@@ -143,18 +143,14 @@
             <td>👤 Client</td>
             <td>{{ clientName }}</td>
         </tr>
-        {% if email is defined and email %}
         <tr>
             <td>📧 Email</td>
             <td>{{ email }}</td>
         </tr>
-        {% endif %}
-        {% if phone is defined and phone %}
         <tr>
             <td>📞 Téléphone</td>
             <td>{{ phone }}</td>
         </tr>
-        {% endif %}
         <tr>
             <td>🪑 Table</td>
             <td>Table n°{{ tableNum }} ({{ zone }})</td>
@@ -163,12 +159,10 @@
             <td>📅 Date & Heure</td>
             <td>{{ date }} à {{ time }}</td>
         </tr>
-        {% if people is defined and people %}
         <tr>
             <td>👥 Nombre de personnes</td>
             <td>{{ people }}</td>
         </tr>
-        {% endif %}
     </table>
 
     <div class="warning-box">

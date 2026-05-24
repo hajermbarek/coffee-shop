@@ -2,13 +2,13 @@
 
 namespace App\Controller;
 
-use App\Entity\Client;
-use App\Entity\Reservation;
-use App\Entity\ReservationLivre;
-use App\Entity\ReservationJeu;
-use App\Entity\Livre;
+use App\Entity\Clients;
+use App\Entity\ReservationLivres;
+use App\Entity\ReservationJeux;
+use App\Entity\Livres;
+use App\Entity\Tables;
+use App\Entity\Reservations;
 use App\Entity\Game;
-use App\Entity\Table;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +24,7 @@ class ReservationController extends AbstractController
         $session = $request->getSession();
         $zone = $session->get('reservationZone', 'Non spécifiée');
         $tableNum = $session->get('reservationTable', '—');
-        $tableId = $session->get('table_id');
+        $tableId = $session->get('reservationTable');
         $dateResa = $session->get('reservationDate');
         $heureResa = $session->get('reservationTime');
         $activityType = $session->get('activity_type');
@@ -35,7 +35,7 @@ class ReservationController extends AbstractController
         $prefilledCode = '';
         $codeActivity = '';
         if ($codeParam = $request->query->get('code')) {
-            $rl = $em->getRepository(ReservationLivre::class)
+            $rl = $em->getRepository(ReservationLivres::class)
                 ->findOneBy(['code' => $codeParam]);
             if ($rl && $rl->getDateExpiration() > new \DateTime()) {
                 $prefilledCode = $codeParam;
@@ -43,7 +43,7 @@ class ReservationController extends AbstractController
                 if (!$activityType) {
                     $activity = $codeActivity;
                     $activityType = 'book';
-                    $activityId = $rl->getLivre()->getId();
+                    $activityId = $rl->getLivre()->getIdLivre();
                 }
             }
         }
@@ -67,9 +67,9 @@ class ReservationController extends AbstractController
 
             try {
                 // Client
-                $client = $em->getRepository(Client::class)->findOneBy(['email' => $email]);
+                $client = $em->getRepository(Clients::class)->findOneBy(['email' => $email]);
                 if (!$client) {
-                    $client = new Client();
+                    $client = new Clients();
                     $client->setPrenom($prenom);
                     $client->setNom($nom);
                     $client->setEmail($email);
@@ -83,15 +83,18 @@ class ReservationController extends AbstractController
                 $em->flush();
 
                 // Table
-                $table = $em->getRepository(Table::class)->find($tableId);
+                $table = $em->getRepository(Tables::class)->find($tableId);
                 if (!$table) throw new \Exception("Table non trouvée");
 
                 // Réservation principale
-                $reservation = new Reservation();
+                $reservation = new Reservations();
                 $reservation->setClient($client);
                 $reservation->setTable($table);
                 $reservation->setDateReservation(new \DateTime($dateResa));
-                $reservation->setHeureReservation($heureResa);
+                // L'heure doit être un objet DateTime
+                $heureObj = \DateTime::createFromFormat('H:i', $heureResa);
+                if (!$heureObj) throw new \Exception("Format d'heure invalide");
+                $reservation->setHeureReservation($heureObj);
                 $reservation->setNbPersonnes($nbPersonnes);
                 $reservation->setAllergies($allergies);
                 $reservation->setCommentaires($commentaires);
@@ -101,21 +104,22 @@ class ReservationController extends AbstractController
 
                 // Gestion code existant ou nouvelle réservation livre/jeu
                 if ($hasCode && $codeSaisi) {
-                    $rl = $em->getRepository(ReservationLivre::class)->findOneBy(['code' => $codeSaisi]);
+                    $rl = $em->getRepository(ReservationLivres::class)->findOneBy(['code' => $codeSaisi]);
                     if (!$rl) throw new \Exception("Code invalide.");
                     $rl->setReservation($reservation);
                     $em->flush();
                 } elseif ($activityType === 'book') {
-                    $livre = $em->getRepository(Livre::class)->find($activityId);
+                    $livre = $em->getRepository(Livres::class)->find($activityId);
                     if (!$livre) throw new \Exception("Livre non trouvé");
 
-                    $existing = $em->getRepository(ReservationLivre::class)
+                    // Vérifier si ce client a déjà réservé ce livre récemment
+                    $existing = $em->getRepository(ReservationLivres::class)
                         ->createQueryBuilder('rl')
                         ->join('rl.reservation', 'r')
                         ->where('rl.livre = :livre')
                         ->andWhere('r.client = :client')
                         ->andWhere('r.statut = :statut')
-                        ->andWhere('r.dateReservation >= :date')
+                        ->andWhere('r.date_reservation >= :date')   // correction ici
                         ->setParameter('livre', $livre)
                         ->setParameter('client', $client)
                         ->setParameter('statut', 'confirmee')
@@ -129,7 +133,7 @@ class ReservationController extends AbstractController
                     } else {
                         $code = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
                         $expiration = (clone $reservation->getDateReservation())->modify('+7 days');
-                        $rl = new ReservationLivre();
+                        $rl = new ReservationLivres();
                         $rl->setReservation($reservation);
                         $rl->setLivre($livre);
                         $rl->setCode($code);
@@ -142,27 +146,31 @@ class ReservationController extends AbstractController
                     $game = $em->getRepository(Game::class)->find($activityId);
                     if (!$game) throw new \Exception("Jeu non trouvé");
 
-                    $start = (new \DateTime($dateResa . ' ' . $heureResa))->modify('-3 hours');
-                    $end   = (new \DateTime($dateResa . ' ' . $heureResa))->modify('+3 hours');
+                    // Vérifier la disponibilité du jeu à cette date/heure
+                    $dateObj = new \DateTime($dateResa);
+                    $start = (clone $dateObj)->setTime((int)substr($heureResa,0,2), (int)substr($heureResa,3,2))->modify('-3 hours');
+                    $end   = (clone $dateObj)->setTime((int)substr($heureResa,0,2), (int)substr($heureResa,3,2))->modify('+3 hours');
+
                     $count = $em->createQueryBuilder()
-                        ->select('COUNT(rj.id)')
-                        ->from(ReservationJeu::class, 'rj')
+                        ->select('COUNT(rj.id_RJ)')
+                        ->from(ReservationJeux::class, 'rj')
                         ->join('rj.reservation', 'r')
                         ->where('rj.game = :game')
                         ->andWhere('r.statut = :statut')
-                        ->andWhere('r.dateReservation = :date')
-                        ->andWhere('r.heureReservation BETWEEN :start AND :end')
+                        ->andWhere('r.date_reservation = :date')
+                        ->andWhere('r.heure_reservation BETWEEN :start AND :end')   // corrections ici
                         ->setParameter('game', $game)
                         ->setParameter('statut', 'confirmee')
-                        ->setParameter('date', new \DateTime($dateResa))
+                        ->setParameter('date', $dateObj)
                         ->setParameter('start', $start->format('H:i:s'))
                         ->setParameter('end', $end->format('H:i:s'))
                         ->getQuery()
                         ->getSingleScalarResult();
+
                     if ($count >= $game->getExemplairesTotal()) {
                         throw new \Exception("Ce jeu n'est plus disponible à cette date et heure.");
                     }
-                    $rj = new ReservationJeu();
+                    $rj = new ReservationJeux();
                     $rj->setReservation($reservation);
                     $rj->setGame($game);
                     $em->persist($rj);
@@ -181,14 +189,14 @@ class ReservationController extends AbstractController
                 $session->remove('activity_type');
                 $session->remove('activity_id');
 
-                return $this->redirectToRoute('reservation_confirmation', ['id' => $reservation->getId()]);
+                return $this->redirectToRoute('reservation_confirmation', ['id' => $reservation->getIdReservation()]);
             } catch (\Exception $e) {
                 $this->addFlash('error', $e->getMessage());
                 return $this->redirectToRoute('reservation_form');
             }
         }
 
-        // Affichage du formulaire (avec toutes les variables)
+        // Affichage du formulaire
         return $this->render('reservation/form.html.twig', [
             'zone' => $zone,
             'tableNum' => $tableNum,
@@ -204,33 +212,43 @@ class ReservationController extends AbstractController
     }
 
     #[Route('/confirmation/{id}', name: 'reservation_confirmation')]
-    public function confirmation(Reservation $reservation, EntityManagerInterface $em): Response
+    public function confirmation(Reservations $reservation, EntityManagerInterface $em): Response
     {
         $code = null;
         $dateExpiration = null;
         $activityName = '';
         $activityType = '';
 
-        $rl = $reservation->getReservationLivres()->first();
+        $rl = $em->getRepository(ReservationLivres::class)->findOneBy(['reservation' => $reservation]);
         if ($rl) {
             $code = $rl->getCode();
             $dateExpiration = $rl->getDateExpiration();
             $activityName = $rl->getLivre()->getTitre();
             $activityType = 'book';
         } else {
-            $rj = $reservation->getReservationJeux()->first();
+            $rj = $em->getRepository(ReservationJeux::class)->findOneBy(['reservation' => $reservation]);
             if ($rj) {
                 $activityName = $rj->getGame()->getName();
                 $activityType = 'game';
             }
         }
 
+        $client = $reservation->getClient();
+
         return $this->render('reservation/confirmation.html.twig', [
-            'reservation' => $reservation,
-            'code' => $code,
-            'dateExpiration' => $dateExpiration,
-            'activityName' => $activityName,
-            'activityType' => $activityType,
+            'reservation'    => $reservation,
+            'code'           => $code,
+            'expiry'         => $dateExpiration,
+            'activityName'   => $activityName,
+            'activityType'   => $activityType,
+            'clientName'     => $client->getPrenom() . ' ' . $client->getNom(),
+            'email'          => $client->getEmail(),
+            'phone'          => $client->getTelephone(),
+            'date'           => $reservation->getDateReservation()->format('d/m/Y'),
+            'time'           => $reservation->getHeureReservation()->format('H:i'),
+            'tableNum'       => $reservation->getTable()->getNumero(),
+            'zone'           => $reservation->getTable()->getZone()->getNom(),
+            'people'         => $reservation->getNbPersonnes(),
         ]);
     }
 
@@ -242,7 +260,7 @@ class ReservationController extends AbstractController
             return $this->json(['valid' => false]);
         }
 
-        $rl = $em->getRepository(ReservationLivre::class)->findOneBy(['code' => $code]);
+        $rl = $em->getRepository(ReservationLivres::class)->findOneBy(['code' => $code]);
         if (!$rl) {
             return $this->json(['valid' => false]);
         }
