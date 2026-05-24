@@ -21,7 +21,6 @@ class ReservationController extends AbstractController
     #[Route('/reserver', name: 'reservation_form', methods: ['GET', 'POST'])]
     public function formulaire(Request $request, EntityManagerInterface $em): Response
     {
-        // 1. Récupération des infos de session (zone, table, date, heure, activité)
         $session = $request->getSession();
         $zone = $session->get('reservationZone', 'Non spécifiée');
         $tableNum = $session->get('reservationTable', '—');
@@ -32,7 +31,7 @@ class ReservationController extends AbstractController
         $activityId = $session->get('activity_id');
         $activity = $session->get('activity', 'Aucune activité choisie');
 
-        // 2. Pré‑remplir le champ code si un code est passé dans l'URL (ex: ?code=123456)
+        // Code pré‑rempli
         $prefilledCode = '';
         $codeActivity = '';
         if ($codeParam = $request->query->get('code')) {
@@ -41,7 +40,6 @@ class ReservationController extends AbstractController
             if ($rl && $rl->getDateExpiration() > new \DateTime()) {
                 $prefilledCode = $codeParam;
                 $codeActivity = $rl->getLivre()->getTitre();
-                // Si aucune activité en session, on prend celle du code
                 if (!$activityType) {
                     $activity = $codeActivity;
                     $activityType = 'book';
@@ -50,7 +48,7 @@ class ReservationController extends AbstractController
             }
         }
 
-        // 3. Traitement du formulaire soumis
+        // Traitement POST
         if ($request->isMethod('POST')) {
             $prenom = $request->request->get('firstname');
             $nom = $request->request->get('name');
@@ -62,14 +60,13 @@ class ReservationController extends AbstractController
             $codeSaisi = trim($request->request->get('reservation_code', ''));
             $hasCode = $request->request->getBoolean('has_code');
 
-            // Validation simple
             if (!$prenom || !$nom || !$email || !$telephone || !$tableId || !$dateResa || !$heureResa) {
                 $this->addFlash('error', 'Tous les champs obligatoires doivent être remplis.');
                 return $this->redirectToRoute('reservation_form');
             }
 
             try {
-                // === Gestion du client ===
+                // Client
                 $client = $em->getRepository(Client::class)->findOneBy(['email' => $email]);
                 if (!$client) {
                     $client = new Client();
@@ -85,11 +82,11 @@ class ReservationController extends AbstractController
                 }
                 $em->flush();
 
-                // === Récupération de la table ===
+                // Table
                 $table = $em->getRepository(Table::class)->find($tableId);
                 if (!$table) throw new \Exception("Table non trouvée");
 
-                // === Création de la réservation de table ===
+                // Réservation principale
                 $reservation = new Reservation();
                 $reservation->setClient($client);
                 $reservation->setTable($table);
@@ -102,18 +99,16 @@ class ReservationController extends AbstractController
                 $em->persist($reservation);
                 $em->flush();
 
-                // === Traitement selon le type d'activité et la présence d'un code ===
+                // Gestion code existant ou nouvelle réservation livre/jeu
                 if ($hasCode && $codeSaisi) {
-                    // Réutilisation d'un code existant
                     $rl = $em->getRepository(ReservationLivre::class)->findOneBy(['code' => $codeSaisi]);
                     if (!$rl) throw new \Exception("Code invalide.");
-                    $rl->setReservation($reservation); // lier à la nouvelle réservation
+                    $rl->setReservation($reservation);
                     $em->flush();
                 } elseif ($activityType === 'book') {
                     $livre = $em->getRepository(Livre::class)->find($activityId);
                     if (!$livre) throw new \Exception("Livre non trouvé");
 
-                    // Vérifier si déjà emprunté par le même client dans les 7 jours
                     $existing = $em->getRepository(ReservationLivre::class)
                         ->createQueryBuilder('rl')
                         ->join('rl.reservation', 'r')
@@ -129,11 +124,9 @@ class ReservationController extends AbstractController
                         ->getOneOrNullResult();
 
                     if ($existing) {
-                        // Même client, même livre : on réutilise l'enregistrement
                         $existing->setReservation($reservation);
                         $em->flush();
                     } else {
-                        // Nouvel emprunt : générer code, date expiration, décrémenter stock
                         $code = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
                         $expiration = (clone $reservation->getDateReservation())->modify('+7 days');
                         $rl = new ReservationLivre();
@@ -149,7 +142,6 @@ class ReservationController extends AbstractController
                     $game = $em->getRepository(Game::class)->find($activityId);
                     if (!$game) throw new \Exception("Jeu non trouvé");
 
-                    // Vérifier la disponibilité sur le créneau horaire
                     $start = (new \DateTime($dateResa . ' ' . $heureResa))->modify('-3 hours');
                     $end   = (new \DateTime($dateResa . ' ' . $heureResa))->modify('+3 hours');
                     $count = $em->createQueryBuilder()
@@ -179,7 +171,7 @@ class ReservationController extends AbstractController
                     throw new \Exception("Type d'activité non reconnu.");
                 }
 
-                // Nettoyer la session
+                // Nettoyer session
                 $session->remove('reservationZone');
                 $session->remove('reservationTable');
                 $session->remove('table_id');
@@ -196,13 +188,16 @@ class ReservationController extends AbstractController
             }
         }
 
-        // Affichage du formulaire
+        // Affichage du formulaire (avec toutes les variables)
         return $this->render('reservation/form.html.twig', [
             'zone' => $zone,
             'tableNum' => $tableNum,
+            'tableId' => $tableId,
             'dateResa' => $dateResa,
             'heureResa' => $heureResa,
             'activity' => $activity,
+            'activityType' => $activityType,
+            'activityId' => $activityId,
             'prefilledCode' => $prefilledCode,
             'codeActivity' => $codeActivity,
         ]);

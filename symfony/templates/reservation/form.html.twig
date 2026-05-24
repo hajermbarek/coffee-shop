@@ -79,8 +79,8 @@
 <script>
 function goBack() {
     let zone = "{{ zone|e('js') }}";
-    if (zone.includes('Quiet')) location.href = "{{ path('app_books') }}";
-    else if (zone.includes('Fun')) location.href = "{{ path('app_games') }}";
+    if (zone.includes('Quiet')) location.href = "{{ path('book_list') }}";
+    else if (zone.includes('Fun')) location.href = "{{ path('games_list') }}";
     else history.back();
 }
 
@@ -114,13 +114,11 @@ if (codeInput && !codeInput.readOnly) {
 </script>
 
 <style>
-/* Copiez le CSS de votre reservation.css ici ou importez-le */
 .reservation-form { max-width: 650px; margin: auto; background: white; padding: 30px; border-radius: 15px; }
 label { font-weight: bold; display: block; margin-top: 10px; }
 input, textarea { width: 100%; padding: 8px; margin-bottom: 10px; border-radius: 6px; border: 1px solid #ccc; }
 button { padding: 10px 20px; margin-top: 10px; border-radius: 8px; cursor: pointer; }
 button[type="submit"] { background: #6f4e37; color: white; }
 button[type="button"] { background: #ccc; }
-.readonly-field input { background: #f0f0f0; }
 </style>
 {% endblock %}
