@@ -59,7 +59,7 @@ class GamesController extends AbstractController
         $this->addFlash('success', 'Jeu sélectionné : ' . $game->getName());
 
         if ($session->get('reservationTable')) {
-            return $this->redirectToRoute('reservation_final');
+            return $this->redirectToRoute('reservation_form');
         }
         return $this->redirectToRoute('seating_fun');
     }
