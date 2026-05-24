@@ -66,7 +66,17 @@ function checkStock(gameId, gameName, url) {
                 alert(`"${gameName}" is no longer available!`);
                 window.location.reload();
             } else {
-                window.location.href = url;
+                // POST to game/reserve to set the session first
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = `/game/reserve/${gameId}`;
+                const csrf = document.createElement('input');
+                csrf.type = 'hidden';
+                csrf.name = '_token';
+                csrf.value = '';
+                form.appendChild(csrf);
+                document.body.appendChild(form);
+                form.submit();
             }
         });
     return false;
