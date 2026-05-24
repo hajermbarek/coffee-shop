@@ -5,12 +5,13 @@
 <p><strong>Category:</strong> {{ game.category }}</p>
 <p><strong>Players:</strong> {{ game.players }}</p>
 <p><strong>Duration:</strong> {{ game.duration }}</p>
-<p><strong>Description:</strong> {{ game.description }}</p>
+<p><strong>Description :</strong></p>
+<p style="background:#f5efe6; padding:10px; border-radius:8px;">{{ game.description }}</p>
 <p><strong>Available copies:</strong> {{ game.exemplairesDisponibles }}</p>
 
 {% if game.exemplairesDisponibles > 0 %}
     <form method="post" action="{{ path('game_reserve', {id: game.id}) }}">
-        <button type="submit">🎲 Reserve this game</button>
+        <button type="submit">🎲 Book this game</button>
     </form>
 {% else %}
     <p>❌ Currently unavailable</p>

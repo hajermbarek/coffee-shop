@@ -6,8 +6,8 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 class GamesController extends AbstractController
 {
@@ -27,7 +27,6 @@ class GamesController extends AbstractController
         }
         $games = $qb->orderBy('g.name', 'ASC')->getQuery()->getResult();
 
-        // Pour chaque jeu, récupérer le stock dispo (optionnel, tu peux aussi utiliser exemplaires_disponibles)
         return $this->render('games/list.html.twig', [
             'games' => $games,
             'category' => $category,
@@ -50,6 +49,10 @@ class GamesController extends AbstractController
         $session->set('activity_type', 'game');
         $session->set('activity_id', $game->getId());
         $this->addFlash('success', 'Jeu sélectionné : ' . $game->getName());
+
+        if ($session->get('reservationTable')) {
+            return $this->redirectToRoute('reservation_final');
+        }
         return $this->redirectToRoute('seating_fun');
     }
 }

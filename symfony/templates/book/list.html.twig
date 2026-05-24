@@ -10,4 +10,45 @@
     </li>
 {% endfor %}
 </ul>
+
+<hr>
+
+<div class="verify-section">
+    <h3>📖 Vous avez déjà un code ?</h3>
+    <p>Entrez votre code à 6 chiffres pour vérifier votre réservation</p>
+    <input type="text" id="verifyCode" maxlength="6" placeholder="000000">
+    <button onclick="verifyCode()">Vérifier</button>
+    <div id="verifyMessage"></div>
+</div>
+
+<script>
+function verifyCode() {
+    const code = document.getElementById('verifyCode').value.trim();
+    const msgDiv = document.getElementById('verifyMessage');
+
+    if (!/^\d{6}$/.test(code)) {
+        msgDiv.innerHTML = '<span style="color:red;">Code invalide (6 chiffres requis)</span>';
+        return;
+    }
+
+    fetch('{{ path('verify_code') }}', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'code=' + encodeURIComponent(code)
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (!data.valid) {
+            msgDiv.innerHTML = '<span style="color:red;">❌ Code invalide ou expiré.</span>';
+        } else if (data.expired) {
+            msgDiv.innerHTML = '<span style="color:red;">⚠️ Code expiré le ' + data.expiry_date + '.</span>';
+        } else {
+            msgDiv.innerHTML = '<span style="color:green;">✅ Code valide ! Livre : <strong>' + data.book_title + '</strong><br>Valable jusqu\'au ' + data.expiry_date + '</span>';
+        }
+    })
+    .catch(() => {
+        msgDiv.innerHTML = '<span style="color:red;">Erreur réseau.</span>';
+    });
+}
+</script>
 {% endblock %}

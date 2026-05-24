@@ -38,6 +38,10 @@ class BookController extends AbstractController
         $session->set('activity_type', 'book');
         $session->set('activity_id', $livre->getIdLivre());
         $this->addFlash('success', 'Livre sélectionné : ' . $livre->getTitre());
+
+        if ($session->get('reservationTable')) {
+            return $this->redirectToRoute('reservation_final');
+        }
         return $this->redirectToRoute('seating_quiet');
     }
 }

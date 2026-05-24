@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<section class="bakery-section">
+    <h2>Bakery</h2>
+    <p>At Cozy Café, we offer a wide range of bakery items that are perfect for any occasion. 
+       From our freshly baked breads to our decadent cakes and pastries, each of our products is made with 
+       the finest ingredients and the utmost care.</p>
+    <div class="bakery-items">
+        <a href="{{ path('menu_biscuit') }}" class="category-link">
+            <div class="bakery-item">
+                <img src="{{ asset('images/biscuit.jpg') }}" alt="Biscuits">
+                <p class="item-label">Biscuits, Cookies and Crepes</p>
+            </div>
+        </a>
+        <a href="{{ path('menu_cake') }}" class="category-link">
+            <div class="bakery-item">
+                <img src="{{ asset('images/cake.jpg') }}" alt="Cakes">
+                <p class="item-label">Cake</p>
+            </div>
+        </a>
+        <a href="{{ path('menu_pastry') }}" class="category-link">
+            <div class="bakery-item">
+                <img src="{{ asset('images/pastry.jpg') }}" alt="Pastries">
+                <p class="item-label">Pastry</p>
+            </div>
+        </a>
+    </div>
+</section>
+
+<section class="beverages-section">
+    <h2>Beverages</h2>
+    <p>From bold espresso to refreshing iced creations and fresh juices, 
+       our drinks are crafted daily with the utmost care and the finest beans, leaves and fruits.</p>
+    <div class="beverages-items">
+        <a href="{{ path('menu_hot') }}" class="category-link">
+            <div class="beverage-item">
+                <img src="{{ asset('images/hot-drinks.jpg') }}" alt="Hot Drinks">
+                <p class="item-label">Hot Drinks</p>
+            </div>
+        </a>
+        <a href="{{ path('menu_cold') }}" class="category-link">
+            <div class="beverage-item">
+                <img src="{{ asset('images/cold-drinks.jpg') }}" alt="Cold Drinks">
+                <p class="item-label">Cold Drinks</p>
+            </div>
+        </a>
+        <a href="{{ path('menu_blended') }}" class="category-link">
+            <div class="beverage-item">
+                <img src="{{ asset('images/blended.jpg') }}" alt="Blended Drinks">
+                <p class="item-label">Blended</p>
+            </div>
+        </a>
+    </div>
+</section>
+{% endblock %}

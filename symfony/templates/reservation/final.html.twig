@@ -1,30 +1,50 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<h1>Finalize your reservation</h1>
+<header>
+    <h1>Cozy Café</h1>
+    <p>Your daily dose of happiness</p>
+</header>
 
-<form method="post">
-    <label>Zone: {{ zone }}</label>
-    <label>Table: {{ tableId }}</label>
-    <label>Date: {{ date }}</label>
-    <label>Time: {{ time }}</label>
-    <label>Activity: {{ activity }}</label>
+<form method="post" class="reservation-form">
+    <h2>Finalize Your Reservation</h2>
 
-    <label>First name:</label>
+    <label>Prénom :</label>
     <input type="text" name="firstname" required>
-    <label>Last name:</label>
+
+    <label>Nom :</label>
     <input type="text" name="name" required>
-    <label>Email:</label>
+
+    <label>Email :</label>
     <input type="email" name="email" required>
-    <label>Phone:</label>
+
+    <label>Téléphone :</label>
     <input type="tel" name="phone" required>
-    <label>Number of people:</label>
+
+    <label>Date :</label>
+    <input type="text" value="{{ date }}" readonly>
+
+    <label>Heure :</label>
+    <input type="text" value="{{ time }}" readonly>
+
+    <label>Nombre de personnes :</label>
     <input type="number" name="people" min="1" required>
-    <label>Allergies:</label>
+
+    <label>Zone :</label>
+    <input type="text" value="{{ zone }}" readonly>
+
+    <label>Table :</label>
+    <input type="text" value="{{ tableId }}" readonly>
+
+    <label>Activité :</label>
+    <input type="text" value="{{ activity }}" readonly>
+
+    <label>Allergies :</label>
     <textarea name="allergies"></textarea>
-    <label>Comments:</label>
+
+    <label>Commentaires :</label>
     <textarea name="comments"></textarea>
 
-    <button type="submit">Confirm reservation</button>
+    <button type="submit">Confirmer la réservation</button>
 </form>
 {% endblock %}

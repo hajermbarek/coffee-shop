@@ -12,6 +12,7 @@
         <link rel="stylesheet" href="{{ asset('css/seatingbooks.css') }}">
         <link rel="stylesheet" href="{{ asset('css/seating_games.css') }}">
         <link rel="stylesheet" href="{{ asset('css/Menu_Style.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/reservation.css') }}">
         
         {% block stylesheets %}{% endblock %}
 
@@ -28,5 +29,8 @@
     </head>
     <body>
         {% block body %}{% endblock %}
+        <script src="{{ asset('js/games.js') }}"></script>
+        <script src="{{ asset('js/seatingbooks.js') }}"></script>
+        <script src="{{ asset('js/seating_games.js') }}"></script>
     </body>
 </html>

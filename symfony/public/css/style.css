@@ -1,7 +1,7 @@
 .headercls {
     background: 
         linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
-        url("cofsh.jpg") center/cover no-repeat;
+        url("../images/cofsh.jpg") center/cover no-repeat;
     color: #dac3b0;
     text-align: center;
     flex: 1;                   

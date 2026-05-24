@@ -1,27 +1,40 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<h1>Fun Zone – Choose your table</h1>
+<div class="top">
+    <h1>Reserve your seat!</h1>
+    <h4>pick a table on the floor plan then choose time and date</h4>
+</div>
 
-<form method="post" action="{{ path('seating_fun_select') }}">
-    <label>Select a table:</label>
-    <select name="table_id" required>
+<div class="container">
+    <div class="dt">
+        <form method="post" action="{{ path('seating_fun_select') }}" id="reservationForm">
+            <input type="hidden" name="table_id" id="table_id_input" value="" />
+            <input type="hidden" name="table_numero" id="table_numero_input" value="" />
+
+            <div>
+                <label for="table">Selected table:</label>
+                <input type="text" id="table" readonly />
+            </div>
+            <div>
+                <label for="date">Date:</label>
+                <input type="date" id="date" name="date" min="{{ "now"|date("Y-m-d") }}" max="2026-12-31" required />
+            </div>
+            <div>
+                <label for="time">Time:</label>
+                <input type="time" id="time" name="time" min="08:30" max="23:00" required />
+            </div>
+            <button type="submit" class="reserve_button">Reserve table</button>
+        </form>
+    </div>
+
+    <div class="floor">
         {% for table in tables %}
-            <option value="{{ table.idTable }}">Table {{ table.numero }} ({{ table.places }} seats)</option>
+            <div class="table4" data-id="{{ table.idTable }}" data-numero="{{ table.numero }}" data-seats="{{ table.places }}">
+                <div class="number">{{ table.numero }}</div>
+            </div>
         {% endfor %}
-    </select>
-
-    <label>Date:</label>
-    <input type="date" name="date" min="{{ "now"|date("Y-m-d") }}" required>
-
-    <label>Time:</label>
-    <select name="time" required>
-        {% for hour in range(9, 18) %}
-            <option value="{{ "%02d:00"|format(hour) }}">{{ "%02d:00"|format(hour) }}</option>
-            <option value="{{ "%02d:30"|format(hour) }}">{{ "%02d:30"|format(hour) }}</option>
-        {% endfor %}
-    </select>
-
-    <button type="submit">Reserve table</button>
-</form>
+        <div class="counter" id="counter">Counter</div>
+    </div>
+</div>
 {% endblock %}

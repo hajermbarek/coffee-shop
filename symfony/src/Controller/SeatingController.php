@@ -37,7 +37,7 @@ class SeatingController extends AbstractController
         $session->set('reservationTime', $time);
         $session->set('reservationZone', 'Quiet Zone');
 
-        return $this->redirectToRoute('reservation_final');
+        return $this->redirectToRoute('book_list');
     }
 
     #[Route('/seating/fun', name: 'seating_fun')]
@@ -66,6 +66,6 @@ class SeatingController extends AbstractController
         $session->set('reservationTime', $time);
         $session->set('reservationZone', 'Fun Zone');
 
-        return $this->redirectToRoute('reservation_final');
+        return $this->redirectToRoute('games_list');
     }
 }

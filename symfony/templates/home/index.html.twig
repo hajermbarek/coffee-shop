@@ -1,0 +1,101 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<section class="headercls">
+    <div class="htext">
+        <h1 class="welcome">Welcome</h1>
+        <h2 class="title">Cozy Café</h2>
+        <p class="desccls">
+            A modern coffee shop where you can<br>
+            Read, Play, and Mingle all while enjoying our best 
+            <strong>Brews and Pastries.</strong>
+        </p>
+        <a href="#services-section" class="explore-btn">Explore</a>
+    </div>
+</section>
+
+<section id="services-section" class="services-section">
+    <div class="section-header">
+        <h2>Our Zones</h2>
+        <p class="section-lead">Choose your atmosphere — focus or fun</p>
+    </div>
+
+    <div class="zones-grid">
+        <div class="zone-card">
+            <h3>Quiet Zone</h3>
+            <p class="zone-subtitle">Reading · Studying · Deep Work</p>
+            <hr class="zone-divider" />
+            <p class="zone-description">
+                A calm space designed for concentration. Perfect lighting, no
+                distractions, and access to our curated reading collection.
+            </p>
+            <ul class="zone-features">
+                <li>Reserved reading spot</li>
+                <li>Guaranteed quiet environment</li>
+                <li>Ergonomic seating & warm lighting</li>
+                <li>Power outlets & high-speed Wi-Fi</li>
+            </ul>
+            <a href="{{ path('seating_quiet') }}" class="zone-btn">Reserve Quiet Zone</a>
+        </div>
+
+        <div class="zone-card">
+            <h3>Fun Zone</h3>
+            <p class="zone-subtitle">Games · Friends · Good Times</p>
+            <hr class="zone-divider" />
+            <p class="zone-description">
+                Where the energy lives. Board games, group tables, tournaments and
+                spontaneous hangouts — everyone’s welcome.
+            </p>
+            <ul class="zone-features">
+                <li>Board & team games on reserve</li>
+                <li>Group tables booked in advance</li>
+                <li>Weekly game nights & tournaments</li>
+                <li>Social events calendar</li>
+            </ul>
+            <a href="{{ path('seating_fun') }}" class="zone-btn">Reserve Fun Zone</a>
+        </div>
+
+        <div class="zone-card">
+            <h3>Food & Drinks</h3>
+            <p class="zone-subtitle">Fresh · Custom · Ready for You</p>
+            <hr class="zone-divider" />
+            <p class="zone-description">
+                No waiting. Browse the menu, personalize your order, and have it
+                prepared when you arrive — or right now.
+            </p>
+            <ul class="zone-features">
+                <li>Pre-order any item</li>
+                <li>Full customization</li>
+                <li>Seasonal & signature specials</li>
+                <li>Best local ingredients</li>
+            </ul>
+            <a href="{{ path('menu_main') }}" class="zone-btn">See the Menu</a>
+        </div>
+    </div>
+</section>
+
+<section class="instagram-feed">
+    <div class="feed-header">
+        <h2>FOLLOW US ON SOCIAL MEDIA</h2>
+        <p>@cozycafe.tn · Real moments, real coffee</p>
+    </div>
+    <div class="slider-container">
+        <button class="slider-btn prev" aria-label="Previous images">←</button>
+        <div class="slider-wrapper">
+            <div class="slider-track" id="sliderTrack">
+                <img src="{{ asset('images/coffee-moment.jpg') }}" alt="Coffee moment">
+                <img src="{{ asset('images/cake.jpg') }}" alt="Cake">
+                <img src="{{ asset('images/book-space.jpg') }}" alt="book space">
+                <img src="{{ asset('images/latte-art.jpg') }}" alt="Latte art">
+                <img src="{{ asset('images/pastries.jpg') }}" alt="Pastries">
+                <img src="{{ asset('images/brunch.jpg') }}" alt="Brunch">
+                <img src="{{ asset('images/cozy-interior.jpg') }}" alt="Cozy interior">
+                <img src="{{ asset('images/latte-art-2.jpg') }}" alt="Latte art">
+            </div>
+        </div>
+        <button class="slider-btn next" aria-label="Next images">→</button>
+    </div>
+</section>
+
+{% endblock %}
