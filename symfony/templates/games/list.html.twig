@@ -185,7 +185,7 @@
         <div class="game-card {{ game.exemplairesDisponibles == 0 ? 'unavailable' : '' }}">
 
             <div class="card-img-wrap">
-                <img src="{{ asset(game.imagePath) }}" alt="{{ game.name }}"/>
+                <img src="{{ asset('images/' ~ game.imagePath) }}" alt="{{ game.name }}" class="detail-img"/>
                 <span class="badge-category"
                       style="background: {{ colors[game.category] ?? '#8b5e52' }}">
                     {{ game.category }}

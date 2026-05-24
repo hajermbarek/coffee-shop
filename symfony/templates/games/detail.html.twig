@@ -138,9 +138,7 @@
     {% set colors = {'FUN':'#a0837f','STRATEGY':'#859fb9','CLASSIC GAME':'#d9822b'} %}
 
     <div class="detail-card">
-        <img src="{{ asset(game.imagePath) }}"
-             alt="{{ game.name }}"
-             class="detail-img"/>
+      <img src="{{ asset('images' ~ game.imagePath) }}" alt="{{ game.name }}" class="detail-img"/>
 
         <div class="detail-body">
             <span class="badge-cat"
