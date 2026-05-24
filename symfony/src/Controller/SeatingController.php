@@ -101,7 +101,32 @@ class SeatingController extends AbstractController
     {
         $date = $request->query->get('date');
         $time = $request->query->get('time');
-        // query your reservations here and return JSON
-        return $this->json(['reserved' => [/* table ids */]]);
+        if (!$date || !$time) {
+            return $this->json(['reserved' => []]);
+        }
+
+        try {
+            $rows = $em->createQuery(
+                'SELECT IDENTITY(r.table) as id_table
+                FROM App\Entity\Reservations r
+                WHERE r.date_reservation = :date
+                AND r.heure_reservation = :time
+                AND r.statut != :cancelled'
+            )->setParameters([
+                'date'      => new \DateTime($date),
+                'time'      => new \DateTime($time),
+                'cancelled' => 'annulee',
+            ])->getArrayResult();
+
+            return $this->json([
+                'reserved' => array_map(fn($r) => (int)$r['id_table'], $rows)
+            ]);
+        } catch (\Exception $e) {
+            return $this->json([
+                'error' => $e->getMessage(),
+                'reserved' => []
+            ], 500);
+        }
+    }
     }
 }
