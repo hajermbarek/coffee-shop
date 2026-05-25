@@ -76,9 +76,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html>
 <head>
     <title>table game reservation</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../style.css" />
-    <link rel="stylesheet" href="seating_games.css">
+    <link rel="stylesheet" href="seating_games.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 <body>
 
@@ -93,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="error-banner"><?= htmlspecialchars($error) ?></div>
 <?php endif; ?>
 
-<div class="container">
+<div class="container" style="padding-bottom:40px;">
 
     <div class="dt">
         <form method="POST" action="seating_games.php" id="reservationForm">
@@ -110,13 +110,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="date" id="date" name="date"
                     min="<?= date('Y-m-d') ?>" max="2026-12-31" required />
             </div>
-            <div>
+            <div style="margin-bottom:20px;">
                 <label for="time">Time:</label>
                 <input type="time" id="time" name="time"
                     min="08:30" max="23:00" required />
             </div>
 
-            <button type="submit" class="reserve_button">Reserve table</button>
+            <button type="submit" class="reserve_button" style="border-radius:8px;">Reserve table</button>
         </form>
     </div>
 
