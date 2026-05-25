@@ -89,7 +89,6 @@ include 'cnx.php';
           </p>
 
           <ul class="zone-features">
-            <li>Pre-order any item</li>
             <li>Full customization</li>
             <li>Seasonal & signature specials</li>
             <li>Best local ingredients</li>
